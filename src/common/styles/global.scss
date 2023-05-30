@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Lobster&family=Permanent+Marker&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "./_vars.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  color: $colorNeutral800;
+}
+a {
+  color: $colorNeutral800;
+  text-decoration: none;
+  transition: $transition100;
+  &:hover {
+    color: $colorPrimary;
+  }
+}
+
+select {
+  cursor: pointer;
+  font-size: 1rem;
+  border: 1px solid $colorNeutral300;
+  transition: $transition100;
+  &::placeholder {
+    color: $colorNeutral300;
+  }
+}
+textarea {
+  font-size: 1.25rem;
+  width: 100%;
+  font-family: inherit;
+  border: 1px solid $colorNeutral300;
+  border-radius: $borderRadius100;
+  transition: $transition100;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  min-height: 10rem;
+  overflow: auto;
+  resize: none;
+  &:hover {
+    border: 1px solid $colorNeutral600;
+  }
+  &:focus {
+    outline: 1px solid $colorNeutral600;
+  }
+  &::placeholder {
+    color: $colorNeutral300;
+  }
+}

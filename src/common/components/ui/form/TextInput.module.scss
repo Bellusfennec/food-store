@@ -1,0 +1,57 @@
+@import "../../../styles/vars";
+
+.container {
+  position: relative;
+}
+.placeholder {
+  color: $colorNeutral300;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  transition: $transition100;
+  transform-origin: 0 50%;
+}
+.input {
+  box-sizing: border-box;
+  border: 1px solid $colorNeutral300;
+  transition: $transition100;
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 0.75rem;
+  border-radius: $borderRadius100;
+  display: flex;
+  &:not(:placeholder-shown) {
+    border: 1px solid $colorNeutral600;
+  }
+  &:not(:placeholder-shown) ~ .placeholder {
+    color: $colorNeutral600;
+  }
+  &:focus ~ .placeholder,
+  &:not(:placeholder-shown) ~ .placeholder {
+    transform: translateY(-150%) translateX(0.5rem) scale(0.75);
+    background: $colorNeutral100;
+    padding: 0 0.5rem;
+  }
+  &:focus ~ .placeholder {
+    color: $colorNeutral800;
+  }
+  &:focus {
+    outline: 1px solid $colorNeutral600;
+  }
+  &:hover {
+    border: 1px solid $colorNeutral600;
+  }
+  // &:-webkit-autofill,
+  // &:-webkit-autofill:hover,
+  // &:-webkit-autofill:focus,
+  // &:-webkit-autofill:active {
+  //   -webkit-box-shadow: 0 0 0 30px white inset !important;
+  // }
+}
+.error {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+  color: $colorErrorPrimary;
+}

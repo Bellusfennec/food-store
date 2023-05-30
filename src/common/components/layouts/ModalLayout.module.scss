@@ -1,0 +1,19 @@
+@import "../../../common/styles/vars";
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.containerBody {
+  position: relative;
+  border: 1px solid $colorNeutral200;
+  border-radius: $borderRadius100;
+  padding: 2rem;
+  @media screen and (max-width: 500px) {
+    // min-width: min-content;
+    width: calc(100vw - 2rem);
+  }
+}

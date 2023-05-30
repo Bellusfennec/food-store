@@ -1,0 +1,35 @@
+$colorGreen300: lighten(green, 15%);
+$colorPrimary: #417f56;
+$colorSecondary: #e5f2e9;
+$colorTertiary: #133f22;
+
+$colorErrorPrimary: #c30000;
+$colorErrorSecondary: #fff2f2;
+$colorWarningPrimary: #d4a62f;
+
+$colorSuccess: #417f56;
+$colorDanger: #417f56;
+$colorWarning: #417f56;
+$colorinfo: #417f56;
+$colorlight: #417f56;
+$colordark: #417f56;
+$colormuted: #417f56;
+$colorwhite: #417f56;
+
+$colorNeutral100: white;
+$colorNeutral150: #eeeeee;
+$colorNeutral200: #dfdfdf;
+$colorNeutral300: #bfbfbf;
+$colorNeutral400: #9f9f9f;
+$colorNeutral500: #808080;
+$colorNeutral600: #606060;
+$colorNeutral700: #404040;
+$colorNeutral800: #202020;
+$colorNeutral900: black;
+
+$borderRadius100: 0.5rem;
+$borderRadius200: 1rem;
+
+$boxShadow: 0 0 0.5rem 0 $colorNeutral300;
+
+$transition100: 0.25s;

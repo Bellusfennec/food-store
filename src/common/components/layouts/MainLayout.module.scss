@@ -1,0 +1,20 @@
+@import "../../../common/styles/vars";
+
+// .container {
+//   margin: 2rem;
+//   // height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   box-sizing: border-box;
+// }
+// .containerBody {
+//   box-shadow: 0 0 0.5rem 0 $colorNeutral300;
+//   border-radius: $borderRadius200;
+//   padding: 2rem;
+// }
+.container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}

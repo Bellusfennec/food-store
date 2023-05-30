@@ -1,0 +1,40 @@
+@import "../../../common/styles/vars";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+  padding: 1rem 2rem;
+  background: $colorNeutral700;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  color: $colorNeutral100;
+  a {
+    color: $colorNeutral100;
+    &:hover {
+      color: $colorPrimary;
+    }
+  }
+}
+.social {
+  display: flex;
+  a {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    &:active {
+      transform: scale(0.9);
+    }
+    &.vkontakte {
+      svg {
+        font-size: 1.6rem;
+      }
+    }
+    &.instagram {
+      svg {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
