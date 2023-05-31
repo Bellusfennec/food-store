@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import style from "./ListProducts.module.scss";
-import { Loading } from "../../../common/components/ui/loading";
-import { Button } from "../../../common/components/ui/form";
 import { getCategoriesListHTTP } from "../../../app/http/categoryHTTP";
 import { getProductsListHTTP } from "../../../app/http/productHTTP";
 import {
@@ -12,9 +9,15 @@ import {
   MdFavoriteBorder,
   MdStar,
 } from "react-icons/md";
+import { Loading } from "../../../common/components/ui/loading";
+import Divider from "../../../common/components/ui/divider";
+import { Button, SearchInput } from "../../../common/components/ui/form";
+import Nav from "./Nav";
+import Tags from "./Tags";
 
 const ListProducts = () => {
   const [loading, setLoading] = useState(true);
+  const [INIT_PRODUCTS, setINIT_PRODUCTS] = useState(false);
   const [products, setProducts] = useState(false);
   const [categories, setCategories] = useState(false);
 
@@ -23,6 +26,7 @@ const ListProducts = () => {
     try {
       const response = await getProductsListHTTP();
       if (response.ok) {
+        setINIT_PRODUCTS(response.data);
         setProducts(response.data);
       }
     } catch (error) {
@@ -49,6 +53,14 @@ const ListProducts = () => {
     getCategories();
   }, []);
 
+  const handlerSelectedCategory = (name) => {
+    if (name === "") return setProducts(INIT_PRODUCTS);
+    const filtredProducts = INIT_PRODUCTS.filter(
+      ({ category }) => category === name
+    );
+    setProducts(filtredProducts);
+  };
+
   return (
     <>
       {loading && (
@@ -58,16 +70,19 @@ const ListProducts = () => {
       )}
       {!loading && (
         <>
-          <div className={style.containerCategories}>
-            {categories &&
-              categories.map(({ name, uuid }) => (
-                <Link key={uuid} to={`/product`} className={style.itemCategory}>
-                  <p>{name}</p>
-                </Link>
-              ))}
+          <header className={style.header}>
+            <img src="/image/page-2.jpg" alt="" />
+            <h2 className={style.textHeader}>Меню</h2>
+            <div className={style.filterHeader}></div>
+          </header>
+          <Nav options={categories} onClick={handlerSelectedCategory} />
+          <Divider />
+          <div className={style.searchTags}>
+            <SearchInput placeholder="Найти..." />
+            <Tags options={categories} />
           </div>
           <div className={style.container}>
-            {products &&
+            {products.length > 0 &&
               products.map(({ title, uuid, category }, i) => (
                 <div key={uuid} className={style.item}>
                   <div className={style.image}>
@@ -109,10 +124,11 @@ const ListProducts = () => {
                   </div>
                 </div>
               ))}
+            {products.length === 0 && <div>Не найдено</div>}
+            {!products && <div>Нет продуктов</div>}
           </div>
         </>
       )}
-      {!loading && !products && <div>Нет продуктов</div>}
     </>
   );
 };

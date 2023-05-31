@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import style from "./CreateProduct.module.scss";
 import { FiPlus } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { createForm, validatorForm } from "../../../common/utils/form";
-import { Loading } from "../../../common/components/ui/loading";
-import Divider from "../../../common/components/ui/divider/Divider";
-import Select from "../../../common/components/ui/form/Select";
-import Modal from "../../../common/components/ui/modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
-  getCategoriesListHTTP,
   createCategoryHTTP,
+  getCategoriesListHTTP,
 } from "../../../app/http/categoryHTTP";
 import { createProductHTTP } from "../../../app/http/productHTTP";
 import {
   createSpecificationHTTP,
   getSpecificationsListHTTP,
 } from "../../../app/http/specificationHTTP";
-import { ContainerLayout } from "../../../common/components/layouts";
+import Divider from "../../../common/components/ui/divider/Divider";
 import {
   Button,
   IconButton,
   TextInput,
   Textarea,
 } from "../../../common/components/ui/form";
+import Select from "../../../common/components/ui/form/Select";
+import { Loading } from "../../../common/components/ui/loading";
+import Modal from "../../../common/components/ui/modal/Modal";
+import { createForm, validatorForm } from "../../../common/utils/form";
+import style from "./CreateProduct.module.scss";
 
 const CreateProduct = () => {
   const { userState } = useSelector((state) => state.auth);
@@ -56,8 +55,6 @@ const CreateProduct = () => {
   const [specifications, setSpecifications] = useState([]);
   const [specificationsListForm, setSpecificationsListForm] = useState({});
   const [specificationModal, setSpecificationModal] = useState(false);
-
-  const dispatch = useDispatch();
 
   /* PRODUCT */
   const handlerChangeProductForm = (event) => {

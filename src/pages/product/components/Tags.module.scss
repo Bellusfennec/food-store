@@ -1,0 +1,53 @@
+@import "../../../common/styles/vars";
+
+.container {
+  position: relative;
+}
+.rightArrow,
+.lightArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  border-radius: $borderRadius100;
+  background: $colorNeutral150;
+  &:active {
+    transform: scale(0.8) translateY(-50%);
+  }
+}
+.rightArrow {
+  right: 0;
+  & > svg {
+    transform: rotate(180deg);
+  }
+}
+.lightArrow {
+  left: 0;
+}
+.containerCategories {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scroll-direction: horizontal;
+
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+  .itemCategory {
+    padding: 0.5rem 1rem;
+    background: $colorNeutral150;
+    color: $colorNeutral800;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    transition: $transition100;
+    &:first-of-type {
+      margin-left: 0;
+    }
+    &:hover {
+      background: $colorNeutral300;
+      color: $colorNeutral900;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "../../../common/styles/vars";
+
+.nav {
+  padding: 0 2rem;
+  background-color: $colorNeutral150;
+  display: flex;
+
+  .itemNav {
+    margin-left: 2rem;
+    padding: 1rem 0;
+    border-bottom: 2px solid transparent;
+    transition: $transition100;
+    &:first-of-type {
+      margin-left: 0;
+    }
+    &:hover {
+      color: $colorPrimary;
+      border-bottom: 2px solid $colorPrimary;
+    }
+    &.activeItemNav {
+      color: $colorPrimary;
+      border-bottom: 2px solid $colorPrimary;
+    }
+  }
+}
