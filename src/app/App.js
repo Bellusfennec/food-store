@@ -9,6 +9,7 @@ import NotFoundPage from "../pages/error";
 import ErrorLayout from "../pages/error/components/layouts";
 import PassportPage from "../pages/user";
 import ProductPage from "../pages/product";
+import Tags from "../pages/product/components/Tags";
 
 function App() {
   const [loading, setLoading] = useState(true);

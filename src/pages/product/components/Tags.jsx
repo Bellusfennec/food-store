@@ -8,9 +8,12 @@ import { IoChevronBackOutline } from "react-icons/io5";
 const Tags = (props) => {
   const { options } = props;
   let ref = useRef(null);
-  const [leftArrow, setLeftArrow] = useState(false);
-  const [rightArrow, setRightArrow] = useState(true);
+  // const [leftArrow, setLeftArrow] = useState(true);
+  // const [rightArrow, setRightArrow] = useState(true);
 
+  // useEffect(() => {
+  //   console.log("ref", ref, ref.current.scrollLeft);
+  // }, [ref.current]);
   // const [state, setState] = useState({
   //   isScrolling: false,
   //   clientX: 0,
@@ -75,48 +78,80 @@ const Tags = (props) => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handlerOnMouseDown);
-  //   document.addEventListener("mouseup", handlerOnMouseUp);
-  //   document.addEventListener("mousemove", handlerOnMouseMove);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handlerOnMouseDown);
-  //     document.removeEventListener("mouseup", handlerOnMouseUp);
-  //     document.removeEventListener("mousemove", handlerOnMouseMove);
-  //   };
-  // });
-
-  const handlerScrollLeft = (event) => {
-    console.log("l", ref, ref.current.scrollLeft);
-    const current = ref.current.scrollLeft;
-    ref.current.scrollLeft -= 25;
-    if (current === current - 25) setLeftArrow(true);
-    setRightArrow(true);
-  };
-  const handlerScrollRight = (event) => {
-    const current = ref.current.scrollLeft;
-    console.log("r", ref, ref.current.scrollLeft, current, current + 25);
-    ref.current.scrollLeft += 25;
-    if (current === current + 25) setRightArrow(false);
-    setLeftArrow(true);
+  const handlerScrollX = (arrow) => {
+    let newValue;
+    const widthVisible = ref.current.offsetWidth;
+    const currentValue = ref.current.scrollLeft;
+    console.log("ref", ref);
+    console.log("currentValue", currentValue);
+    if (arrow === "left") {
+      newValue = currentValue - widthVisible;
+      // if (currentValue === currentValue + 25) setRightArrow(false);
+    } else if (arrow === "right") {
+      newValue = currentValue + widthVisible;
+      // if (currentValue === currentValue + 25) setLeftArrow(false);
+    }
+    console.log("newValue", newValue);
+    console.log("currentValue + widthVisible", currentValue + widthVisible);
+    ref.current.scrollLeft = newValue;
   };
 
   return (
-    <div className={style.container}>
-      <div
-        className={style.containerCategories}
-        ref={ref}
-        // onMouseDown={handlerOnMouseDown}
-        // onMouseUp={handlerOnMouseUp}
-        // onMouseMove={handlerOnMouseMove}
-        // onMouseLeave={handlerOnMouseUp}
-      >
-        {leftArrow && (
+    <div
+      className={style.scroll}
+      ref={ref}
+      // onMouseDown={handlerOnMouseDown}
+      // onMouseUp={handlerOnMouseUp}
+      // onMouseMove={handlerOnMouseMove}
+      // onMouseLeave={handlerOnMouseUp}
+    >
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      <Link to={`/`} className={style.item}>
+        name
+      </Link>
+      {/* {leftArrow && (
           <IconButton
             className={style.lightArrow}
             type="button"
-            onClick={handlerScrollLeft}
+            onClick={() => handlerScrollX("left")}
           >
             <IoChevronBackOutline />
           </IconButton>
@@ -125,19 +160,23 @@ const Tags = (props) => {
           <IconButton
             className={style.rightArrow}
             type="button"
-            onClick={handlerScrollRight}
+            onClick={() => handlerScrollX("right")}
           >
             <IoChevronBackOutline />
           </IconButton>
-        )}
-
-        {options &&
-          options.map(({ name, uuid }) => (
-            <Link key={uuid} to={`/product`} className={style.itemCategory}>
-              <p>{name}</p>
-            </Link>
-          ))}
-      </div>
+        )} */}
+      {options &&
+        options.map(({ name, uuid }) => (
+          <Link key={uuid} to={`/product`} className={style.item}>
+            <p>{name}</p>
+          </Link>
+        ))}
+      {options &&
+        options.map(({ name, uuid }) => (
+          <Link key={uuid} to={`/product`} className={style.item}>
+            <p>{name}</p>
+          </Link>
+        ))}
     </div>
   );
 };

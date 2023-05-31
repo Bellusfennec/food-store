@@ -1,7 +1,8 @@
 @import "../../../common/styles/vars";
 
 .container {
-  position: relative;
+  // position: relative;
+  overflow: hidden;
 }
 .rightArrow,
 .lightArrow {
@@ -24,27 +25,29 @@
 .lightArrow {
   left: 0;
 }
-.containerCategories {
+.scroll {
+  box-sizing: content-box;
+  position: relative;
+  margin: 2rem;
   display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scroll-direction: horizontal;
+  overflow: hidden;
+  // gap: 1rem;
+  // flex-wrap: nowrap;
+
+  // -webkit-overflow-scrolling: touch;
+  // scroll-direction: horizontal;
 
   // &::-webkit-scrollbar {
   //   display: none;
   // }
-  .itemCategory {
+  .item {
+    // display: inline-block;
     padding: 0.5rem 1rem;
     background: $colorNeutral150;
     color: $colorNeutral800;
-    margin-left: 0.5rem;
     font-size: 1rem;
     border-radius: 1rem;
     transition: $transition100;
-    &:first-of-type {
-      margin-left: 0;
-    }
     &:hover {
       background: $colorNeutral300;
       color: $colorNeutral900;

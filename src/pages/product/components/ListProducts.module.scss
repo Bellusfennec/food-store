@@ -36,18 +36,21 @@
   }
 }
 .searchTags {
-  margin: 2rem;
-  display: flex;
-  align-items: center;
-  & > div {
-    margin-left: 1rem;
-    &:first-of-type {
-      margin-left: 0;
-    }
-    &:last-of-type {
-      width: 66%;
-    }
-  }
+  // margin: 2rem;
+  // display: flex;
+  // align-items: center;
+  // width: calc(100% - 2rem);
+  // overflow: hidden;
+  // & > div {
+  //   margin-left: 1rem;
+  //   &:first-of-type {
+  //     margin-left: 0;
+  //     width: 33%;
+  //   }
+  //   &:last-of-type {
+  //     width: 66%;
+  //   }
+  // }
 }
 
 .container {

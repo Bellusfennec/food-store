@@ -76,11 +76,7 @@ const ListProducts = () => {
             <div className={style.filterHeader}></div>
           </header>
           <Nav options={categories} onClick={handlerSelectedCategory} />
-          <Divider />
-          <div className={style.searchTags}>
-            <SearchInput placeholder="Найти..." />
-            <Tags options={categories} />
-          </div>
+
           <div className={style.container}>
             {products.length > 0 &&
               products.map(({ title, uuid, category }, i) => (

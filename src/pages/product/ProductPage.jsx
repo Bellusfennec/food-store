@@ -5,13 +5,14 @@ import CreateProduct from "./components/CreatePoduct";
 import DetailProduct from "./components/DetailProduct";
 import EditProduct from "./components/EditProduct";
 import ListProducts from "./components/ListProducts";
+import Tags from "./components/Tags";
 
 const ProductPage = () => {
   const { page, productId } = useParams();
-
+  //<ListProducts />
   return (
     <MainLayout>
-      {!page && <ListProducts />}
+      {!page && <Tags />}
       {page === "create" && (
         <ContainerLayout>
           <CreateProduct />
