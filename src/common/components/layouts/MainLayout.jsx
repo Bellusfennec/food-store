@@ -8,7 +8,7 @@ const MainLayout = (props) => {
   return (
     <div className={style.container}>
       <Navbar />
-      <main>{children}</main>
+      <main className={style.main}>{children}</main>
       <Footer />
     </div>
   );

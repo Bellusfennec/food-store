@@ -11,8 +11,12 @@ const ProductPage = () => {
   const { page, productId } = useParams();
   //<ListProducts />
   return (
-    <MainLayout>
-      {!page && <Tags />}
+    <>
+      {!page && (
+        <MainLayout>
+          <Tags />
+        </MainLayout>
+      )}
       {page === "create" && (
         <ContainerLayout>
           <CreateProduct />
@@ -28,7 +32,7 @@ const ProductPage = () => {
           <EditProduct />
         </ContainerLayout>
       )}
-    </MainLayout>
+    </>
   );
 };
 
