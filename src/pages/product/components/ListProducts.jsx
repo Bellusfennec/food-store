@@ -76,7 +76,7 @@ const ListProducts = () => {
             <div className={style.filterHeader}></div>
           </header>
           <Nav options={categories} onClick={handlerSelectedCategory} />
-
+          <Tags options={categories} />
           <div className={style.container}>
             {products.length > 0 &&
               products.map(({ title, uuid, category }, i) => (

@@ -1,37 +1,35 @@
 @import "../../../common/styles/vars";
 
 .container {
-  // position: relative;
-  overflow: hidden;
-}
-.rightArrow,
-.lightArrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.25rem;
-  border-radius: $borderRadius100;
-  background: $colorNeutral150;
-  &:active {
-    transform: scale(0.8) translateY(-50%);
-  }
-}
-.rightArrow {
-  right: 0;
-  & > svg {
-    transform: rotate(180deg);
-  }
-}
-.lightArrow {
-  left: 0;
-}
-.scroll {
-  box-sizing: content-box;
   position: relative;
   margin: 2rem;
+}
+.arrow {
   display: flex;
-  overflow: hidden;
-  // gap: 1rem;
+  justify-content: end;
+  .rightArrow {
+    margin-left: 0.25rem;
+    & > svg {
+      transform: rotate(180deg);
+    }
+  }
+  .rightArrow,
+  .lightArrow {
+    border-radius: $borderRadius100;
+    background: $colorNeutral150;
+    z-index: 1;
+  }
+}
+.scrollContainer {
+  overflow-x: scroll;
+}
+.scroll {
+  // box-sizing: content-box;
+  margin-top: 0.5rem;
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  transition: 1s;
   // flex-wrap: nowrap;
 
   // -webkit-overflow-scrolling: touch;
@@ -41,7 +39,7 @@
   //   display: none;
   // }
   .item {
-    // display: inline-block;
+    white-space: nowrap;
     padding: 0.5rem 1rem;
     background: $colorNeutral150;
     color: $colorNeutral800;

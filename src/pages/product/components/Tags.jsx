@@ -4,12 +4,19 @@ import style from "./Tags.module.scss";
 import { Link } from "react-router-dom";
 import { IconButton } from "../../../common/components/ui/form";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { log } from "util";
 
 const Tags = (props) => {
-  const { options } = props;
+  // const { options } = props;
+  const initOptions = props.options ? props.options : [];
+  const [options, setOtpions] = useState(initOptions);
+  const [scroll, setScroll] = useState(0);
+
   let ref = useRef(null);
-  // const [leftArrow, setLeftArrow] = useState(true);
-  // const [rightArrow, setRightArrow] = useState(true);
+  const [arrow, setArrow] = useState({
+    left: true,
+    right: true,
+  });
 
   // useEffect(() => {
   //   console.log("ref", ref, ref.current.scrollLeft);
@@ -78,105 +85,104 @@ const Tags = (props) => {
   //   }
   // };
 
+  const outNum = (toNumber, elem) => {
+    const time = 10000;
+    const step = 1;
+    let n = 0;
+    let t = Math.round(time / (toNumber / step));
+    let interval = setInterval(() => {
+      n = n + step;
+      if (n === toNumber) {
+        clearInterval(interval);
+      }
+      elem = n;
+    }, t);
+  };
+
   const handlerScrollX = (arrow) => {
-    let newValue;
-    const widthVisible = ref.current.offsetWidth;
-    const currentValue = ref.current.scrollLeft;
-    console.log("ref", ref);
-    console.log("currentValue", currentValue);
+    /* Видимая ширина */
+    const clientWidth = ref.current.clientWidth;
+    /* Общая ширина */
+    const scrollWidth = ref.current.scrollWidth;
+    /* Ширина скрола */
+    let scrollToLeft = scroll - clientWidth;
+    let scrollToRight = scroll - clientWidth;
+    /* */
+    let scrolled;
+
     if (arrow === "left") {
-      newValue = currentValue - widthVisible;
-      // if (currentValue === currentValue + 25) setRightArrow(false);
+      const isOff = scroll <= 0;
+      scrolled = isOff ? scroll : scrollToLeft;
     } else if (arrow === "right") {
-      newValue = currentValue + widthVisible;
-      // if (currentValue === currentValue + 25) setLeftArrow(false);
+      const doubleScroll = clientWidth * 2;
+      const isOff = Math.abs(scroll) > scrollWidth - doubleScroll;
+      console.log(
+        scrollWidth,
+        "-",
+        Math.abs(scroll),
+        "=",
+        scrollWidth - Math.abs(scroll)
+      );
+      scrolled = isOff ? scroll : scrollToRight;
+      console.log(
+        "isOff",
+        isOff,
+        "    ",
+        scroll,
+        ">",
+        doubleScroll,
+        "-",
+        scrollWidth,
+        "=",
+        doubleScroll - scrollWidth
+      );
     }
-    console.log("newValue", newValue);
-    console.log("currentValue + widthVisible", currentValue + widthVisible);
-    ref.current.scrollLeft = newValue;
+
+    console.log("ref", ref, "clientWidth", clientWidth);
+    console.log("Ширина промотки scrolled", scrolled);
+    console.log("Общая ширина scrollWidth", scrollWidth);
+
+    ref.current.style.transform = `translate(${scrolled}px)`;
+    setScroll(scrolled);
   };
 
   return (
-    <div
-      className={style.scroll}
-      ref={ref}
-      // onMouseDown={handlerOnMouseDown}
-      // onMouseUp={handlerOnMouseUp}
-      // onMouseMove={handlerOnMouseMove}
-      // onMouseLeave={handlerOnMouseUp}
-    >
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      <Link to={`/`} className={style.item}>
-        name
-      </Link>
-      {/* {leftArrow && (
-          <IconButton
-            className={style.lightArrow}
-            type="button"
-            onClick={() => handlerScrollX("left")}
-          >
-            <IoChevronBackOutline />
-          </IconButton>
-        )}
-        {rightArrow && (
-          <IconButton
-            className={style.rightArrow}
-            type="button"
-            onClick={() => handlerScrollX("right")}
-          >
-            <IoChevronBackOutline />
-          </IconButton>
-        )} */}
-      {options &&
-        options.map(({ name, uuid }) => (
-          <Link key={uuid} to={`/product`} className={style.item}>
-            <p>{name}</p>
-          </Link>
-        ))}
-      {options &&
-        options.map(({ name, uuid }) => (
-          <Link key={uuid} to={`/product`} className={style.item}>
-            <p>{name}</p>
-          </Link>
-        ))}
+    <div className={style.container}>
+      <div className={style.arrow}>
+        <IconButton
+          className={style.lightArrow}
+          type="button"
+          onClick={() => handlerScrollX("left")}
+        >
+          <IoChevronBackOutline />
+        </IconButton>
+        <IconButton
+          className={style.rightArrow}
+          type="button"
+          onClick={() => handlerScrollX("right")}
+        >
+          <IoChevronBackOutline />
+        </IconButton>
+      </div>
+      <div className={style.scrollContainer}>
+        <div
+          className={style.scroll}
+          ref={ref}
+          // onScroll={}
+          // onScroll={}
+          // onMouseDown={handlerOnMouseDown}
+          // onMouseUp={handlerOnMouseUp}
+          // onMouseMove={handlerOnMouseMove}
+          // onMouseLeave={handlerOnMouseUp}
+        >
+          {options &&
+            options.map(({ name, uuid }) => (
+              <Link key={uuid} to={`/product`} className={style.item}>
+                {name}
+              </Link>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
