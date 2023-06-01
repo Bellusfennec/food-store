@@ -104,43 +104,28 @@ const Tags = (props) => {
     const clientWidth = ref.current.clientWidth;
     /* Общая ширина */
     const scrollWidth = ref.current.scrollWidth;
+    /* */
+    const doubleScroll = clientWidth * 2;
+    const percentScroll = (clientWidth / 100) * 80;
     /* Ширина скрола */
-    let scrollToLeft = scroll - clientWidth;
-    let scrollToRight = scroll - clientWidth;
+    let scrollToLeft = scroll + percentScroll;
+    let scrollToRight = scroll - percentScroll;
+    const lastScroll = (scrollWidth - clientWidth) * -1;
     /* */
     let scrolled;
-
     if (arrow === "left") {
-      const isOff = scroll <= 0;
-      scrolled = isOff ? scroll : scrollToLeft;
+      const isNearStart = scroll > doubleScroll * -1;
+      scrolled = isNearStart ? 0 : scrollToLeft;
+      /* Если начало */
+      const goEnd = isNearStart && scroll === 0;
+      if (goEnd) scrolled = lastScroll;
     } else if (arrow === "right") {
-      const doubleScroll = clientWidth * 2;
-      const isOff = Math.abs(scroll) > scrollWidth - doubleScroll;
-      console.log(
-        scrollWidth,
-        "-",
-        Math.abs(scroll),
-        "=",
-        scrollWidth - Math.abs(scroll)
-      );
-      scrolled = isOff ? scroll : scrollToRight;
-      console.log(
-        "isOff",
-        isOff,
-        "    ",
-        scroll,
-        ">",
-        doubleScroll,
-        "-",
-        scrollWidth,
-        "=",
-        doubleScroll - scrollWidth
-      );
+      const isNearEnd = Math.abs(scroll) > scrollWidth - doubleScroll;
+      scrolled = isNearEnd ? lastScroll : scrollToRight;
+      /* Если конец */
+      const goStart = isNearEnd && scroll === lastScroll;
+      if (goStart) scrolled = 0;
     }
-
-    console.log("ref", ref, "clientWidth", clientWidth);
-    console.log("Ширина промотки scrolled", scrolled);
-    console.log("Общая ширина scrollWidth", scrollWidth);
 
     ref.current.style.transform = `translate(${scrolled}px)`;
     setScroll(scrolled);
