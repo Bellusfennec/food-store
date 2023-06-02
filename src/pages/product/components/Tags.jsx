@@ -134,20 +134,24 @@ const Tags = (props) => {
   return (
     <div className={style.container}>
       <div className={style.arrow}>
-        <IconButton
-          className={style.lightArrow}
-          type="button"
-          onClick={() => handlerScrollX("left")}
-        >
-          <IoChevronBackOutline />
-        </IconButton>
-        <IconButton
-          className={style.rightArrow}
-          type="button"
-          onClick={() => handlerScrollX("right")}
-        >
-          <IoChevronBackOutline />
-        </IconButton>
+        <div className={style.rightBackground}>
+          <IconButton
+            className={style.lightArrow}
+            type="button"
+            onClick={() => handlerScrollX("left")}
+          >
+            <IoChevronBackOutline />
+          </IconButton>
+        </div>
+        <div className={style.leftBackground}>
+          <IconButton
+            className={style.rightArrow}
+            type="button"
+            onClick={() => handlerScrollX("right")}
+          >
+            <IoChevronBackOutline />
+          </IconButton>
+        </div>
       </div>
       <div className={style.scrollContainer}>
         <div

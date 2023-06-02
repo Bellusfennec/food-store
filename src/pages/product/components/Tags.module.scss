@@ -5,27 +5,47 @@
   margin: 2rem;
 }
 .arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  .rightBackground,
+  .leftBackground {
+    display: flex;
+    align-items: center;
+  }
+  .rightBackground {
+    background: transparent;
+    background: linear-gradient(90deg, $colorNeutral500 0%, transparent 100%);
+  }
+  .leftBackground {
+    background: transparent;
+    background: linear-gradient(270deg, $colorNeutral500 0%, transparent 100%);
+  }
+  .rightArrow,
+  .lightArrow {
+    border-radius: $borderRadius100;
+    background: $colorNeutral150;
+    color: $colorNeutral600;
+    z-index: 1;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+  }
   .rightArrow {
     margin-left: 0.25rem;
     & > svg {
       transform: rotate(180deg);
     }
   }
-  .rightArrow,
-  .lightArrow {
-    border-radius: $borderRadius100;
-    background: $colorNeutral150;
-    z-index: 1;
-  }
 }
 .scrollContainer {
-  overflow-x: scroll;
+  overflow-x: hidden;
+  margin: 0 2rem;
 }
 .scroll {
-  // box-sizing: content-box;
-  margin-top: 0.5rem;
   position: relative;
   display: flex;
   gap: 0.5rem;
