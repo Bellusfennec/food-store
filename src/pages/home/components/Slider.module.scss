@@ -1,0 +1,107 @@
+@import "../../../common/styles/vars";
+
+.container {
+  position: relative;
+}
+.arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  .rightBackground,
+  .leftBackground {
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+  .rightBackground {
+    background: transparent;
+  }
+  .leftBackground {
+    background: transparent;
+  }
+  .rightArrow,
+  .lightArrow {
+    cursor: pointer;
+    height: 100%;
+    width: 3rem;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid transparent;
+    color: $colorNeutral100;
+    z-index: 2;
+    font-size: 2rem;
+    padding: 0.25rem;
+    &:focus {
+      color: $colorNeutral100;
+    }
+    &:hover {
+      color: $colorNeutral100;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .rightArrow {
+    & > svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+.scroller {
+  overflow: hidden;
+  position: relative;
+}
+.items {
+  position: relative;
+  display: flex;
+  transition: 1s;
+  z-index: 0;
+  .item {
+    min-width: 100%;
+    height: 30vh;
+    background: $colorNeutral150;
+    color: $colorNeutral800;
+    transition: $transition100;
+    .image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+.filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 30vh;
+  z-index: 1;
+}
+.dots {
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: white;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  .dot {
+    cursor: pointer;
+    background: $colorNeutral400;
+    border-radius: 50%;
+    z-index: 2;
+    padding: 0.25rem;
+    &.activeDot {
+      transform: scale(1.5);
+      background: $colorPrimary;
+    }
+  }
+}

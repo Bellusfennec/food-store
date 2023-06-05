@@ -1,0 +1,40 @@
+@import "../../../common/styles/vars";
+
+.container {
+  margin: 0 2rem;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .item {
+    height: 8rem;
+    border: 1px solid $colorPrimary;
+    border-radius: $borderRadius100;
+    position: relative;
+    margin-top: 7rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    .image {
+      position: relative;
+      bottom: 110px;
+      width: 200px;
+      padding-top: 200px;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-fit: contain;
+      }
+    }
+    .button {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -1.5rem;
+      width: 175px;
+    }
+  }
+}

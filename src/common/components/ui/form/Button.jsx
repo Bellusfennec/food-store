@@ -2,7 +2,7 @@ import React from "react";
 import style from "./Button.module.scss";
 
 const Button = (props) => {
-  const { onClick, disabled, children, outline } = props;
+  const { onClick, disabled, children, outline, className } = props;
   const type = props.type ? props.type : "submit";
 
   return (
@@ -10,7 +10,11 @@ const Button = (props) => {
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={style.button + (outline ? " " + style.outline : "")}
+      className={
+        (className ? className + " " : "") +
+        style.button +
+        (outline ? " " + style.outline : "")
+      }
     >
       {children}
     </button>

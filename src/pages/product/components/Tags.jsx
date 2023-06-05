@@ -11,57 +11,6 @@ const Tags = (props) => {
   const [options, setOtpions] = useState(initOptions);
   const [scroll, setScroll] = useState(0);
   let ref = useRef(null);
-  const [state, setState] = useState({
-    isScrolling: false,
-    clientX: 0,
-    scrollX: 0,
-  });
-
-  console.log("state", state);
-
-  useEffect(() => {
-    console.log("ref", ref, ref.current.scrollLeft);
-  }, [ref.current]);
-
-  const handlerOnMouseDown = (event) => {
-    if (ref && ref.current && !ref.current.contains(event.target)) {
-      return;
-    }
-    event.preventDefault();
-    console.log("handlerOnMouseDown");
-    setState({ ...state, isScrolling: true, clientX: event.clientX });
-  };
-
-  const handlerOnMouseUp = (event) => {
-    if (state.isScrolling) {
-      event.preventDefault();
-      console.log("handlerOnMouseUp");
-      setState({ ...state, isScrolling: false });
-    }
-  };
-
-  const handlerOnMouseMove = (event) => {
-    if (ref && ref.current && !ref.current.contains(event.target)) {
-      console.log("handlerOnMouseMove return");
-      return;
-    }
-    event.preventDefault();
-    console.log("handlerOnMouseMove");
-    const { clientX, scrollX, isScrolling } = state;
-
-    if (isScrolling) {
-      let newScrollX = scrollX + event.clientX - clientX;
-      let newClientX = event.clientX;
-      ref.current.scrollLeft = newScrollX;
-      ref.current.style.transform = `translate(${newScrollX}px)`;
-
-      setState({
-        ...state,
-        scrollX: newScrollX,
-        clientX: newClientX,
-      });
-    }
-  };
 
   const handlerScrollX = (arrow) => {
     const element = ref.current;
@@ -133,7 +82,7 @@ const Tags = (props) => {
     const element = ref.current;
     if (element) {
       const onWeel = (event) => event.preventDefault();
-      element.addEventListener("wheel", onWeel);
+      element.addEventListener("wheel", onWeel, { passive: false });
       return () => element.removeEventListener("wheel", onWeel);
     }
   }, []);
@@ -161,15 +110,7 @@ const Tags = (props) => {
         </div>
       </div>
       <div className={style.scrollContainer}>
-        <div
-          className={style.scroll}
-          ref={ref}
-          onWheel={handlerWheel}
-          onMouseDown={handlerOnMouseDown}
-          onMouseUp={handlerOnMouseUp}
-          onMouseMove={handlerOnMouseMove}
-          onMouseLeave={handlerOnMouseUp}
-        >
+        <div className={style.scroll} ref={ref} onWheel={handlerWheel}>
           {options &&
             options.map(({ name, uuid }) => (
               <Link key={uuid} to={`/product`} className={style.item}>

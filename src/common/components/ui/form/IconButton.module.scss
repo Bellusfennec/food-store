@@ -1,11 +1,17 @@
 @import "../../../styles/vars";
 
 .icon {
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 2rem;
   background: transparent;
+  border-color: transparent;
   color: $colorPrimary;
+  transition: $transition100;
+  &:hover {
+    transform: scale(1.1);
+  }
   &:hover,
   &:focus {
     color: $colorPrimary;

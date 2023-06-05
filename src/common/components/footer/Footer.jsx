@@ -7,24 +7,28 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className={style.container}>
-      <div>
-        <Link to="/">Политика конфиденциальности</Link>
-      </div>
-      <div>Ostore</div>
-      <div>
-        <div className={style.feedback}>
-          <Link to="/">Обратная связь</Link>
+      <img className={style.image} src="/image/page-1.jpg" alt="" />
+      <div className={style.filter}></div>
+      <div className={style.main}>
+        <div>
+          <Link to="/">Политика конфиденциальности</Link>
         </div>
-        <div className={style.social}>
-          <Link to="/" title="Vkontakte" className={style.vkontakte}>
-            <SlSocialVkontakte />
-          </Link>
-          <Link to="/" title="Instagram" className={style.instagram}>
-            <SlSocialInstagram />
-          </Link>
-          <Link to="/" title="Telegram">
-            <TbBrandTelegram />
-          </Link>
+        <div>Ostore</div>
+        <div>
+          <div className={style.feedback}>
+            <Link to="/">Обратная связь</Link>
+          </div>
+          <div className={style.social}>
+            <Link to="/" title="Vkontakte" className={style.vkontakte}>
+              <SlSocialVkontakte />
+            </Link>
+            <Link to="/" title="Instagram" className={style.instagram}>
+              <SlSocialInstagram />
+            </Link>
+            <Link to="/" title="Telegram">
+              <TbBrandTelegram />
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

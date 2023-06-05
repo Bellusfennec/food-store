@@ -1,42 +1,34 @@
 @import "../../../styles/vars";
 
-button {
-  font-size: 1rem;
+.button {
   cursor: pointer;
-  border: 1px solid $colorNeutral100;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: $borderRadius100;
+  border: 1px solid $colorPrimary;
+  background: $colorPrimary;
+  color: $colorNeutral100;
   transition: $transition100;
   &:hover {
-    color: $colorPrimary;
+    transform: scale(1.025);
   }
-  &.button {
-    font-size: 1.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: $borderRadius100;
-    border: 1px solid $colorPrimary;
-    background: $colorPrimary;
-    color: $colorNeutral100;
-    transition: $transition100;
-    &:hover {
-      transform: scale(1.025);
-    }
-    &:hover,
-    &:focus {
-      box-shadow: 0 0 0.5rem $colorPrimary;
-      transform: scale(1.025);
-    }
-    &:active {
-      transform: scale(0.9);
-    }
-    &:disabled {
-      transform: scale(1);
-      cursor: default;
-      color: $colorNeutral500;
-      background: $colorNeutral150;
-    }
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 0.5rem $colorPrimary;
+    transform: scale(1.025);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+  &:disabled {
+    transform: scale(1);
+    cursor: default;
+    color: $colorNeutral500;
+    background: $colorNeutral150;
   }
   &.outline {
     border: 1px solid $colorPrimary;

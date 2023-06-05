@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   background: $colorNeutral100;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   a {
@@ -16,11 +16,17 @@
 .logo {
   font-weight: bolder;
   font-size: 2rem;
+  display: flex;
+  align-items: center;
   a {
     color: $colorPrimary;
     &:hover {
       color: $colorTertiary;
     }
+  }
+  img {
+    width: 2rem;
+    height: auto;
   }
 }
 .navMenu {
