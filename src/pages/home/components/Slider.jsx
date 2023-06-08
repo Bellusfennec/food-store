@@ -15,7 +15,6 @@ const init = [
   { id: 6, image: "/image/page-6.jpg" },
 ];
 const Slider = () => {
-  console.log("Slider");
   const [options] = useState(init);
   const [slide, setSlide] = useState(0);
   let ref = useRef(null);

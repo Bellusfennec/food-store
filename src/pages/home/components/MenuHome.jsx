@@ -3,7 +3,6 @@ import style from "./MenuHome.module.scss";
 import { Button } from "../../../common/components/ui/form";
 
 const MenuHome = () => {
-  console.log("MenuHome");
   return (
     <div className={style.container}>
       <div className={style.item}>

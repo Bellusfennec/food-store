@@ -9,7 +9,6 @@ import { BsGraphUp } from "react-icons/bs";
 import Divider from "../../../common/components/ui/divider";
 
 const AboutHome = () => {
-  console.log("AboutHome");
   return (
     <section className={style.container}>
       <img className={style.image} src="/image/restaurant-0.jpg" alt="" />
