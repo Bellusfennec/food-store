@@ -42,7 +42,7 @@
         "A B"
         "C D";
       .item {
-        width: 180px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -65,13 +65,32 @@
           margin-top: 1rem;
           text-align: center;
         }
+        @media screen and (max-width: 900px) {
+          margin-top: 2rem;
+        }
       }
     }
     .about {
       flex: 0 0 calc(50% - 2rem);
+      display: flex;
+      flex-direction: column;
       p {
         white-space: normal;
       }
     }
+  }
+}
+.button {
+  align-self: flex-end;
+  width: auto;
+  display: inline-flex;
+  background: transparent;
+  border: 1px solid $colorNeutral100;
+  &:hover {
+    border: 1px solid $colorPrimary;
+  }
+  .iconButton {
+    margin-left: 0.5rem;
+    transform: rotate(180deg);
   }
 }

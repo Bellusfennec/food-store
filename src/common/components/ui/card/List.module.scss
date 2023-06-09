@@ -1,0 +1,8 @@
+@import "../../../styles/vars";
+
+.wrapper {
+  display: grid;
+  gap: 2rem;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}

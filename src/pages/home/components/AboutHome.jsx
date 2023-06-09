@@ -7,6 +7,8 @@ import {
 } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
 import Divider from "../../../common/components/ui/divider";
+import Button from "../../../common/components/ui/form/Button";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const AboutHome = () => {
   return (
@@ -38,7 +40,7 @@ const AboutHome = () => {
         </div>
         <div className={style.about}>
           <h3>Сеть ресторанов Market Food</h3>
-          <Divider />
+          <Divider row="2" />
           <p>
             В нашем ресторане вы можете попробовать различные блюда, которые
             включают в себя как классические блюда европейской, так и родной
@@ -51,6 +53,10 @@ const AboutHome = () => {
             гарантируем, что каждый гость останется довольным качеством еды и
             обслуживания.
           </p>
+          <Divider row="2" />
+          <Button className={style.button}>
+            Подробнее <IoChevronBackOutline className={style.iconButton} />
+          </Button>
         </div>
       </div>
     </section>

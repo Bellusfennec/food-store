@@ -11,14 +11,14 @@ const Home = () => {
   return (
     <MainLayout>
       <Slider />
-      <Divider row="2" />
+      <Divider row="4" />
       <h2 className={style.label}>Меню ресторана</h2>
       <MenuHome />
-      <Divider row="2" />
+      <Divider row="4" />
       <AboutHome />
-      <Divider row="2" />
+      <Divider row="4" />
       <TourHome />
-      <Divider row="2" />
+      <Divider row="4" />
     </MainLayout>
   );
 };
