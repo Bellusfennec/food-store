@@ -71,7 +71,7 @@ const ListProducts = () => {
       {!loading && (
         <>
           <header className={style.header}>
-            <img src="/image/page-2.jpg" alt="" />
+            <img src={process.env.PUBLIC_URL + "/image/page-2.jpg"} alt="" />
             <h2 className={style.textHeader}>Меню</h2>
             <div className={style.filterHeader}></div>
           </header>
@@ -82,7 +82,10 @@ const ListProducts = () => {
               products.map(({ title, uuid, category }, i) => (
                 <div key={uuid} className={style.item}>
                   <div className={style.image}>
-                    <img src={`/image/${i}.jpg`} alt={title} />
+                    <img
+                      src={process.env.PUBLIC_URL + `/image/${i}.jpg`}
+                      alt={title}
+                    />
                   </div>
                   <div className={style.main}>
                     <Link

@@ -11,7 +11,11 @@ import Divider from "../../../common/components/ui/divider";
 const AboutHome = () => {
   return (
     <section className={style.container}>
-      <img className={style.image} src="/image/restaurant-0.jpg" alt="" />
+      <img
+        className={style.image}
+        src={process.env.PUBLIC_URL + "/image/restaurant-0.jpg"}
+        alt=""
+      />
       <div className={style.filter}></div>
       <div className={style.main}>
         <div className={style.benefits}>

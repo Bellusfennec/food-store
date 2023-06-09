@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className={style.container}>
-      <img className={style.image} src="/image/page-1.jpg" alt="" />
+      <img
+        className={style.image}
+        src={process.env.PUBLIC_URL + "/image/page-1.jpg"}
+        alt=""
+      />
       <div className={style.filter}></div>
       <div className={style.main}>
         <div>

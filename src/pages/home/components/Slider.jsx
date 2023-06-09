@@ -72,7 +72,11 @@ const Slider = () => {
           {options &&
             options.map(({ image, id }) => (
               <Link key={id} to={`/`} className={style.item} id={`slide-${id}`}>
-                <img className={style.image} src={image} alt="" />
+                <img
+                  className={style.image}
+                  src={process.env.PUBLIC_URL + image}
+                  alt=""
+                />
               </Link>
             ))}
         </div>
