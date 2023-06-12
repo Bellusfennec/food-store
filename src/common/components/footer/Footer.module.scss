@@ -1,9 +1,7 @@
 @import "../../../common/styles/vars";
 
 .container {
-  background-color: $colorNeutral150;
   position: relative;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   color: $colorNeutral100;
   a {
     color: $colorNeutral100;
@@ -11,32 +9,15 @@
       color: $colorPrimary;
     }
   }
-  .image {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-  .filter {
-    position: absolute;
-    left: 0;
-    background: rgba(0, 0, 0, 0.75);
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
   .main {
     position: relative;
     z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 5rem;
-    padding: 1rem 2rem;
+    @media screen and (max-width: 700px) {
+      flex-direction: column;
+    }
   }
 }
 .social {

@@ -1,0 +1,62 @@
+@import "../../../common/styles/vars";
+
+.container {
+  position: relative;
+}
+.arrow {
+  // position: absolute;
+  position: relative;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  .right,
+  .left {
+    border-radius: $borderRadius100;
+    background: $colorNeutral150;
+    color: $colorNeutral600;
+    z-index: 2;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+  }
+  .right {
+    margin-left: 0.25rem;
+    & > svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+.scroller {
+  overflow-x: scroll;
+  background-color: $colorNeutral150;
+  position: relative;
+  display: flex;
+  // gap: 2rem;
+  transition: 1s;
+}
+
+// .items {
+// padding: 0 3rem;
+
+.item {
+  margin-left: 2rem;
+  padding: 1.75rem 0;
+  border-bottom: 2px solid transparent;
+  transition: $transition100;
+  white-space: nowrap;
+  &:first-of-type {
+    margin-left: 0;
+  }
+  &:hover {
+    color: $colorPrimary;
+    border-bottom: 2px solid $colorPrimary;
+  }
+  &.activeItem {
+    color: $colorPrimary;
+    border-bottom: 2px solid $colorPrimary;
+  }
+}
+// }
+// }

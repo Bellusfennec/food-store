@@ -1,27 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import style from "./Nav.module.scss";
+import style from "./TagsProduct.module.scss";
 import { Link } from "react-router-dom";
 import { IconButton } from "../../../common/components/ui/form";
 import { IoChevronBackOutline } from "react-icons/io5";
+import ContainerWrapper from "../../../common/components/ui/wrapper";
 
-const Nav = (props) => {
-  const { options, onClick } = props;
-  const [selected, setSelected] = useState("");
+const TagsProduct = (props) => {
+  // const { options } = props;
+  const initOptions = props.options ? props.options : [];
+  const [options] = useState(initOptions);
   const [scroll, setScroll] = useState(0);
   let ref = useRef(null);
 
-  const handlerSelected = (name) => {
-    setSelected(name);
-    onClick(name);
-  };
-
   const handlerScrollX = (arrow) => {
     const element = ref.current;
-    /* Видимая ширина */
-    const clientWidth = element.clientWidth;
-    /* Общая ширина */
-    const scrollWidth = element.scrollWidth;
-    /* */
+    const { clientWidth, scrollWidth } = element;
     const doubleScroll = clientWidth * 2;
     const percentScroll = (clientWidth / 100) * 75;
     /* Ширина скрола */
@@ -51,11 +45,7 @@ const Nav = (props) => {
   const handlerWheel = (event) => {
     const element = ref.current;
     if (element) {
-      /* Видимая ширина */
-      const clientWidth = element.clientWidth;
-      /* Общая ширина */
-      const scrollWidth = element.scrollWidth;
-      /* */
+      const { clientWidth, scrollWidth } = element;
       const doubleScroll = clientWidth * 2;
       const percentScroll = (clientWidth / 100) * 75;
       /* Ширина скрола */
@@ -91,7 +81,7 @@ const Nav = (props) => {
   }, []);
 
   return (
-    <div className={style.container}>
+    <ContainerWrapper className={style.container}>
       <div className={style.arrow}>
         <div className={style.leftBackground}>
           <IconButton
@@ -113,24 +103,17 @@ const Nav = (props) => {
         </div>
       </div>
       <div className={style.scrollContainer}>
-        <nav className={style.scroll} ref={ref} onWheel={handlerWheel}>
+        <div className={style.scroll} ref={ref} onWheel={handlerWheel}>
           {options &&
             options.map(({ name, uuid }) => (
-              <Link
-                key={uuid}
-                to={`/product`}
-                className={
-                  style.item + (selected === name ? " " + style.activeItem : "")
-                }
-                onClick={() => handlerSelected(name)}
-              >
-                <p>{name}</p>
+              <Link key={uuid} to={`/product`} className={style.item}>
+                {name}
               </Link>
             ))}
-        </nav>
+        </div>
       </div>
-    </div>
+    </ContainerWrapper>
   );
 };
 
-export default Nav;
+export default TagsProduct;

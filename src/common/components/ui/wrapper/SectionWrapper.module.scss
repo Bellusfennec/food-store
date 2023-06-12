@@ -1,0 +1,25 @@
+@import "../../../styles/vars";
+
+.container {
+  padding: 4rem;
+  // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  @media screen and (max-width: 900px) {
+    padding: 2rem;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 1rem;
+  }
+  &.y {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  &.x {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  &.fill {
+    @media screen and (max-width: 1600px) {
+      padding: 2rem;
+    }
+  }
+}

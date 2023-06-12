@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import style from "./TourHome.module.scss";
-import Section from "../../../common/components/ui/section";
 import Card from "../../../common/components/ui/card/Card";
 import List from "../../../common/components/ui/card/List";
+import Divider from "../../../common/components/ui/divider";
+import ContainerWrapper, {
+  SectionWrapper,
+} from "../../../common/components/ui/wrapper";
 
 const init = [
   {
@@ -32,22 +35,26 @@ const init = [
 ];
 
 const TourHome = () => {
-  const [data, setData] = useState(init);
+  const [data] = useState(init);
   return (
-    <Section>
-      <List>
-        {data &&
-          data.map(({ id, title, address, image }) => (
-            <Card
-              key={id}
-              title={title}
-              description={address}
-              link="#"
-              image={image}
-            />
-          ))}
-      </List>
-    </Section>
+    <SectionWrapper>
+      <ContainerWrapper>
+        <h2 className={style.label}>Рестораны</h2>
+        <Divider row="2" />
+        <List>
+          {data &&
+            data.map(({ id, title, address, image }) => (
+              <Card
+                key={id}
+                title={title}
+                description={address}
+                link="#"
+                image={image}
+              />
+            ))}
+        </List>
+      </ContainerWrapper>
+    </SectionWrapper>
   );
 };
 

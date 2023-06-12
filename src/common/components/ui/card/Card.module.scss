@@ -3,26 +3,35 @@
 .item {
   border: 1px solid $colorNeutral200;
   border-radius: $borderRadius100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   overflow: hidden;
   transition: $transition100;
   width: 100%;
   padding-top: 110%;
   position: relative;
+  @media screen and (max-width: 900px) {
+    padding-top: 50%;
+  }
   .body {
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 900px) {
+      flex-direction: row;
+    }
     .image {
       width: 100%;
       padding-top: 70%;
       background-color: $colorNeutral150;
       position: relative;
       transition: $transition200;
+      @media screen and (max-width: 900px) {
+        width: 50%;
+        padding-top: 50%;
+      }
       img {
         position: absolute;
         top: 0;
@@ -41,13 +50,14 @@
         transition: $transition100;
       }
       .icon {
+        font-size: 3rem;
         color: $colorNeutral100;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 2;
-        opacity: 0.5;
+        opacity: 0;
         .wave {
           // transform: ;
         }
@@ -62,6 +72,10 @@
       position: relative;
       overflow: hidden;
       transition: $transition200;
+      @media screen and (max-width: 900px) {
+        width: 50%;
+        padding-top: 50%;
+      }
       .bodyMain {
         position: absolute;
         top: 0;
@@ -100,7 +114,8 @@
     }
   }
   &:hover {
-    box-shadow: 0 0 0.5rem $colorNeutral300;
+    border: 1px solid $colorPrimary;
+    box-shadow: 0 0 0.5rem $colorPrimary;
     .image {
       padding-top: 50%;
       .filter {
@@ -112,11 +127,20 @@
     }
     .main {
       padding-top: 60%;
+      @media screen and (max-width: 900px) {
+        padding-top: 50%;
+      }
       .bodyMain {
         justify-content: space-between;
+        @media screen and (max-width: 900px) {
+          justify-content: space-around;
+        }
         .button {
           display: inline-flex;
           animation: move $transition200 forwards;
+          @media screen and (max-width: 900px) {
+            display: none;
+          }
         }
       }
     }

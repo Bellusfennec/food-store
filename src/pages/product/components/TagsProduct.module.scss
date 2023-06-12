@@ -2,6 +2,7 @@
 
 .container {
   position: relative;
+  margin-top: 2rem;
 }
 .arrow {
   position: absolute;
@@ -19,13 +20,13 @@
   }
   .rightBackground {
     background: transparent;
-    background: linear-gradient(270deg, $colorNeutral100 5%, transparent 100%);
-    padding-left: 1rem;
+    background: linear-gradient(270deg, $colorNeutral100 70%, transparent 100%);
+    padding-left: 0.5rem;
   }
   .leftBackground {
     background: transparent;
-    background: linear-gradient(90deg, $colorNeutral100 5%, transparent 100%);
-    padding-right: 1rem;
+    background: linear-gradient(90deg, $colorNeutral100 70%, transparent 100%);
+    padding-right: 0.5rem;
   }
   .rightArrow,
   .lightArrow {
@@ -45,30 +46,24 @@
 }
 .scrollContainer {
   overflow-x: hidden;
-  background-color: $colorNeutral150;
+  margin: 0 2rem;
 }
 .scroll {
-  padding: 0 3rem;
   position: relative;
   display: flex;
   gap: 0.5rem;
   transition: 1s;
   .item {
-    margin-left: 2rem;
-    padding: 1.75rem 0;
-    border-bottom: 2px solid transparent;
-    transition: $transition100;
     white-space: nowrap;
-    &:first-of-type {
-      margin-left: 0;
-    }
+    padding: 0.5rem 1rem;
+    background: $colorNeutral150;
+    color: $colorNeutral800;
+    font-size: 1rem;
+    border-radius: 1rem;
+    transition: $transition100;
     &:hover {
-      color: $colorPrimary;
-      border-bottom: 2px solid $colorPrimary;
-    }
-    &.activeItem {
-      color: $colorPrimary;
-      border-bottom: 2px solid $colorPrimary;
+      background: $colorNeutral300;
+      color: $colorNeutral900;
     }
   }
 }

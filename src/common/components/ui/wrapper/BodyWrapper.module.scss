@@ -1,0 +1,19 @@
+@import "../../../styles/vars";
+
+.container {
+  padding: 4rem;
+  @media screen and (max-width: 900px) {
+    padding: 2rem;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 1rem;
+  }
+}
+.y {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.x {
+  padding-left: 0;
+  padding-right: 0;
+}
