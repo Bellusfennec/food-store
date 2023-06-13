@@ -37,11 +37,11 @@
   // padding: 0 3rem;
   position: relative;
   display: flex;
-  // gap: 2rem;
+  gap: 2rem;
   transition: 1s;
 }
 .item {
-  margin-left: 2rem;
+  // margin-left: 2rem;
   padding: 1.75rem 0;
   border-bottom: 2px solid transparent;
   transition: $transition100;

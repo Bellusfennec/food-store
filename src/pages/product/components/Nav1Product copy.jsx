@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { IconButton } from "../../../common/components/ui/form";
@@ -12,15 +12,17 @@ const Nav1Product = (props) => {
   const [options, setOptions] = useState(initOptions);
   const [selected, setSelected] = useState("");
   let scrollerRef = useRef(null);
+  const [updScroll, setUpdScroll] = useState(false);
   const [scroll, setScroll] = useState({
-    index: 0,
+    index: 11,
     scrolled: 0,
     gap: 32,
-    arrow: "",
+    direction: "",
     disableScroll: false,
     scrollWidth: 0,
     scrollPos: 1,
     clonesWidth: 0,
+    updated: false,
   });
 
   const handlerSelected = (name) => {
@@ -28,8 +30,18 @@ const Nav1Product = (props) => {
     onClick(name);
   };
 
+  useEffect(() => {
+    const { direction } = scroll;
+    console.log("usef 1", scroll);
+    if (direction === "left" || direction === "right") {
+      console.log("usef 2");
+      move(direction);
+    }
+  }, [options]);
+
   const handlerArrow = (direction) => {
-    move(direction);
+    // move(direction);
+    updatedOptions(direction);
   };
 
   const move = (direction) => {
@@ -45,17 +57,18 @@ const Nav1Product = (props) => {
     });
     element.firstChild.style.transform = `translateX(0px)`;
     if (direction === "left") {
-      const array = options;
-      const lastElement = array.slice(-1);
-      const newArray = array.slice(0, -1);
-      setOptions([...lastElement, ...newArray]);
+      // const array = options;
+      // const lastElement = array.slice(-1);
+      // const newArray = array.slice(0, -1);
+      // setOptions([...lastElement, ...newArray]);
       // .previousSibling
-      // index -= 1;
-      // const widthSW = Array.from(childNodes)[index].scrollWidth;
-      // const widthOL = Array.from(childNodes)[index].offsetLeft;
-      // console.log(index, "widthSW", widthSW, "widthOL", widthOL);
-      // newScrolled = widthSW + gap;
-      // newScrolled += scrolled;
+      // index = index === 0 ? 0 : index - 1;
+      const widthSW = Array.from(childNodes)[index].scrollWidth;
+      const widthOL = Array.from(childNodes)[index].offsetLeft;
+      console.log(index, "widthSW", widthSW, "widthOL", widthOL);
+      newScrolled = widthOL;
+      newScrolled *= -1;
+      // newScrolled = scrolled;
       // element.firstChild.style.transform = `translateX(${newScrolled}px)`;
     } else if (direction === "right") {
       // .nextSibling
@@ -87,6 +100,17 @@ const Nav1Product = (props) => {
     );
     scrolled = newScrolled;
     setScroll({ ...scroll, index, scrolled });
+  };
+
+  const updatedOptions = (direction) => {
+    if (direction === "left") {
+      setScroll((prevState) => ({ ...prevState, direction }));
+      const array = options;
+      const lastElement = array.slice(-1);
+      const newArray = array.slice(0, -1);
+      setOptions([...lastElement, ...newArray]);
+    } else if (direction === "right") {
+    }
   };
 
   return (
