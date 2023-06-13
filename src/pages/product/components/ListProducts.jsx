@@ -18,6 +18,7 @@ import TitleProduct from "./TitleProduct";
 import ContainerWrapper, {
   SectionWrapper,
 } from "../../../common/components/ui/wrapper";
+import Nav1Product from "./Nav1Product copy";
 
 const ListProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -76,6 +77,7 @@ const ListProducts = () => {
         <>
           <TitleProduct />
           <NavProduct options={categories} onClick={handlerSelectedCategory} />
+          <Nav1Product options={categories} onClick={handlerSelectedCategory} />
           <TagsProduct options={categories} />
           <SectionWrapper>
             <ContainerWrapper>

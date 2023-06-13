@@ -60,9 +60,8 @@ const NavProduct = (props) => {
       index += 1;
       scrolled = widthSW + gap;
 
-      sideScroll(element, direction, 100, scrolled, 1);
+      sideScroll(element, direction, 1, scrolled, 1);
     }
-    // const nnn = 1 + Math.floor(element.clientWidth / 12.09);
     console.log(
       "index",
       index,
@@ -72,8 +71,6 @@ const NavProduct = (props) => {
       scrollerRef.current.scrollLeft
     );
     setScroll({ ...scroll, index, scrolled });
-
-    // sideScroll(element, direction, 10, 200, 10);
   };
 
   return (
