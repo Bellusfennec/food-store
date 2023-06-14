@@ -1,12 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 
 export const insertId = (array) => {
-  return array.map((item) => {
+  const lastElements = array.slice(-5);
+  return [...lastElements, ...array].map((item) => {
     return { ...item, scrollId: uuidv4() };
   });
 };
 
 export const sideScroll = (element, direction, speed, distance, step) => {
+  console.log(element, direction, speed, distance, step);
   let scrollAmount = 0;
   const slideTimer = setInterval(() => {
     if (direction === "left") {
