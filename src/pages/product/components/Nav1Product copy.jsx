@@ -14,7 +14,7 @@ const Nav1Product = (props) => {
   let scrollerRef = useRef(null);
   const [updScroll, setUpdScroll] = useState(false);
   const [scroll, setScroll] = useState({
-    index: 11,
+    index: 1,
     scrolled: 0,
     gap: 32,
     direction: "",
@@ -32,9 +32,7 @@ const Nav1Product = (props) => {
 
   useEffect(() => {
     const { direction } = scroll;
-    console.log("usef 1", scroll);
     if (direction === "left" || direction === "right") {
-      console.log("usef 2");
       move(direction);
     }
   }, [options]);
@@ -45,7 +43,6 @@ const Nav1Product = (props) => {
   };
 
   const move = (direction) => {
-    console.log(direction);
     let { index, scrolled, gap } = scroll;
     let newScrolled;
     const element = scrollerRef.current;
@@ -55,12 +52,14 @@ const Nav1Product = (props) => {
     Array.from(childNodes).map((child, i) => {
       console.log(`i${i}`, child.scrollWidth, child.offsetLeft, child.text);
     });
-    element.firstChild.style.transform = `translateX(0px)`;
+    // element.firstChild.style.transform = `translateX(0px)`;
     if (direction === "left") {
-      // const array = options;
-      // const lastElement = array.slice(-1);
-      // const newArray = array.slice(0, -1);
-      // setOptions([...lastElement, ...newArray]);
+      const nextwidthOL = Array.from(childNodes)[index + 1].offsetLeft;
+      element.scrollLeft = nextwidthOL;
+      // let newScrolled1 = nextwidthOL;
+      // newScrolled1 *= -1;
+      // element.firstChild.style.transform = `translateX(${newScrolled1}px)`;
+      console.log(index + 1, "nextwidt", nextwidthOL);
       // .previousSibling
       // index = index === 0 ? 0 : index - 1;
       const widthSW = Array.from(childNodes)[index].scrollWidth;
@@ -68,8 +67,11 @@ const Nav1Product = (props) => {
       console.log(index, "widthSW", widthSW, "widthOL", widthOL);
       newScrolled = widthOL;
       newScrolled *= -1;
+      sideScroll(element, direction, 1, widthOL, 1);
       // newScrolled = scrolled;
+      // element.firstChild.style.transition = `1s`;
       // element.firstChild.style.transform = `translateX(${newScrolled}px)`;
+      // element.firstChild.style.transition = `none`;
     } else if (direction === "right") {
       // .nextSibling
       // const lastWidthSW = Array.from(childNodes).at(-1).scrollWidth;
