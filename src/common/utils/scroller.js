@@ -7,18 +7,23 @@ export const insertId = (array) => {
   });
 };
 
-export const sideScroll = (element, direction, speed, distance, step) => {
-  console.log(element, direction, speed, distance, step);
-  let scrollAmount = 0;
-  const slideTimer = setInterval(() => {
-    if (direction === "left") {
+export const sideScroll = (element, direction, from, to) => {
+  const speed = 1;
+  const step = 1;
+  console.log(element, direction, from, "<>", to);
+  if (direction === "left") {
+    const timer = setInterval(() => {
       element.scrollLeft -= step;
-    } else {
+      // console.log("l", from, "<=", to, from <= to);
+      from -= step;
+      if (from <= to) window.clearInterval(timer);
+    }, speed);
+  } else if (direction === "right") {
+    const timer = setInterval(() => {
       element.scrollLeft += step;
-    }
-    scrollAmount += step;
-    if (scrollAmount >= distance) {
-      window.clearInterval(slideTimer);
-    }
-  }, speed);
+      // console.log("r", from, ">=", to, from >= to);
+      from += step;
+      if (from >= to) window.clearInterval(timer);
+    }, speed);
+  }
 };

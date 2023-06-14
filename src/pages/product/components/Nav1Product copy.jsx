@@ -28,12 +28,23 @@ const Nav1Product = (props) => {
 
   useEffect(() => {
     let { endIndex, index } = scroll;
-    endIndex = options.length - scroll.index;
-    setScroll({ ...scroll, endIndex });
-    // Начальное положение
     const element = scrollerRef.current;
-    const { offsetLeft } = Array.from(element.firstChild.childNodes)[index];
+    const { firstChild, offsetWidth, scrollWidth } = element;
+    const { childNodes } = firstChild;
+    let widthLastScreen = scrollWidth - offsetWidth;
+    const reverseChildNodes = [...Array.from(childNodes)].reverse();
+    reverseChildNodes.map(({ offsetLeft }, i) => {
+      if (widthLastScreen > offsetLeft && !index) index = i + 1;
+    });
+    endIndex = options.length - (index + 1);
+    setScroll({ ...scroll, endIndex, index });
+    // Начальное положение
+    const { offsetLeft } = Array.from(childNodes)[index];
     element.scrollLeft = offsetLeft;
+    /////
+    Array.from(childNodes).map(({ scrollWidth, offsetLeft, text }, i) => {
+      console.log(`i${i}`, scrollWidth, offsetLeft, text);
+    });
   }, []);
 
   const handlerArrow = (direction) => {
@@ -47,33 +58,36 @@ const Nav1Product = (props) => {
     if (scroll.scrolling > 0) {
       for (let i = 0; i < scroll.scrolling; i++) {
         move();
+        console.log(scrollerRef);
       }
     }
   }, [scroll]);
 
-  const move = () => {
-    let { endIndex, index, scrolling } = scroll;
-    const element = scrollerRef.current;
-    const childNodes = element.firstChild.childNodes;
-    //
-    console.log(scrollerRef);
-    Array.from(childNodes).map((child, i) => {
-      console.log(`i${i}`, child.scrollWidth, child.offsetLeft, child.text);
-    });
-    //
+  useEffect(() => {
+    console.log(scrollerRef.current.scrollLeft);
+  }, [scrollerRef.current]);
 
+  const move = () => {
+    let { endIndex, index, scrolling, direction } = scroll;
+    const element = scrollerRef.current;
+    let { scrollLeft } = element;
+    const { firstChild } = element;
+    const { childNodes } = firstChild;
     if (scroll.direction === "left") {
       index = index === 0 ? endIndex : index - 1;
-      const { offsetLeft } = Array.from(childNodes)[index];
-      element.scrollLeft = offsetLeft;
+      const { offsetLeft } = Array.from(childNodes)[endIndex + 1];
+      if (scroll.index === 0) element.scrollLeft = offsetLeft;
       // newScrolled *= -1;
-      // sideScroll(element, direction, 1, currentOL, 1);
+
       // element.firstChild.style.transform = `translateX(0px)`;
     } else if (scroll.direction === "right") {
       index = index === endIndex ? 1 : index + 1;
-      const { offsetLeft } = Array.from(childNodes)[index];
-      element.scrollLeft = offsetLeft;
+      // if (scroll.index - 1 === endIndex) element.scrollLeft = 0;
     }
+    const { offsetLeft } = Array.from(childNodes)[index];
+    // element.scrollLeft = offsetLeft;
+    console.log(offsetLeft);
+    sideScroll(element, direction, element.scrollLeft, offsetLeft);
     scrolling = scrolling - 1;
     setScroll({ ...scroll, index, scrolling });
   };
