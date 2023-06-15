@@ -70,23 +70,17 @@ const Nav1Product = (props) => {
   const move = () => {
     let { endIndex, index, scrolling, direction } = scroll;
     const element = scrollerRef.current;
-    let { scrollLeft } = element;
     const { firstChild } = element;
     const { childNodes } = firstChild;
-    if (scroll.direction === "left") {
+    if (direction === "left") {
       index = index === 0 ? endIndex : index - 1;
       const { offsetLeft } = Array.from(childNodes)[endIndex + 1];
       if (scroll.index === 0) element.scrollLeft = offsetLeft;
-      // newScrolled *= -1;
-
-      // element.firstChild.style.transform = `translateX(0px)`;
-    } else if (scroll.direction === "right") {
-      index = index === endIndex ? 1 : index + 1;
-      // if (scroll.index - 1 === endIndex) element.scrollLeft = 0;
+    } else if (direction === "right") {
+      index = index - 1 === endIndex ? 1 : index + 1;
+      if (scroll.index - 1 === endIndex) element.scrollLeft = 0;
     }
     const { offsetLeft } = Array.from(childNodes)[index];
-    // element.scrollLeft = offsetLeft;
-    console.log(offsetLeft);
     sideScroll(element, direction, element.scrollLeft, offsetLeft);
     scrolling = scrolling - 1;
     setScroll({ ...scroll, index, scrolling });
