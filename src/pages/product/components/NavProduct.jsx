@@ -137,6 +137,10 @@ const NavProduct = (props) => {
           <IoChevronBackOutline />
         </IconButton>
       </div>
+      <div className={style.gradient}>
+        <div />
+        <div />
+      </div>
       <div ref={scrollerRef} className={style.scroller}>
         <div className={style.items} onWheel={handlerWheel}>
           {options &&

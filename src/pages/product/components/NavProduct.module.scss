@@ -4,14 +4,15 @@
   position: relative;
 }
 .arrow {
-  // position: absolute;
-  position: relative;
+  position: absolute;
+  // position: relative;
   top: 0;
-  right: 0;
-  left: 0;
+  right: 0.25%;
+  left: 0.25%;
   bottom: 0;
   display: flex;
   justify-content: space-between;
+
   .right,
   .left {
     border-radius: $borderRadius100;
@@ -28,9 +29,28 @@
     }
   }
 }
+.gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  & > div:first-of-type {
+    width: 10%;
+    background: linear-gradient(to left, transparent, $colorNeutral100 90%);
+  }
+  & > div:last-of-type {
+    width: 10%;
+    background: linear-gradient(to right, transparent, $colorNeutral100 90%);
+  }
+}
 .scroller {
+  margin: 0 2rem;
   overflow: hidden;
-  background-color: $colorNeutral150;
+  background: $colorNeutral150;
 }
 .items {
   position: relative;
