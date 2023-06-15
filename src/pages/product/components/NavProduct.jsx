@@ -1,26 +1,26 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { IconButton } from "../../../common/components/ui/form";
 import ContainerWrapper from "../../../common/components/ui/wrapper";
-import { insertId, sideScroll } from "../../../common/utils/scroller";
+import {
+  insertLastElementsToBeginning,
+  insertScrollId,
+  sideScroll,
+} from "../../../common/utils/scroller";
 import style from "./NavProduct.module.scss";
 
 const NavProduct = (props) => {
   const { onClick } = props;
-  const initOptions = props.options ? insertId(props.options) : [];
+  const initOptions = props.options ? insertScrollId(props.options) : [];
   const [options, setOptions] = useState(initOptions);
   const [selected, setSelected] = useState("");
   let scrollerRef = useRef(null);
   const [scroll, setScroll] = useState({
-    index: 0,
-    scrolled: 0,
-    gap: 32,
-    arrow: "",
-    disableScroll: false,
-    scrollWidth: 0,
-    scrollPos: 1,
-    clonesWidth: 0,
+    scrolling: 0,
+    direction: "",
   });
 
   const handlerSelected = (name) => {
@@ -28,50 +28,96 @@ const NavProduct = (props) => {
     onClick(name);
   };
 
-  const handlerArrow = (direction) => {
-    move(direction);
-  };
-
-  const move = (direction) => {
-    console.log(direction);
-    let { index, scrolled, gap } = scroll;
+  useEffect(() => {
     const element = scrollerRef.current;
-    const { clientWidth, scrollWidth, childNodes, scrollLeft } = element;
-    console.log(scrollerRef);
-    Array.from(childNodes).map((child, i) => {
-      console.log(`i${i}`, child.scrollWidth, child.offsetLeft);
+    const { firstChild, offsetWidth, scrollWidth } = element;
+    const { childNodes } = firstChild;
+    let widthLastScreen = scrollWidth - offsetWidth;
+    let index = 0;
+    const reverseChildNodes = [...Array.from(childNodes)].reverse();
+    reverseChildNodes.map(({ offsetLeft }, i) => {
+      if (widthLastScreen > offsetLeft && !index) index = i;
     });
-    console.log("index", index);
-    if (direction === "left" && index !== 0) {
-      // .previousSibling
-      const widthSW = Array.from(childNodes)[index].scrollWidth;
-      const widthOL = Array.from(childNodes)[index].offsetLeft;
-      console.log(index, "widthSW", widthSW, "widthOL", widthOL);
-      index -= 1;
-      scrolled = widthOL;
+    // корректировка
+    index += 2;
+    // Добавляем кол-во index в начало
+    const newOptions = insertLastElementsToBeginning(options, index);
+    const updOptions = insertScrollId(newOptions);
+    setOptions(updOptions);
+    // endIndex, index
+    const endIndex = updOptions.length - index;
+    setScroll({ ...scroll, endIndex, index });
+  }, []);
 
-      sideScroll(element, direction, 1, scrolled, 1);
-    } else if (direction === "right") {
-      // .nextSibling
-      const widthSW = Array.from(childNodes)[index].scrollWidth;
-      const widthOL = Array.from(childNodes)[index].offsetLeft;
-      console.log(index, "widthSW", widthSW, "widthOL", widthOL);
-
-      index += 1;
-      scrolled = widthSW + gap;
-
-      sideScroll(element, direction, 1, scrolled, 1);
+  useEffect(() => {
+    if (initOptions < options) {
+      startPosition();
     }
-    console.log(
-      "index",
-      index,
-      "scrolled",
-      scrolled,
-      "scrollerRef.current.scrollLeft",
-      scrollerRef.current.scrollLeft
-    );
-    setScroll({ ...scroll, index, scrolled });
+  }, [options]);
+
+  const startPosition = () => {
+    const { index } = scroll;
+    const element = scrollerRef.current;
+    const { childNodes } = element.firstChild;
+    const { offsetLeft } = Array.from(childNodes)[index];
+    element.scrollLeft = offsetLeft;
   };
+
+  const debag = () => {
+    const { childNodes } = scrollerRef.current.firstChild;
+    Array.from(childNodes).map(({ scrollWidth, offsetLeft, text }, i) => {
+      console.log(`i${i}`, scrollWidth, offsetLeft, text);
+    });
+  };
+
+  const handlerArrow = (direction) => {
+    const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
+    setScroll({ ...scroll, direction, scrolling });
+  };
+
+  useEffect(() => {
+    if (scroll.scrolling > 0) {
+      for (let i = 0; i < scroll.scrolling; i++) {
+        move();
+      }
+    }
+  }, [scroll]);
+
+  const move = () => {
+    let { endIndex, index, scrolling, direction } = scroll;
+    const element = scrollerRef.current;
+    const { firstChild } = element;
+    const { childNodes } = firstChild;
+    if (direction === "left") {
+      index = index === 0 ? endIndex - 1 : index - 1;
+      const { offsetLeft } = Array.from(childNodes)[endIndex];
+      if (scroll.index === 0) element.scrollLeft = offsetLeft;
+    } else if (direction === "right") {
+      index = index === endIndex ? 1 : index + 1;
+      if (scroll.index === endIndex) element.scrollLeft = 0;
+    }
+    const { offsetLeft } = Array.from(childNodes)[index];
+    sideScroll(element, element.scrollLeft, offsetLeft);
+    scrolling = scrolling - 1;
+    setScroll({ ...scroll, index, scrolling });
+  };
+
+  const handlerWheel = ({ deltaY }) => {
+    if (scrollerRef.current) {
+      let direction = deltaY < 0 ? "left" : deltaY > 0 ? "right" : "";
+      const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
+      setScroll({ ...scroll, direction, scrolling });
+    }
+  };
+
+  useEffect(() => {
+    const element = scrollerRef.current;
+    if (element) {
+      const onWeel = (event) => event.preventDefault();
+      element.addEventListener("wheel", onWeel, { passive: false });
+      return () => element.removeEventListener("wheel", onWeel);
+    }
+  }, []);
 
   return (
     <ContainerWrapper className={style.container}>
@@ -92,19 +138,21 @@ const NavProduct = (props) => {
         </IconButton>
       </div>
       <div ref={scrollerRef} className={style.scroller}>
-        {options &&
-          options.map(({ name, scrollId }) => (
-            <Link
-              key={scrollId}
-              to={`/product`}
-              className={
-                style.item + (selected === name ? " " + style.activeItem : "")
-              }
-              onClick={() => handlerSelected(name)}
-            >
-              <p>{name}</p>
-            </Link>
-          ))}
+        <div className={style.items} onWheel={handlerWheel}>
+          {options &&
+            options.map(({ name, id, scrollId }) => (
+              <Link
+                key={scrollId}
+                to={`/product`}
+                className={
+                  style.item + (selected === name ? " " + style.active : "")
+                }
+                onClick={() => handlerSelected(name)}
+              >
+                <p>{name}</p>
+              </Link>
+            ))}
+        </div>
       </div>
     </ContainerWrapper>
   );

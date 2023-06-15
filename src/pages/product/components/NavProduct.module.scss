@@ -29,34 +29,31 @@
   }
 }
 .scroller {
-  overflow-x: scroll;
+  overflow: hidden;
   background-color: $colorNeutral150;
+}
+.items {
   position: relative;
   display: flex;
-  // gap: 2rem;
-  transition: 1s;
 }
-
-// .items {
-// padding: 0 3rem;
-
 .item {
-  margin-left: 2rem;
-  padding: 1.75rem 0;
-  border-bottom: 2px solid transparent;
+  padding: 0 1rem;
   transition: $transition100;
   white-space: nowrap;
-  &:first-of-type {
-    margin-left: 0;
+  p {
+    padding: 2rem 0;
+    position: relative;
+    transition: $transition100;
+    border-bottom: 2px solid transparent;
+    &:hover {
+      color: $colorPrimary;
+      border-bottom: 2px solid $colorPrimary;
+    }
   }
-  &:hover {
-    color: $colorPrimary;
-    border-bottom: 2px solid $colorPrimary;
-  }
-  &.activeItem {
-    color: $colorPrimary;
-    border-bottom: 2px solid $colorPrimary;
+  &.active {
+    p {
+      color: $colorPrimary;
+      border-bottom: 2px solid $colorPrimary;
+    }
   }
 }
-// }
-// }

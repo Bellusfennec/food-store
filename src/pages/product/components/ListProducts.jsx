@@ -11,14 +11,13 @@ import {
 } from "react-icons/md";
 import { Loading } from "../../../common/components/ui/loading";
 import { Button } from "../../../common/components/ui/form";
-import NavProduct from "./NavProduct";
 import TagsProduct from "./TagsProduct";
 import List from "../../../common/components/ui/card/List";
 import TitleProduct from "./TitleProduct";
 import ContainerWrapper, {
   SectionWrapper,
 } from "../../../common/components/ui/wrapper";
-import Nav1Product from "./Nav1Product copy";
+import NavProduct from "./NavProduct";
 
 const ListProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -77,7 +76,6 @@ const ListProducts = () => {
         <>
           <TitleProduct />
           <NavProduct options={categories} onClick={handlerSelectedCategory} />
-          <Nav1Product options={categories} onClick={handlerSelectedCategory} />
           <TagsProduct options={categories} />
           <SectionWrapper>
             <ContainerWrapper>
