@@ -37,14 +37,16 @@
   bottom: 0;
   display: flex;
   justify-content: space-between;
-  z-index: 1;
+  margin: 0 2rem;
+  & > div {
+    width: 2%;
+    z-index: 1;
+  }
   & > div:first-of-type {
-    width: 10%;
-    background: linear-gradient(to left, transparent, $colorNeutral100 90%);
+    background: linear-gradient(to left, transparent, $colorNeutral100 99%);
   }
   & > div:last-of-type {
-    width: 10%;
-    background: linear-gradient(to right, transparent, $colorNeutral100 90%);
+    background: linear-gradient(to right, transparent, $colorNeutral100 99%);
   }
 }
 .scroller {

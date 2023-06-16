@@ -11,13 +11,15 @@ import {
   sideScroll,
 } from "../../../common/utils/scroller";
 import style from "./NavProduct.module.scss";
+import HorizontalScroller from "../../../common/components/ui/scroller/HorizontalScroller";
 
 const NavProduct = (props) => {
   const { onClick } = props;
   const initOptions = props.options ? insertScrollId(props.options) : [];
   const [options, setOptions] = useState(initOptions);
   const [selected, setSelected] = useState("");
-  let scrollerRef = useRef(null);
+  const [direction, setDirection] = useState("");
+  // let scrollerRef = useRef(null);
   const [scroll, setScroll] = useState({
     scrolling: 0,
     direction: "",
@@ -28,96 +30,96 @@ const NavProduct = (props) => {
     onClick(name);
   };
 
-  useEffect(() => {
-    const element = scrollerRef.current;
-    const { firstChild, offsetWidth, scrollWidth } = element;
-    const { childNodes } = firstChild;
-    let widthLastScreen = scrollWidth - offsetWidth;
-    let index = 0;
-    const reverseChildNodes = [...Array.from(childNodes)].reverse();
-    reverseChildNodes.map(({ offsetLeft }, i) => {
-      if (widthLastScreen > offsetLeft && !index) index = i;
-    });
-    // корректировка
-    index += 2;
-    // Добавляем кол-во index в начало
-    const newOptions = insertLastElementsToBeginning(options, index);
-    const updOptions = insertScrollId(newOptions);
-    setOptions(updOptions);
-    // endIndex, index
-    const endIndex = updOptions.length - index;
-    setScroll({ ...scroll, endIndex, index });
-  }, []);
+  // useEffect(() => {
+  //   const element = scrollerRef.current;
+  //   const { firstChild, offsetWidth, scrollWidth } = element;
+  //   const { childNodes } = firstChild;
+  //   let widthLastScreen = scrollWidth - offsetWidth;
+  //   let index = 0;
+  //   const reverseChildNodes = [...Array.from(childNodes)].reverse();
+  //   reverseChildNodes.map(({ offsetLeft }, i) => {
+  //     if (widthLastScreen > offsetLeft && !index) index = i;
+  //   });
+  //   // корректировка
+  //   index += 2;
+  //   // Добавляем кол-во index в начало
+  //   const newOptions = insertLastElementsToBeginning(options, index);
+  //   const updOptions = insertScrollId(newOptions);
+  //   setOptions(updOptions);
+  //   // endIndex, index
+  //   const endIndex = updOptions.length - index;
+  //   setScroll({ ...scroll, endIndex, index });
+  // }, []);
 
-  useEffect(() => {
-    if (initOptions < options) {
-      startPosition();
-    }
-  }, [options]);
+  // useEffect(() => {
+  //   if (initOptions < options) {
+  //     startPosition();
+  //   }
+  // }, [options]);
 
-  const startPosition = () => {
-    const { index } = scroll;
-    const element = scrollerRef.current;
-    const { childNodes } = element.firstChild;
-    const { offsetLeft } = Array.from(childNodes)[index];
-    element.scrollLeft = offsetLeft;
-  };
+  // const startPosition = () => {
+  //   const { index } = scroll;
+  //   const element = scrollerRef.current;
+  //   const { childNodes } = element.firstChild;
+  //   const { offsetLeft } = Array.from(childNodes)[index];
+  //   element.scrollLeft = offsetLeft;
+  // };
 
-  const debag = () => {
-    const { childNodes } = scrollerRef.current.firstChild;
-    Array.from(childNodes).map(({ scrollWidth, offsetLeft, text }, i) => {
-      console.log(`i${i}`, scrollWidth, offsetLeft, text);
-    });
-  };
+  // const debag = () => {
+  //   const { childNodes } = scrollerRef.current.firstChild;
+  //   Array.from(childNodes).map(({ scrollWidth, offsetLeft, text }, i) => {
+  //     console.log(`i${i}`, scrollWidth, offsetLeft, text);
+  //   });
+  // };
 
   const handlerArrow = (direction) => {
     const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
     setScroll({ ...scroll, direction, scrolling });
   };
 
-  useEffect(() => {
-    if (scroll.scrolling > 0) {
-      for (let i = 0; i < scroll.scrolling; i++) {
-        move();
-      }
-    }
-  }, [scroll]);
+  // useEffect(() => {
+  //   if (scroll.scrolling > 0) {
+  //     for (let i = 0; i < scroll.scrolling; i++) {
+  //       move();
+  //     }
+  //   }
+  // }, [scroll]);
 
-  const move = () => {
-    let { endIndex, index, scrolling, direction } = scroll;
-    const element = scrollerRef.current;
-    const { firstChild } = element;
-    const { childNodes } = firstChild;
-    if (direction === "left") {
-      index = index === 0 ? endIndex - 1 : index - 1;
-      const { offsetLeft } = Array.from(childNodes)[endIndex];
-      if (scroll.index === 0) element.scrollLeft = offsetLeft;
-    } else if (direction === "right") {
-      index = index === endIndex ? 1 : index + 1;
-      if (scroll.index === endIndex) element.scrollLeft = 0;
-    }
-    const { offsetLeft } = Array.from(childNodes)[index];
-    sideScroll(element, element.scrollLeft, offsetLeft);
-    scrolling = scrolling - 1;
-    setScroll({ ...scroll, index, scrolling });
-  };
+  // const move = () => {
+  //   let { endIndex, index, scrolling, direction } = scroll;
+  //   const element = scrollerRef.current;
+  //   const { firstChild } = element;
+  //   const { childNodes } = firstChild;
+  //   if (direction === "left") {
+  //     index = index === 0 ? endIndex - 1 : index - 1;
+  //     const { offsetLeft } = Array.from(childNodes)[endIndex];
+  //     if (scroll.index === 0) element.scrollLeft = offsetLeft;
+  //   } else if (direction === "right") {
+  //     index = index === endIndex ? 1 : index + 1;
+  //     if (scroll.index === endIndex) element.scrollLeft = 0;
+  //   }
+  //   const { offsetLeft } = Array.from(childNodes)[index];
+  //   sideScroll(element, element.scrollLeft, offsetLeft);
+  //   scrolling = scrolling - 1;
+  //   setScroll({ ...scroll, index, scrolling });
+  // };
 
-  const handlerWheel = ({ deltaY }) => {
-    if (scrollerRef.current) {
-      let direction = deltaY < 0 ? "left" : deltaY > 0 ? "right" : "";
-      const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
-      setScroll({ ...scroll, direction, scrolling });
-    }
-  };
+  // const handlerWheel = ({ deltaY }) => {
+  //   if (scrollerRef.current) {
+  //     let direction = deltaY < 0 ? "left" : deltaY > 0 ? "right" : "";
+  //     const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
+  //     setScroll({ ...scroll, direction, scrolling });
+  //   }
+  // };
 
-  useEffect(() => {
-    const element = scrollerRef.current;
-    if (element) {
-      const onWeel = (event) => event.preventDefault();
-      element.addEventListener("wheel", onWeel, { passive: false });
-      return () => element.removeEventListener("wheel", onWeel);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const element = scrollerRef.current;
+  //   if (element) {
+  //     const onWeel = (event) => event.preventDefault();
+  //     element.addEventListener("wheel", onWeel, { passive: false });
+  //     return () => element.removeEventListener("wheel", onWeel);
+  //   }
+  // }, []);
 
   return (
     <ContainerWrapper className={style.container}>
@@ -141,7 +143,22 @@ const NavProduct = (props) => {
         <div />
         <div />
       </div>
-      <div ref={scrollerRef} className={style.scroller}>
+      <HorizontalScroller direction={direction} options={options}>
+        {options &&
+          options.map(({ name, id, scrollId }) => (
+            <Link
+              key={scrollId}
+              to={`/product`}
+              className={
+                style.item + (selected === name ? " " + style.active : "")
+              }
+              onClick={() => handlerSelected(name)}
+            >
+              <p>{name}</p>
+            </Link>
+          ))}
+      </HorizontalScroller>
+      {/* <div ref={scrollerRef} className={style.scroller}>
         <div className={style.items} onWheel={handlerWheel}>
           {options &&
             options.map(({ name, id, scrollId }) => (
@@ -157,7 +174,7 @@ const NavProduct = (props) => {
               </Link>
             ))}
         </div>
-      </div>
+      </div> */}
     </ContainerWrapper>
   );
 };
