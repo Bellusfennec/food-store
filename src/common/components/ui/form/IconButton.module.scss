@@ -9,8 +9,10 @@
   border-color: transparent;
   color: $colorPrimary;
   transition: $transition100;
-  &:hover {
-    transform: scale(1.1);
+  &.scale {
+    &:hover {
+      transform: scale(1.1);
+    }
   }
   &:hover,
   &:focus {

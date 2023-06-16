@@ -15,15 +15,14 @@ import HorizontalScroller from "../../../common/components/ui/scroller/Horizonta
 
 const NavProduct = (props) => {
   const { onClick } = props;
-  const initOptions = props.options ? insertScrollId(props.options) : [];
-  const [options, setOptions] = useState(initOptions);
+  const options = props.options ? insertScrollId(props.options) : [];
   const [selected, setSelected] = useState("");
-  const [direction, setDirection] = useState("");
+  const [direction, setDirection] = useState({});
   // let scrollerRef = useRef(null);
-  const [scroll, setScroll] = useState({
-    scrolling: 0,
-    direction: "",
-  });
+  // const [scroll, setScroll] = useState({
+  //   scrolling: 0,
+  //   direction: "",
+  // });
 
   const handlerSelected = (name) => {
     setSelected(name);
@@ -72,10 +71,10 @@ const NavProduct = (props) => {
   //   });
   // };
 
-  const handlerArrow = (direction) => {
-    const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
-    setScroll({ ...scroll, direction, scrolling });
-  };
+  // const handlerArrow = (direction) => {
+  //   const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
+  //   setScroll({ ...scroll, direction, scrolling });
+  // };
 
   // useEffect(() => {
   //   if (scroll.scrolling > 0) {
@@ -127,27 +126,23 @@ const NavProduct = (props) => {
         <IconButton
           className={style.left}
           type="button"
-          onClick={() => handlerArrow("left")}
+          onClick={() => setDirection({ direction: "left" })}
         >
           <IoChevronBackOutline />
         </IconButton>
         <IconButton
           className={style.right}
           type="button"
-          onClick={() => handlerArrow("right")}
+          onClick={() => setDirection({ direction: "right" })}
         >
           <IoChevronBackOutline />
         </IconButton>
       </div>
-      <div className={style.gradient}>
-        <div />
-        <div />
-      </div>
-      <HorizontalScroller direction={direction} options={options}>
+      <HorizontalScroller direction={direction} className={style.items}>
         {options &&
-          options.map(({ name, id, scrollId }) => (
+          options.map(({ name, id }) => (
             <Link
-              key={scrollId}
+              key={id}
               to={`/product`}
               className={
                 style.item + (selected === name ? " " + style.active : "")
@@ -158,23 +153,10 @@ const NavProduct = (props) => {
             </Link>
           ))}
       </HorizontalScroller>
-      {/* <div ref={scrollerRef} className={style.scroller}>
-        <div className={style.items} onWheel={handlerWheel}>
-          {options &&
-            options.map(({ name, id, scrollId }) => (
-              <Link
-                key={scrollId}
-                to={`/product`}
-                className={
-                  style.item + (selected === name ? " " + style.active : "")
-                }
-                onClick={() => handlerSelected(name)}
-              >
-                <p>{name}</p>
-              </Link>
-            ))}
-        </div>
-      </div> */}
+      <div className={style.gradient}>
+        <div />
+        <div />
+      </div>
     </ContainerWrapper>
   );
 };

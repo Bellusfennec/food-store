@@ -2,11 +2,7 @@
 
 .scroller {
   overflow-x: scroll;
-  background-color: $colorNeutral150;
   position: relative;
-  display: flex;
-  gap: 2rem;
-  transition: 1s;
 }
 .items {
   position: relative;

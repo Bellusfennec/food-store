@@ -2,15 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./HorizontalScroller.module.scss";
 import {
   insertLastElementsToBeginning,
-  insertScrollId,
   sideScroll,
 } from "../../../utils/scroller";
 
 const HorizontalScroller = (props) => {
-  const { children, direction } = props;
-
-  const initOptions = props.options ? insertScrollId(props.options) : [];
-  const [options, setOptions] = useState(initOptions);
+  const { children, direction, className } = props;
   let scrollerRef = useRef(null);
   const [scroll, setScroll] = useState({
     scrolling: 0,
@@ -19,38 +15,25 @@ const HorizontalScroller = (props) => {
 
   useEffect(() => {
     const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
-    setScroll({ ...scroll, direction, scrolling });
+    setScroll({ ...scroll, direction: direction.direction, scrolling });
   }, [direction]);
 
-  useEffect(() => {
+  const getIndex = () => {
     const element = scrollerRef.current;
     const { firstChild, offsetWidth, scrollWidth } = element;
-    const { childNodes } = firstChild;
     let widthLastScreen = scrollWidth - offsetWidth;
     let index = 0;
+    const { childNodes } = firstChild;
     const reverseChildNodes = [...Array.from(childNodes)].reverse();
-    reverseChildNodes.map(({ offsetLeft }, i) => {
+    reverseChildNodes.forEach(({ offsetLeft }, i) => {
       if (widthLastScreen > offsetLeft && !index) index = i;
     });
     // корректировка
     index += 2;
-    // Добавляем кол-во index в начало
-    const newOptions = insertLastElementsToBeginning(options, index);
-    const updOptions = insertScrollId(newOptions);
-    setOptions(updOptions);
-    // endIndex, index
-    const endIndex = updOptions.length - index;
-    setScroll({ ...scroll, endIndex, index });
-  }, []);
+    return index;
+  };
 
-  useEffect(() => {
-    if (initOptions < options) {
-      startPosition();
-    }
-  }, [options]);
-
-  const startPosition = () => {
-    const { index } = scroll;
+  const startPosition = (index) => {
     const element = scrollerRef.current;
     const { childNodes } = element.firstChild;
     const { offsetLeft } = Array.from(childNodes)[index];
@@ -113,16 +96,29 @@ const HorizontalScroller = (props) => {
     }
   }, []);
 
-  const clonedElements = React.Children.map(children, (child) => {
-    // console.log(child);
-    let config = {};
-    return React.cloneElement(child, {});
+  const childrenTo = React.Children.toArray(children);
+  // const index = getIndex();
+  console.log(children);
+  const newChildren = insertLastElementsToBeginning(childrenTo, 8);
+  const clonedElements = React.Children.map(newChildren, (child, i) => {
+    const config = { key: i };
+    return React.cloneElement(child, config);
   });
 
+  useEffect(() => {
+    const index = getIndex();
+    const endIndex = clonedElements.length - index;
+    setScroll({ ...scroll, endIndex, index });
+    startPosition(index);
+  }, []);
+
   return (
-    <div ref={scrollerRef} className={style.scroller}>
+    <div
+      ref={scrollerRef}
+      className={style.scroller + (className ? " " + className : "")}
+    >
       <div className={style.items} onWheel={handlerWheel}>
-        {children}
+        {clonedElements}
       </div>
     </div>
   );
