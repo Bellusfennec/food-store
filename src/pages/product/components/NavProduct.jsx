@@ -34,6 +34,9 @@ const NavProduct = (props) => {
           className={style.items}
           selected={selected}
         >
+          {/* <Link to={`/product`} className={style.item}>
+            <p>name</p>
+          </Link> */}
           {options.map(({ name, id }) => (
             <Link key={id} to={`/product`} className={style.item}>
               <p>{name}</p>
