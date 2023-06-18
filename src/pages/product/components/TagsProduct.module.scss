@@ -2,7 +2,7 @@
 
 .container {
   position: relative;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .arrow {
   position: absolute;
@@ -44,26 +44,21 @@
     }
   }
 }
-.scrollContainer {
-  overflow-x: hidden;
+.items {
   margin: 0 2rem;
+  z-index: 1;
 }
-.scroll {
-  position: relative;
-  display: flex;
-  gap: 0.5rem;
-  transition: 1s;
-  .item {
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
-    background: $colorNeutral150;
-    color: $colorNeutral800;
-    font-size: 1rem;
-    border-radius: 1rem;
-    transition: $transition100;
-    &:hover {
-      background: $colorNeutral300;
-      color: $colorNeutral900;
-    }
+.item {
+  margin: 0 0.25rem;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  background: $colorNeutral150;
+  color: $colorNeutral800;
+  font-size: 1rem;
+  border-radius: 1rem;
+  transition: $transition100;
+  &:hover {
+    background: $colorNeutral300;
+    color: $colorNeutral900;
   }
 }

@@ -85,7 +85,7 @@ export const getProductsListHTTP = async () => {
       response.data = response.data.map((item) => {
         item.category = responseCategories.data.find(
           (f) => f.id === Number(item.category)
-        ).name;
+        );
         return item;
       });
     }

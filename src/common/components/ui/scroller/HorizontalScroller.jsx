@@ -1,82 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import style from "./HorizontalScroller.module.scss";
-import {
-  insertLastElementsToBeginning,
-  sideScroll,
-} from "../../../utils/scroller";
+import { sideScroll } from "../../../utils/scroller";
+import { Loading } from "../loading";
 
 const HorizontalScroller = (props) => {
-  const { children, direction, className } = props;
-  let scrollerRef = useRef(null);
-  const [scroll, setScroll] = useState({
-    scrolling: 0,
-    direction: "",
-  });
+  const { children, className, selected, direction } = props;
+  const childrenRef = useRef(children);
+  const scrollerRef = useRef(null);
+  const [scroll, setScroll] = useState({});
 
-  useEffect(() => {
-    const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
-    setScroll({ ...scroll, direction: direction.direction, scrolling });
-  }, [direction]);
-
-  const getIndex = () => {
-    const element = scrollerRef.current;
-    const { firstChild, offsetWidth, scrollWidth } = element;
-    let widthLastScreen = scrollWidth - offsetWidth;
-    let index = 0;
-    const { childNodes } = firstChild;
-    const reverseChildNodes = [...Array.from(childNodes)].reverse();
-    reverseChildNodes.forEach(({ offsetLeft }, i) => {
-      if (widthLastScreen > offsetLeft && !index) index = i;
-    });
-    // корректировка
-    index += 2;
-    return index;
+  const handlerSelected = (name) => {
+    if (selected) {
+      selected(name);
+    }
   };
 
-  const startPosition = (index) => {
-    const element = scrollerRef.current;
-    const { childNodes } = element.firstChild;
-    const { offsetLeft } = Array.from(childNodes)[index];
-    element.scrollLeft = offsetLeft;
+  const dragStart = (event) => {
+    setScroll((scroll) => ({ ...scroll, drag: true, dragX: event.pageX }));
   };
 
-  const debag = () => {
-    const { childNodes } = scrollerRef.current.firstChild;
-    Array.from(childNodes).map(({ scrollWidth, offsetLeft, text }, i) => {
-      console.log(`i${i}`, scrollWidth, offsetLeft, text);
-    });
+  const dragStop = () => {
+    setScroll((scroll) => ({ ...scroll, drag: false }));
   };
 
-  // const handlerArrow = (direction) => {
-  //   const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
-  //   setScroll({ ...scroll, direction, scrolling });
-  // };
+  const dragMove = (event) => {
+    if (scroll?.drag) {
+      event.preventDefault();
+      const element = scrollerRef.current;
+      const { pageX } = event;
+      const { endIndex, endOffsetLeft } = scroll;
+      let { dragX } = scroll;
+      let scrolled = pageX - dragX;
+      scrolled = element.scrollLeft + scrolled;
 
-  useEffect(() => {
-    if (scroll.scrolling > 0) {
-      for (let i = 0; i < scroll.scrolling; i++) {
-        move();
+      const arrow = pageX < dragX ? "left" : "right";
+
+      console.log(arrow);
+      console.log("endOffsetLeft", endOffsetLeft);
+      if (arrow === "left") {
+        scrolled = scrolled < 0 ? endOffsetLeft : scrolled;
+      } else if (arrow === "right") {
+        scrolled = scrolled > endOffsetLeft ? 0 : scrolled;
       }
-    }
-  }, [scroll]);
 
-  const move = () => {
-    let { endIndex, index, scrolling, direction } = scroll;
-    const element = scrollerRef.current;
-    const { firstChild } = element;
-    const { childNodes } = firstChild;
-    if (direction === "left") {
-      index = index === 0 ? endIndex - 1 : index - 1;
-      const { offsetLeft } = Array.from(childNodes)[endIndex];
-      if (scroll.index === 0) element.scrollLeft = offsetLeft;
-    } else if (direction === "right") {
-      index = index === endIndex ? 1 : index + 1;
-      if (scroll.index === endIndex) element.scrollLeft = 0;
+      element.scrollLeft = scrolled;
+
+      console.log("MM element.scrollLeft", element.scrollLeft);
+      dragX = pageX;
+      setScroll((scroll) => ({ ...scroll, dragX, scrollLeft: scrolled }));
     }
-    const { offsetLeft } = Array.from(childNodes)[index];
-    sideScroll(element, element.scrollLeft, offsetLeft);
-    scrolling = scrolling - 1;
-    setScroll({ ...scroll, index, scrolling });
   };
 
   const handlerWheel = ({ deltaY }) => {
@@ -96,30 +68,176 @@ const HorizontalScroller = (props) => {
     }
   }, []);
 
-  const childrenTo = React.Children.toArray(children);
-  // const index = getIndex();
-  console.log(children);
-  const newChildren = insertLastElementsToBeginning(childrenTo, 8);
-  const clonedElements = React.Children.map(newChildren, (child, i) => {
-    const config = { key: i };
-    return React.cloneElement(child, config);
-  });
+  useEffect(() => {
+    if (direction) {
+      const { arrow } = direction;
+      if (arrow === "left" || arrow === "right") {
+        const scrolling = scroll.scrolling ? scroll.scrolling + 1 : 1;
+        setScroll({ ...scroll, direction: arrow, scrolling });
+      }
+    }
+  }, [direction]);
 
   useEffect(() => {
-    const index = getIndex();
-    const endIndex = clonedElements.length - index;
-    setScroll({ ...scroll, endIndex, index });
-    startPosition(index);
-  }, []);
+    console.log("useEffect scroll", scroll);
+    if (scroll?.scrolling > 0) {
+      for (let i = 0; i < scroll.scrolling; i++) {
+        move();
+      }
+    }
+    if (!scroll?.filled) {
+      filling();
+    }
+    if (scroll?.filled && !scroll?.inserted) {
+      inserting();
+    }
+    if (scroll?.filled && scroll?.inserted && !scroll?.ready) {
+      startPosition();
+    }
+  }, [scroll]);
+
+  const getIndex = () => {
+    const element = scrollerRef.current;
+    const { firstChild, offsetWidth, scrollWidth } = element;
+    let widthLastScreen = scrollWidth - offsetWidth;
+    let index = 0;
+    const { childNodes } = firstChild;
+    const reverseChildNodes = [...Array.from(childNodes)].reverse();
+    reverseChildNodes.forEach((node, i) => {
+      if (widthLastScreen > node.offsetLeft && !index) {
+        index = i;
+      }
+    });
+    // корректировка
+    index += 2;
+    return index;
+  };
+
+  const scrollList = () => {
+    const { childNodes } = scrollerRef.current.firstChild;
+    let list = [];
+    Array.from(childNodes).forEach((node, i) => {
+      const { scrollWidth, offsetLeft, text } = node;
+      list.push({ index: i, scrollWidth, offsetLeft, text });
+    });
+    return list;
+  };
+
+  const move = () => {
+    let { endIndex, index, scrolling, direction, list } = scroll;
+    const element = scrollerRef.current;
+    if (direction === "left") {
+      index = index === 0 ? endIndex - 1 : index - 1;
+      const { offsetLeft } = list[endIndex];
+      if (scroll.index === 0) element.scrollLeft = offsetLeft;
+    } else if (direction === "right") {
+      index = index === endIndex ? 1 : index + 1;
+      if (scroll.index === endIndex) element.scrollLeft = 0;
+    }
+    const { offsetLeft } = list[index];
+    sideScroll(element, element.scrollLeft, offsetLeft);
+    scrolling = scrolling - 1;
+    setScroll({ ...scroll, index, scrolling, scrollLeft: offsetLeft });
+  };
+
+  const startPosition = () => {
+    if (scrollerRef?.current?.firstChild) {
+      const childNodes = Array.from(scrollerRef.current.firstChild.childNodes);
+      if (childNodes.length === childrenRef.current.length) {
+        const list = scrollList();
+        const index = getIndex();
+        scrollerRef.current.scrollLeft = list[index].offsetLeft;
+        const endIndex = list.length - index;
+        const endOffsetLeft = list[endIndex].offsetLeft;
+        const startOffsetLeft = list[index].offsetLeft;
+        setScroll({
+          ...scroll,
+          endIndex,
+          endOffsetLeft,
+          index,
+          startOffsetLeft,
+          list,
+          ready: true,
+        });
+      } else {
+        setScroll({ ...scroll });
+      }
+    }
+  };
+
+  const filling = () => {
+    if (scrollerRef.current) {
+      const element = scrollerRef.current;
+      const { offsetWidth, scrollWidth } = element;
+      const widthLastScreen = scrollWidth - offsetWidth;
+      if (widthLastScreen < offsetWidth) {
+        setScroll({ ...scroll });
+        const array = Array.isArray(childrenRef.current)
+          ? childrenRef.current
+          : [childrenRef.current];
+        const lastElements = array.slice(-1) ? array.slice(-1) : array[0];
+        childrenRef.current = [...lastElements, ...array];
+      } else {
+        setScroll({ ...scroll, filled: true });
+      }
+    }
+  };
+  const inserting = () => {
+    if (
+      Children.count(childrenRef.current) === Children.count(children) ||
+      scroll?.filled
+    ) {
+      const index = getIndex();
+      const count = Children.count(children);
+      // если index меньше общего кол-ва
+      if (index < count || scroll?.filled) {
+        const array = Array.isArray(childrenRef.current)
+          ? childrenRef.current
+          : [childrenRef.current];
+        const lastElements = array.slice(-[index]);
+        childrenRef.current = [...lastElements, ...array];
+        setScroll({ ...scroll, inserted: true });
+      }
+    }
+  };
+
+  const getClonedElements = (children) => {
+    return React.Children.map(children, (child, i) => {
+      let config = selected
+        ? { ...child.props, onClick: () => handlerSelected(child.key), key: i }
+        : { ...child.props, key: i };
+      return React.cloneElement(child, config);
+    });
+  };
+
+  let clonedElements = getClonedElements(childrenRef.current);
 
   return (
-    <div
-      ref={scrollerRef}
-      className={style.scroller + (className ? " " + className : "")}
-    >
-      <div className={style.items} onWheel={handlerWheel}>
-        {clonedElements}
+    <div className={style.container}>
+      <div
+        ref={scrollerRef}
+        onMouseLeave={dragStop}
+        onMouseDown={dragStart}
+        onMouseUp={dragStop}
+        onMouseMove={dragMove}
+        className={
+          style.scroller +
+          (className ? " " + className : "") +
+          (!scroll?.ready ? " " + style.invisible : "")
+        }
+      >
+        <div
+          className={style.items + (scroll?.drag ? " " + style.drag : "")}
+          onWheel={handlerWheel}
+        >
+          {clonedElements}
+        </div>
       </div>
+      {!scroll?.ready && (
+        <div className={style.loading}>
+          <Loading />
+        </div>
+      )}
     </div>
   );
 };
