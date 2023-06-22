@@ -4,15 +4,15 @@ import { sideScroll } from "../../../utils/scroller";
 import { Loading } from "../loading";
 
 const HorizontalScroller = (props) => {
-  const { children, className, selected, direction } = props;
+  const { children, className, selected, direction, classSelected } = props;
   const childrenRef = useRef(children);
   const scrollerRef = useRef(null);
   const [scroll, setScroll] = useState({});
+  const [select, setSelect] = useState();
 
-  const handlerSelected = (name) => {
-    if (selected) {
-      selected(name);
-    }
+  const handlerSelected = (id) => {
+    id === select ? selected() : selected(id);
+    id === select ? setSelect() : setSelect(id);
   };
 
   const dragStart = (event) => {
@@ -203,9 +203,19 @@ const HorizontalScroller = (props) => {
 
   const getClonedElements = (children) => {
     return React.Children.map(children, (child, i) => {
-      let config = selected
-        ? { ...child.props, onClick: () => handlerSelected(child.key), key: i }
-        : { ...child.props, key: i };
+      let config;
+      if (selected) {
+        config = { ...config, onClick: () => handlerSelected(child.key) };
+      }
+      if (classSelected) {
+        config = {
+          ...config,
+          className:
+            child.props.className +
+            (select === child.key ? ` ${classSelected}` : ""),
+        };
+      }
+      config = { ...config, key: i };
       return React.cloneElement(child, config);
     });
   };

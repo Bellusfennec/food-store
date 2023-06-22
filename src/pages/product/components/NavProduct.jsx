@@ -12,16 +12,18 @@ const NavProduct = (props) => {
 
   return (
     <div className={style.container}>
-      <div className={style.arrow}>
+      <div className={style.left}>
         <IconButton
-          className={style.left}
+          className={style.leftButton}
           type="button"
           onClick={() => setDirection({ arrow: "left" })}
         >
           <IoChevronBackOutline />
         </IconButton>
+      </div>
+      <div className={style.right}>
         <IconButton
-          className={style.right}
+          className={style.rightButton}
           type="button"
           onClick={() => setDirection({ arrow: "right" })}
         >
@@ -33,22 +35,26 @@ const NavProduct = (props) => {
           direction={direction}
           className={style.items}
           selected={selected}
+          classSelected={style.active}
         >
           {/* <Link to={`/product`} className={style.item}>
             <p>name</p>
           </Link> */}
           {options.map(({ name, id }) => (
-            <Link key={id} to={`/product`} className={style.item}>
+            <Link
+              key={id}
+              to={`/product`}
+              className={
+                style.item
+                // + (selected === id ? " " + style.active : "")
+              }
+            >
               <p>{name}</p>
             </Link>
           ))}
         </HorizontalScroller>
       )}
       {!options && <Loading />}
-      <div className={style.gradient}>
-        <div />
-        <div />
-      </div>
     </div>
   );
 };
