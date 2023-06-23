@@ -21,6 +21,7 @@ const HorizontalScroller = (props) => {
 
   const dragStop = () => {
     setScroll((scroll) => ({ ...scroll, drag: false }));
+    move();
   };
 
   const dragMove = (event) => {
@@ -28,26 +29,39 @@ const HorizontalScroller = (props) => {
       event.preventDefault();
       const element = scrollerRef.current;
       const { pageX } = event;
-      const { endIndex, endOffsetLeft } = scroll;
-      let { dragX } = scroll;
+      const { endIndex, endOffsetLeft, list } = scroll;
+      let { dragX, index } = scroll;
       let scrolled = pageX - dragX;
       scrolled = element.scrollLeft + scrolled;
 
       const arrow = pageX < dragX ? "left" : "right";
 
       console.log(arrow);
-      console.log("endOffsetLeft", endOffsetLeft);
       if (arrow === "left") {
         scrolled = scrolled < 0 ? endOffsetLeft : scrolled;
+        index = index === 0 ? endIndex - 1 : index - 1;
+        console.log("index", index);
+        const next = list[index - 1].offsetLeft;
+        index = next < scrolled ? index - 1 : index;
       } else if (arrow === "right") {
         scrolled = scrolled > endOffsetLeft ? 0 : scrolled;
+        index = index === endIndex ? 1 : index + 1;
+        const next = list[index].offsetLeft;
+        index = next < scrolled ? index + 1 : index;
+        console.log("index", index, next, "<", scrolled);
       }
 
       element.scrollLeft = scrolled;
 
       console.log("MM element.scrollLeft", element.scrollLeft);
       dragX = pageX;
-      setScroll((scroll) => ({ ...scroll, dragX, scrollLeft: scrolled }));
+      setScroll((scroll) => ({
+        ...scroll,
+        dragX,
+        scrollLeft: scrolled,
+        index,
+        direction: arrow,
+      }));
     }
   };
 
@@ -136,7 +150,7 @@ const HorizontalScroller = (props) => {
     }
     const { offsetLeft } = list[index];
     sideScroll(element, element.scrollLeft, offsetLeft);
-    scrolling = scrolling - 1;
+    scrolling = scrolling > 0 ? scrolling - 1 : scrolling;
     setScroll({ ...scroll, index, scrolling, scrollLeft: offsetLeft });
   };
 
