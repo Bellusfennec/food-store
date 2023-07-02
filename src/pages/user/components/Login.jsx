@@ -1,86 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { loginHTTP } from "../../../app/http/userHTTP";
-import { setAuthLogin } from "../../../app/store/authSlicer";
+import { setLogin } from "../../../app/store/authSlicer";
 import Divider from "../../../common/components/ui/divider/Divider";
 import { Button, TextInput } from "../../../common/components/ui/form";
 import { Loading } from "../../../common/components/ui/loading";
-import {
-  createForm,
-  formToData,
-  validatorForm,
-} from "../../../common/utils/form";
+import { useAuth } from "../../../common/hooks/useAuth";
+import useForm from "../../../common/hooks/useForm";
 import style from "./Login.module.scss";
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const validateConfig = {
     email: { isRequared: "" },
     password: { isRequared: "" },
   };
-  const INITIAL_FORM = createForm({ email: "", password: "" });
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const email = searchParams?.get("email") ? searchParams?.get("email") : "";
+  const INITIAL_FORM = { email, password: "" };
+  const { handlerChange, form, data } = useForm(INITIAL_FORM, validateConfig);
+  const { isLoading, login, info, setInfo } = useAuth();
 
-  useEffect(() => {
-    if (searchParams?.get("email")) {
-      const emailValue = searchParams?.get("email");
-      const newForm = { ...form, email: { ...form.email, value: emailValue } };
-      setForm(validatorForm(newForm, validateConfig));
-    }
-  }, []);
-
-  const handlerChangeForm = (event) => {
-    const { value, name } = event.target;
-
-    const newForm = { ...form, [name]: { ...form[name], value } };
-    setForm(validatorForm(newForm, validateConfig));
-    // setError(totalValidatorForm(form));
-  };
-
-  const handlerLogin = async (event) => {
+  const handlerSubmit = async (event) => {
     event.preventDefault();
 
-    const data = formToData(form);
-
-    setLoading(true);
-    try {
-      const result = await loginHTTP(data);
-      if (result?.ok) {
-        setForm(INITIAL_FORM);
-        dispatch(setAuthLogin({ user: result.data }));
-        navigate(`/passport/profile`);
+    login(data).then((response) => {
+      if (response) {
+        dispatch(setLogin(response));
+        navigate(`/`);
       }
-      if (!result?.ok && result?.message) {
-        setError(result.message);
-      }
-      if (!result?.ok && !result?.message) {
-        setError("Произошла неизвестная ошибка");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
+    });
   };
 
-  const handlerToRegistration = () => {
+  useEffect(() => {
+    if (info) {
+      setInfo(null);
+    }
+  }, [form]);
+
+  const toRegistration = () => {
     form.email.value.length > 0
       ? navigate(`/passport/registration?email=${form.email.value}`)
       : navigate(`/passport/registration`);
   };
 
   return (
-    <form>
+    <form onSubmit={handlerSubmit}>
       <h3 className={style.label}>Вход</h3>
       <Divider row="2" />
-      {error && (
+      {info && (
         <>
-          <p className={style.hint}>{error}</p>
+          <p className={style.hint}>{info}</p>
           <Divider row="2" />
         </>
       )}
@@ -89,7 +61,7 @@ const Login = () => {
         name={form.email.name}
         value={form.email.value}
         placeholder={form.email.label}
-        onChange={handlerChangeForm}
+        onChange={handlerChange}
       />
       <Divider />
       <TextInput
@@ -98,19 +70,18 @@ const Login = () => {
         name={form.password.name}
         value={form.password.value}
         placeholder={form.password.label}
-        onChange={handlerChangeForm}
+        onChange={handlerChange}
       />
       <Divider row="2" />
       <Button
-        onClick={handlerLogin}
         disabled={
           !(form.email.value.length > 0 && form.password.value.length > 0)
         }
       >
-        {loading ? <Loading /> : "Войти"}
+        {isLoading ? <Loading /> : "Войти"}
       </Button>
       <Divider />
-      <Button type="button" outline={true} onClick={handlerToRegistration}>
+      <Button type="button" outline={true} onClick={toRegistration}>
         Зарегистрироваться
       </Button>
     </form>

@@ -271,6 +271,47 @@
       "password": "fds",
       "uuid": "a449d4da-9f05-4f18-979d-8ad5c8ae82e9",
       "id": 3
+    },
+    {
+      "email": "admin1",
+      "password": "123",
+      "id": 4
+    },
+    {
+      "email": "admin2",
+      "password": "123",
+      "uuid": "405b40a6-da60-477b-9765-de2f878f47ea",
+      "id": 5
+    },
+    {
+      "email": "admin4",
+      "password": "1231",
+      "uuid": "9c1395b9-c9da-4418-8ffe-cd7ea73e9d95",
+      "id": 6
+    },
+    {
+      "email": "admin5",
+      "password": "2312",
+      "uuid": "c1f38aab-8326-464c-8317-3335d0cfc082",
+      "id": 7
+    },
+    {
+      "email": "admin6",
+      "password": "sfs",
+      "uuid": "5a57eff3-8708-4968-8db7-71bbe8381f9d",
+      "id": 8
+    },
+    {
+      "email": "admind",
+      "password": "12312",
+      "uuid": "18ad9f90-1f2c-4f2c-a8c7-39764914aee7",
+      "id": 9
+    },
+    {
+      "email": "admin11",
+      "password": "1234",
+      "uuid": "ddc9455f-087a-46d0-95d9-c0f6e6985d21",
+      "id": 10
     }
   ]
 }

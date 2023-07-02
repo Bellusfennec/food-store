@@ -20,8 +20,9 @@ const HorizontalScroller = (props) => {
   };
 
   const dragStop = () => {
-    setScroll((scroll) => ({ ...scroll, drag: false }));
-    move();
+    const scrolling = 0; // scroll.scrolling ? 1 : 1;
+    setScroll((scroll) => ({ ...scroll, drag: false, scrolling }));
+    correctByIndex();
   };
 
   const dragMove = (event) => {
@@ -29,31 +30,64 @@ const HorizontalScroller = (props) => {
       event.preventDefault();
       const element = scrollerRef.current;
       const { pageX } = event;
-      const { endIndex, endOffsetLeft, list } = scroll;
+      const { endIndex, list, startJumpOffsetLeft, endJumpOffsetLeft } = scroll;
       let { dragX, index } = scroll;
       let scrolled = pageX - dragX;
+      // console.log("---");
+      // console.log(pageX, "-", dragX, "=", pageX - dragX);
+      // console.log("scrolled", scrolled);
+      // console.log("element.scrollLeft ", element.scrollLeft);
       scrolled = element.scrollLeft + scrolled;
 
       const arrow = pageX < dragX ? "left" : "right";
 
-      console.log(arrow);
+      // console.log(arrow);
       if (arrow === "left") {
-        scrolled = scrolled < 0 ? endOffsetLeft : scrolled;
-        index = index === 0 ? endIndex - 1 : index - 1;
-        console.log("index", index);
-        const next = list[index - 1].offsetLeft;
-        index = next < scrolled ? index - 1 : index;
+        const isStart = scrolled < startJumpOffsetLeft;
+        const prevIndex = index - 1;
+        const currentOL = list[index].offsetLeft;
+        const prevOL = list[prevIndex].offsetLeft;
+        const prevSW = list[prevIndex].scrollWidth;
+        const prev = prevSW / 2 + prevOL;
+
+        // console.log("prevSW", prevSW);
+        // console.log("prevSW / 2", prevSW / 2);
+        // console.log("prevOL", prevOL);
+        // console.log("prev", prev);
+        // console.log("index", index, "prevIndex", prevIndex);
+        // console.log(`prevOL ${prevOL} > ${scrolled} < ${currentOL} currentOL`);
+        // console.log(prevOL > scrolled, "&&", scrolled < currentOL);
+        // console.log(`prev ${prev} > ${scrolled} < ${currentOL} currentOL`);
+        // console.log(prev > scrolled, "&&", scrolled < currentOL);
+
+        scrolled = isStart ? endJumpOffsetLeft : scrolled;
+        index = prev > scrolled && scrolled < currentOL ? prevIndex : index;
+        index = isStart ? endIndex : index;
       } else if (arrow === "right") {
-        scrolled = scrolled > endOffsetLeft ? 0 : scrolled;
-        index = index === endIndex ? 1 : index + 1;
-        const next = list[index].offsetLeft;
-        index = next < scrolled ? index + 1 : index;
-        console.log("index", index, next, "<", scrolled);
+        const isEnd = scrolled > endJumpOffsetLeft;
+        const nextIndex = index + 1;
+        const currentOL = list[index].offsetLeft;
+        const nextOL = list[nextIndex].offsetLeft;
+        const nextSW = list[nextIndex].scrollWidth;
+        const next = nextSW / 2 + currentOL;
+
+        // console.log("nextSW", nextSW);
+        // console.log("nextSW / 2", nextSW / 2);
+        // console.log("currentOL", currentOL);
+        // console.log("next", next);
+        // console.log("index", index, "nextIndex", nextIndex);
+        // console.log(`currentOL ${currentOL} < ${scrolled} > ${nextOL} nextOL`);
+        // console.log(currentOL < scrolled, "&&", scrolled > nextOL);
+        // console.log(`currentOL ${currentOL} < ${scrolled} > ${next} next`);
+        // console.log(currentOL < scrolled, "&&", scrolled > next);
+
+        scrolled = isEnd ? startJumpOffsetLeft : scrolled;
+        index = currentOL < scrolled && scrolled > next ? nextIndex : index;
+        index = isEnd ? 2 : index;
       }
+      // console.log("MM element.scrollLeft", element.scrollLeft);
 
       element.scrollLeft = scrolled;
-
-      console.log("MM element.scrollLeft", element.scrollLeft);
       dragX = pageX;
       setScroll((scroll) => ({
         ...scroll,
@@ -93,7 +127,7 @@ const HorizontalScroller = (props) => {
   }, [direction]);
 
   useEffect(() => {
-    console.log("useEffect scroll", scroll);
+    // console.log("useEffect scroll", scroll);
     if (scroll?.scrolling > 0) {
       for (let i = 0; i < scroll.scrolling; i++) {
         move();
@@ -137,6 +171,26 @@ const HorizontalScroller = (props) => {
     return list;
   };
 
+  // const closers = () => {
+  //   let { endIndex, index, direction, list } = scroll;
+  //   const element = scrollerRef.current;
+  //   if (direction === "left") {
+  //   } else if (direction === "right") {
+  //   }
+  //   const { offsetLeft } = list[index];
+  //   sideScroll(element, element.scrollLeft, offsetLeft);
+  // };
+
+  const correctByIndex = () => {
+    let { endIndex, index, direction, list } = scroll;
+    const element = scrollerRef.current;
+    if (direction === "left") {
+    } else if (direction === "right") {
+    }
+    const { offsetLeft } = list[index];
+    sideScroll(element, element.scrollLeft, offsetLeft);
+  };
+
   const move = () => {
     let { endIndex, index, scrolling, direction, list } = scroll;
     const element = scrollerRef.current;
@@ -164,12 +218,19 @@ const HorizontalScroller = (props) => {
         const endIndex = list.length - index;
         const endOffsetLeft = list[endIndex].offsetLeft;
         const startOffsetLeft = list[index].offsetLeft;
+
+        const startJumpOffsetLeft =
+          list[0].scrollWidth / 2 + list[0].offsetLeft;
+        const endJumpOffsetLeft =
+          list[endIndex].scrollWidth / 2 + list[endIndex].offsetLeft;
         setScroll({
           ...scroll,
           endIndex,
           endOffsetLeft,
           index,
           startOffsetLeft,
+          startJumpOffsetLeft,
+          endJumpOffsetLeft,
           list,
           ready: true,
         });

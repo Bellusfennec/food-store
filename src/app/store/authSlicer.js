@@ -15,32 +15,38 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuthState(state, action) {
-      const auth = action.payload;
-
-      const json = isJsonString(state.tokenState);
-      /* если есть токен и true */
-      if (Boolean(auth) && json) {
-        const token = JSON.parse(state.tokenState);
-        state.userState = token;
+    setAuthState(state) {
+      const isJson = isJsonString(state.tokenState);
+      const json = isJson ? JSON.parse(state.tokenState) : false;
+      if (json.token) {
         state.authState = true;
+        state.userState = { token: json.token };
       } else {
         if (state.tokenState) localStorage.removeItem("token-access");
         state.authState = false;
         state.tokenState = false;
+        state.userState = {};
       }
     },
-    setAuthLogout(state, action) {
+    setUser(state, action) {
+      const user = action.payload;
+      if (!user) return;
+
+      state.userState = user;
+    },
+    setLogout(state, action) {
       if (state.tokenState) localStorage.removeItem("token-access");
       state.authState = false;
       state.tokenState = false;
+      state.userState = {};
     },
-    setAuthLogin(state, action) {
-      const { user } = action.payload;
+    setLogin(state, action) {
+      const user = action.payload;
+      if (!user) return;
 
       /* Сохранить в localStorage */
-      const item = JSON.stringify({ uuid: user.uuid });
-      localStorage.setItem("token-access", item);
+      const token = JSON.stringify({ token: user.uuid });
+      localStorage.setItem("token-access", token);
 
       state.userState = user;
       state.authState = true;
@@ -48,6 +54,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuthState, setAuthLogout, setAuthLogin } = authSlice.actions;
+export const { setAuthState, setLogout, setLogin, setUser } = authSlice.actions;
 
 export default authSlice.reducer;
