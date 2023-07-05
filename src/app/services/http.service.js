@@ -1,7 +1,7 @@
 import axios from "axios";
 // import logger from "./log.servive";
 // import { toast } from "react-toastify";
-import config from "../../config/config.json";
+import config from "../../config/index.json";
 
 axios.defaults.baseURL = config.apiEndPoint;
 axios.interceptors.response.use(
