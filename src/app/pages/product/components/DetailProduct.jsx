@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductByIdHTTP } from "../../../http/productHTTP";
-import { Loading } from "../../../common/components/ui/loading";
+import { Loading } from "../../../common/components/loading";
 import { createForm } from "../../../utils/form";
 
 const DetailProduct = () => {

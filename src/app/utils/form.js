@@ -1,6 +1,6 @@
-export const createForm = (form) => {
-  if (!form) return;
-  const arrayForm = Object.entries(form);
+export const createForm = (initialState, validateConfig) => {
+  if (!initialState) return;
+  const arrayForm = Object.entries(initialState);
   const newArrayForm = arrayForm.map(([keyForm, valueForm]) => {
     /* Создать нужные поля для ключа */
     valueForm = {
@@ -9,6 +9,17 @@ export const createForm = (form) => {
       value: valueForm,
       error: false,
     };
+    /* Перебрать validateConfig */
+    if (validateConfig) {
+      const arrayСonfig = Object.entries(validateConfig);
+      arrayСonfig.map(([keyСonfig, valueСonfig], i) => {
+        /* Если в validateConfig совпал ключ с form */
+        if (keyForm === keyСonfig) {
+          valueForm.label = valueForm.label + "*";
+        }
+        return [keyСonfig, valueСonfig];
+      });
+    }
 
     return [keyForm, valueForm];
   });
@@ -65,7 +76,7 @@ const validate = (valueForm, valueСonfig) => {
       case "isRequared": {
         valueForm.error =
           valueForm.value.trim() === ""
-            ? `Поле '${valueForm.label}' обязательна для заполнения`
+            ? `Обязательное поле для заполнения`
             : false;
         break;
       }

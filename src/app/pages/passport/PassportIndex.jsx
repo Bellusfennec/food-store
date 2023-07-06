@@ -9,7 +9,7 @@ import Profile from "./components/Profile";
 import EditUser from "./components/EditUser";
 import Registration from "./components/Registration";
 import AuthProvider from "../../hooks/useAuth";
-import { Loading } from "../../common/components/ui/loading";
+import { Loading } from "../../common/components/loading";
 
 const PassportIndex = () => {
   const { page } = useParams();

@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./MenuHome.module.scss";
-import { Button } from "../../../common/components/ui/form";
+import { Button } from "../../../common/components/form";
 import ContainerWrapper, {
   SectionWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 
 const MenuHome = () => {
   return (

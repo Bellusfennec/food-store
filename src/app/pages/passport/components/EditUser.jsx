@@ -3,13 +3,9 @@ import React from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Divider from "../../../common/components/ui/divider/Divider";
-import {
-  Button,
-  IconButton,
-  TextInput,
-} from "../../../common/components/ui/form";
-import { Loading } from "../../../common/components/ui/loading";
+import Divider from "../../../common/components/divider/Divider";
+import { Button, IconButton, TextInput } from "../../../common/components/form";
+import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
 import style from "./EditUser.module.scss";
 import { useUser } from "../../../hooks/useUsers";

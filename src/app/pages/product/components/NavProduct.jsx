@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { IconButton } from "../../../common/components/ui/form";
-import HorizontalScroller from "../../../common/components/ui/scroller/HorizontalScroller";
+import { IconButton } from "../../../common/components/form";
+import HorizontalScroller from "../../../common/components/scroller/HorizontalScroller";
 import style from "./NavProduct.module.scss";
-import { Loading } from "../../../common/components/ui/loading";
+import { Loading } from "../../../common/components/loading";
 
 const NavProduct = (props) => {
   const { selected, options } = props;

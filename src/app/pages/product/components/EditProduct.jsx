@@ -5,7 +5,7 @@ import {
   getProductByIdHTTP,
   updateProductHTTP,
 } from "../../../http/productHTTP";
-import { Loading } from "../../../common/components/ui/loading";
+import { Loading } from "../../../common/components/loading";
 import { createForm, formToData, validatorForm } from "../../../utils/form";
 
 const EditProduct = () => {

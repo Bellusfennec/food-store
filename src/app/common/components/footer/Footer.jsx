@@ -3,8 +3,8 @@ import style from "./Footer.module.scss";
 import { SlSocialInstagram, SlSocialVkontakte } from "react-icons/sl";
 import { TbBrandTelegram } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { ImageOverlay, BlackoutOverlay, BlurOverlay } from "../ui/overlay";
-import ContainerWrapper, { SectionWrapper } from "../ui/wrapper";
+import { ImageOverlay, BlackoutOverlay, BlurOverlay } from "../overlay";
+import ContainerWrapper, { SectionWrapper } from "../wrapper";
 
 const Footer = () => {
   return (

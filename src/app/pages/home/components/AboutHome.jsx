@@ -6,16 +6,16 @@ import {
 } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
 import { IoChevronBackOutline } from "react-icons/io5";
-import Divider from "../../../common/components/ui/divider";
-import Button from "../../../common/components/ui/form/Button";
+import Divider from "../../../common/components/divider";
+import Button from "../../../common/components/form/Button";
 import {
   BlackoutOverlay,
   ImageOverlay,
-} from "../../../common/components/ui/overlay";
+} from "../../../common/components/overlay";
 import ContainerWrapper, {
   BorderWrapper,
   SectionWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 import style from "./AboutHome.module.scss";
 
 const AboutHome = () => {

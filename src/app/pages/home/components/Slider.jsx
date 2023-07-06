@@ -2,11 +2,11 @@
 import React, { useRef, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { IconButton } from "../../../common/components/ui/form";
-import { BlackoutOverlay } from "../../../common/components/ui/overlay";
+import { IconButton } from "../../../common/components/form";
+import { BlackoutOverlay } from "../../../common/components/overlay";
 import ContainerWrapper, {
   BorderWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 import style from "./Slider.module.scss";
 
 const init = [

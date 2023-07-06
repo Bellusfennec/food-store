@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { IconButton } from "../../../common/components/ui/form";
-import { Loading } from "../../../common/components/ui/loading";
-import HorizontalScroller from "../../../common/components/ui/scroller/HorizontalScroller";
+import { IconButton } from "../../../common/components/form";
+import { Loading } from "../../../common/components/loading";
+import HorizontalScroller from "../../../common/components/scroller/HorizontalScroller";
 import style from "./TagsProduct.module.scss";
 
 const TagsProduct = (props) => {

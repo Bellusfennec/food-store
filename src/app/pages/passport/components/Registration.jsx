@@ -4,13 +4,9 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { setLogin } from "../../../store/authSlicer";
-import Divider from "../../../common/components/ui/divider/Divider";
-import {
-  Button,
-  IconButton,
-  TextInput,
-} from "../../../common/components/ui/form";
-import { Loading } from "../../../common/components/ui/loading";
+import Divider from "../../../common/components/divider/Divider";
+import { Button, IconButton, TextInput } from "../../../common/components/form";
+import { Loading } from "../../../common/components/loading";
 import { useAuth } from "../../../hooks/useAuth";
 import useForm from "../../../hooks/useForm";
 import style from "./Registration.module.scss";

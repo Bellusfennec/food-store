@@ -4,16 +4,16 @@ import { GrClose } from "react-icons/gr";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Divider from "../../../common/components/ui/divider/Divider";
+import Divider from "../../../common/components/divider/Divider";
 import {
   Button,
   IconButton,
   TextInput,
   Textarea,
-} from "../../../common/components/ui/form";
-import Select from "../../../common/components/ui/form/Select";
-import { Loading } from "../../../common/components/ui/loading";
-import Modal from "../../../common/components/ui/modal/Modal";
+} from "../../../common/components/form";
+import Select from "../../../common/components/form/Select";
+import { Loading } from "../../../common/components/loading";
+import Modal from "../../../common/components/modal/Modal";
 import { createForm, validatorForm } from "../../../utils/form";
 import {
   createCategoryHTTP,

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import style from "./TourHome.module.scss";
-import Card from "../../../common/components/ui/card/Card";
-import List from "../../../common/components/ui/card/List";
-import Divider from "../../../common/components/ui/divider";
+import Card from "../../../common/components/card/Card";
+import List from "../../../common/components/card/List";
+import Divider from "../../../common/components/divider";
 import ContainerWrapper, {
   SectionWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 
 const init = [
   {

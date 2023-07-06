@@ -1,0 +1,12 @@
+@import "../../../common/styles/vars";
+
+.container {
+  position: relative;
+}
+.line {
+  // position: absolute;
+  // top: 50%;
+  // transform: translateY(-50%);
+  background: $colorNeutral200;
+  width: 100%;
+}

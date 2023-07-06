@@ -2,11 +2,11 @@ import React from "react";
 import {
   BlackoutOverlay,
   ImageOverlay,
-} from "../../../common/components/ui/overlay";
+} from "../../../common/components/overlay";
 import {
   BorderWrapper,
   SectionWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 import style from "./TitleProduct.module.scss";
 
 const TitleProduct = () => {

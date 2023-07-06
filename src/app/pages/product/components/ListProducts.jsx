@@ -10,14 +10,14 @@ import {
   MdFavoriteBorder,
   MdStar,
 } from "react-icons/md";
-import { Loading } from "../../../common/components/ui/loading";
-import { Button } from "../../../common/components/ui/form";
+import { Loading } from "../../../common/components/loading";
+import { Button } from "../../../common/components/form";
 import TagsProduct from "./TagsProduct";
-import List from "../../../common/components/ui/card/List";
+import List from "../../../common/components/card/List";
 import TitleProduct from "./TitleProduct";
 import ContainerWrapper, {
   SectionWrapper,
-} from "../../../common/components/ui/wrapper";
+} from "../../../common/components/wrapper";
 import NavProduct from "./NavProduct";
 
 const ListProducts = () => {

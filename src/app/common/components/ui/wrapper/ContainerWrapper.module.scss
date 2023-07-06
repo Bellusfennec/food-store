@@ -1,9 +1,0 @@
-@import "../../../styles/vars";
-
-.wrapper {
-  width: 1400px;
-  margin: 0 auto;
-  @media screen and (max-width: 1600px) {
-    width: 100%;
-  }
-}

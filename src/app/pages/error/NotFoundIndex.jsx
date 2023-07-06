@@ -2,7 +2,7 @@ import React from "react";
 // import style from "./NotFoundPage.module.scss";
 import ErrorLayout from "./components";
 import { Link, useParams } from "react-router-dom";
-import Divider from "../../common/components/ui/divider/Divider";
+import Divider from "../../common/components/divider/Divider";
 
 const NotFoundIndex = () => {
   console.log(useParams());

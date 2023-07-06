@@ -1,13 +1,13 @@
 import React from "react";
 import style from "./MainLayout.module.scss";
-import Navbar from "../navbar";
+import Header from "../header";
 import Footer from "../footer";
 
 const MainLayout = (props) => {
   const { children } = props;
   return (
     <div className={style.container}>
-      <Navbar />
+      <Header />
       <main className={style.main}>{children}</main>
       <Footer />
     </div>
