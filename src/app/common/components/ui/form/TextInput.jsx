@@ -15,13 +15,13 @@ const TextInput = (props) => {
           value={value}
           placeholder=" "
           onChange={onChange}
-          className={style.input}
+          className={style.input + (error ? " " + style.error : "")}
         />
         {placeholder && (
           <label className={style.placeholder}>{placeholder}</label>
         )}
       </div>
-      {error && <p className={style.error}>{error}</p>}
+      {error && <p className={style.hint}>{error}</p>}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter as BrowserRouter } from "react-router-dom";
 import App from "./app/App";
-import "./common/styles/global.scss";
+import "./app/common/styles/global.scss";
 import { Provider } from "react-redux";
 import store from "./app/store/store";
 

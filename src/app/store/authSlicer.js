@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { isJsonString } from "../../common/utils/utils";
+import { isJsonString } from "../utils/utils";
 
 const tokenState = localStorage.getItem("token-access")
   ? localStorage.getItem("token-access")
