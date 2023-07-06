@@ -1,0 +1,15 @@
+@import "../../../common/styles/vars";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* 0 flex-grow, 0 flex-shrink, auto flex-basis */
+/* flex-grow — определяет, сколько свободного места в контейнере переходит к элементу; */
+/* flex-shrink — определяет, насколько будет сокращаться элемент, когда для всего не будет достаточно места; */
+/* flex-basis — размер для элемента, установленный по умолчанию. */
+
+.main {
+  flex: 1 0 auto;
+}

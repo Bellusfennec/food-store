@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogout } from "../../../store/authSlicer";
 import Divider from "../../../common/components/divider/Divider";
-import { IconButton } from "../../../common/components/form";
+import { Button, IconButton } from "../../../common/components/form";
 import style from "./Profile.module.scss";
 
 const Profile = () => {
@@ -25,10 +25,10 @@ const Profile = () => {
       <Divider row="2" />
       <div>Email: {email}</div>
       <Divider row="2" />
-      <button onClick={() => dispatch(setLogout())}>
+      <Button outline={true} onClick={() => dispatch(setLogout())}>
         <MdLogout />
         Выход
-      </button>
+      </Button>
     </>
   );
 };

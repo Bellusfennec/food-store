@@ -10,6 +10,7 @@ import EditUser from "./components/EditUser";
 import Registration from "./components/Registration";
 import AuthProvider from "../../hooks/useAuth";
 import { Loading } from "../../common/components/loading";
+import Logo from "../../common/components/header/Logo";
 
 const PassportIndex = () => {
   const { page } = useParams();
@@ -27,6 +28,7 @@ const PassportIndex = () => {
   return (
     <ModalLayout>
       <div className={style.container}>
+        <Logo className={style.logo} />
         {authState && isLoading && <Loading />}
         {authState && !isLoading && page === "profile" && <Profile />}
         {authState && !isLoading && page === "edit" && <EditUser />}
