@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
-import productService from "../../app/services/product.service";
+import categoryService from "../services/category.service";
 import { toast } from "react-toastify";
 
-export const ProductsContext = React.createContext();
+export const CategoriesContext = React.createContext();
 
-export const useProducts = () => {
-  return useContext(ProductsContext);
+export const useCategories = () => {
+  return useContext(CategoriesContext);
 };
 
-export const ProductsProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+export const CategoriesProvider = ({ children }) => {
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProductsList();
+    getCategoriesList();
   }, []);
 
   useEffect(() => {
@@ -25,14 +25,14 @@ export const ProductsProvider = ({ children }) => {
     }
   }, [error]);
 
-  const getProduct = (id) => {
-    return products.find((p) => p._id === id);
+  const getCategory = (id) => {
+    return categories.find((p) => p._id === id);
   };
 
-  const getProductsList = async () => {
+  const getCategoriesList = async () => {
     try {
-      const { content } = await productService.fetchAll();
-      setProducts(content);
+      const { content } = await categoryService.fetchAll();
+      setCategories(content);
       setLoading(false);
     } catch (error) {
       errorCather(error);
@@ -84,14 +84,14 @@ export const ProductsProvider = ({ children }) => {
   }
 
   return (
-    <ProductsContext.Provider
+    <CategoriesContext.Provider
       value={{
-        products,
-        getProduct,
+        categories,
+        getCategory,
         isLoading,
       }}
     >
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };

@@ -1,11 +1,24 @@
 import axios from "axios";
 // import logger from "./log.servive";
-// import { toast } from "react-toastify";
-import config from "../../config/index.json";
+import { toast } from "react-toastify";
+import configFile from "../../config/index.json";
 
-axios.defaults.baseURL = config.apiEndPoint;
+axios.defaults.baseURL = configFile.apiEndPoint;
+axios.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 axios.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    if (configFile.isJsonServer) {
+      res.data = { content: res.data };
+    }
+    return res;
+  },
   function (error) {
     const expectedErrors =
       error.response &&
@@ -14,7 +27,7 @@ axios.interceptors.response.use(
     if (!expectedErrors) {
       // logger.log(error);
       console.log(error);
-      // toast.error("Что то пошло не так. Попробуйте позже");
+      toast.info("Что то пошло не так. Попробуйте позже");
     }
     return Promise.reject(error);
   }

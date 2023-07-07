@@ -8,7 +8,7 @@ const productService = {
     return data;
   },
   get: async (id) => {
-    const { data } = await httpService.get(productEndPoint + "?uuid=" + id);
+    const { data } = await httpService.get(productEndPoint + "?id=" + id);
     return data;
   },
   create: async (content) => {

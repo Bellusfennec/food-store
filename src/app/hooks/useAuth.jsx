@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
   async function registartion(data) {
     try {
       setLoading(true);
-      let content = await userService.checkEmail(data.email);
+      let { content } = await userService.checkEmail(data.email);
       const isValue = content.length > 0;
       if (isValue) {
         setInfo("Такой email уже используется");
@@ -44,13 +44,14 @@ const AuthProvider = ({ children }) => {
   async function login(data) {
     try {
       setLoading(true);
-      let content = await userService.login(data.email, data.password);
+      let { content } = await userService.login(data.email, data.password);
       const isValue = content.length > 0;
       if (!isValue) {
         setInfo("Проверьте email или пароль");
       }
       setLoading(false);
       content = Array.isArray(content) ? content[0] : content;
+      console.log("content", content);
       return content;
     } catch (error) {
       errorCatcher(error);

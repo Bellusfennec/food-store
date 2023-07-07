@@ -28,6 +28,7 @@ const EditUser = () => {
 
     updateUser(data).then((response) => {
       dispatch(setUser(response));
+      navigate(`/passport/profile`);
     });
   };
 

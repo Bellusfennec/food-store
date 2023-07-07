@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import userService from "../../app/services/user.service";
 import { toast } from "react-toastify";
@@ -35,7 +36,7 @@ const UserProvider = ({ children }) => {
   async function getUser(id) {
     try {
       setLoading(true);
-      let content = await userService.get(id);
+      let { content } = await userService.get(id);
       content = Array.isArray(content) ? content[0] : content;
       setLoading(false);
       return content;
@@ -46,7 +47,7 @@ const UserProvider = ({ children }) => {
   async function updateUser({ id, ...data }) {
     try {
       setLoading(true);
-      let content = await userService.update(id, data);
+      let { content } = await userService.update(id, data);
       content = Array.isArray(content) ? content[0] : content;
       setLoading(false);
       return content;
