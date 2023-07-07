@@ -1,8 +1,9 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MainLayout from "../../common/components/layouts";
 import ProductAdmin from "./ProductAdmin";
 import { SectionWrapper } from "../../common/components/wrapper";
+import { ProductsProvider } from "../../hooks/useProducts";
 
 const AdminIndex = () => {
   const { page, action } = useParams();
@@ -10,10 +11,12 @@ const AdminIndex = () => {
   return (
     <MainLayout>
       <SectionWrapper>
-        <div>dd</div>
+        <Link to={`/admin/product`}>Продукты</Link> <br />
+        <Link to={`/admin/category`}>Категории</Link>
       </SectionWrapper>
-
-      {page === "product" && <ProductAdmin />}
+      <ProductsProvider>
+        {page === "product" && <ProductAdmin />}
+      </ProductsProvider>
       {/* {!page && <ListProducts />}
       {page === "create" && (
         <ContainerLayout>
