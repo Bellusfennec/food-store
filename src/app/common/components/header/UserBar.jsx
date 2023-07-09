@@ -4,7 +4,6 @@ import {
   AiOutlineShoppingCart,
   AiOutlineUser,
 } from "react-icons/ai";
-import { FiPlus } from "react-icons/fi";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -28,8 +27,8 @@ const UserBar = () => {
               <IoChevronBackOutline />
             </div>
           </Link>
-          <Link to="/product/create" className={style.item}>
-            <FiPlus className={style.icon} />
+          <Link to="/admin" className={style.item}>
+            admin
           </Link>
         </>
       ) : (

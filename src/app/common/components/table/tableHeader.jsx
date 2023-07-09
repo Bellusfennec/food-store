@@ -2,13 +2,14 @@
 /* eslint-disable multiline-ternary */
 import React from "react";
 import PropTypes from "prop-types";
+import style from "./Table.module.scss";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
   const handleSort = (item) => {
     if (selectedSort.path === item) {
       onSort({
         ...selectedSort,
-        order: selectedSort.order === "asc" ? "desc" : "asc"
+        order: selectedSort.order === "asc" ? "desc" : "asc",
       });
     } else {
       onSort({ path: item, order: "asc" });
@@ -26,8 +27,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     return null;
   };
   return (
-    <thead>
-      <tr>
+    <thead className={style.header}>
+      <tr className={style.row}>
         {Object.keys(columns).map((column) => (
           <th
             key={column}
@@ -38,6 +39,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             }
             {...{ role: columns[column].path && "button" }}
             scope="col"
+            className={style.cell}
           >
             {columns[column].name}{" "}
             {renderSortArrow(selectedSort, columns[column].path)}
@@ -50,7 +52,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
 TableHeader.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
-  columns: PropTypes.object.isRequired
+  columns: PropTypes.object.isRequired,
 };
 
 export default TableHeader;

@@ -3,6 +3,7 @@ import Table, { TableHeader, TableBody } from "../../common/components/table";
 import { Link } from "react-router-dom";
 
 const ProductsTable = ({ products, onDeleteProduct, onSort, selectedSort }) => {
+  console.log(products);
   const columns = {
     title: {
       path: "title",

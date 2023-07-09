@@ -2,12 +2,8 @@ import React from "react";
 import style from "./ProductCard.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../form/Button";
-import {
-  MdCurrencyRuble,
-  MdFavorite,
-  MdFavoriteBorder,
-  MdStar,
-} from "react-icons/md";
+import { MdCurrencyRuble, MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { IconButton } from "../form";
 
 const ProductCard = (props) => {
   const { image, title, link } = props;
@@ -26,31 +22,20 @@ const ProductCard = (props) => {
         >
           <h3>{title}</h3>
         </Link>
-        <div className={style.info}>
-          <div className={style.action}>
-            <div className={style.rating}>
-              <MdStar /> <span>4.5/5</span>
-            </div>
-            <div className={style.favorite}>
-              {false ? <MdFavorite /> : <MdFavoriteBorder />}{" "}
-              <span>Избранное</span>
-            </div>
-          </div>
+        <div className={style.sale}>Скидка -30%</div>
+        <IconButton className={style.favorite}>
+          {false ? <MdFavorite /> : <MdFavoriteBorder />}
+        </IconButton>
+        <div className={style.footer}>
           <div className={style.price}>
             <div className={style.discount}>
-              <div>Скидка -30%</div>
-              <span>
-                129 <MdCurrencyRuble />
-              </span>
+              <span>129 ₽</span>
             </div>
-            <div className={style.regular}>
-              {" "}
-              99 <MdCurrencyRuble />
-            </div>
+            <div className={style.regular}>99 ₽</div>
           </div>
-        </div>
-        <div className={style.button}>
-          <Button type="button">В корзину</Button>
+          <Button type="button" className={style.button}>
+            В корзину
+          </Button>
         </div>
       </div>
     </div>

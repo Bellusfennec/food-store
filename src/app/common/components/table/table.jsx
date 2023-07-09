@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TableHeader from "./tableHeader";
-import TableBody from "./tableBody";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import style from "./Table.module.scss";
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
   return (
-    <table className="table">
+    <table className={style.table}>
       {children || (
         <>
           <TableHeader {...{ onSort, selectedSort, columns }} />
@@ -20,7 +21,7 @@ Table.propTypes = {
   columns: PropTypes.object,
   children: PropTypes.array,
   onSort: PropTypes.func,
-  selectedSort: PropTypes.object
+  selectedSort: PropTypes.object,
 };
 
 export default Table;

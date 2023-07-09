@@ -8,6 +8,7 @@
   align-items: center;
   overflow: hidden;
   transition: $transition100;
+  position: relative;
   &:hover {
     box-shadow: 0 0 1rem $colorNeutral300;
   }
@@ -31,33 +32,28 @@
     .label {
       text-align: center;
     }
-    .info {
-      margin-top: 0.5rem;
+    .sale {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: $colorErrorSecondary;
+      color: $colorErrorPrimary;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 1rem;
+    }
+    .favorite {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    .footer {
       display: flex;
       justify-content: space-between;
-      color: $colorNeutral600;
-      .action {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .rating {
-          display: flex;
-          align-items: center;
-        }
-        .favorite {
-          margin-top: 0.75rem;
-          display: flex;
-          align-items: center;
-        }
-        span {
-          margin-left: 0.25rem;
-        }
-      }
+      margin-top: 1rem;
       .price {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
         .discount {
           font-style: italic;
           display: flex;
@@ -68,7 +64,6 @@
             display: flex;
             align-items: center;
             position: relative;
-            margin-left: 0.5rem;
             &::before {
               content: "";
               width: 100%;
@@ -77,24 +72,18 @@
               position: absolute;
             }
           }
-          div {
-            background: $colorErrorSecondary;
-            color: $colorErrorPrimary;
-            padding: 0.5rem;
-            font-size: 0.8rem;
-            border-radius: 1rem;
-          }
         }
         .regular {
+          font-size: 1.5rem;
           display: flex;
           align-items: center;
           font-weight: bold;
           color: $colorNeutral800;
         }
       }
-    }
-    .button {
-      margin-top: 1rem;
+      .button {
+        width: auto;
+      }
     }
   }
 }

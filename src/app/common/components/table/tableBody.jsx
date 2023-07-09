@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import style from "./Table.module.scss";
 
 const TableBody = ({ data, columns }) => {
   const renderContent = (item, column) => {
@@ -16,11 +17,13 @@ const TableBody = ({ data, columns }) => {
     return _.get(item, columns[column].path);
   };
   return (
-    <tbody>
+    <tbody className={style.body}>
       {data.map((item) => (
-        <tr key={item.id}>
+        <tr key={item.id} className={style.row}>
           {Object.keys(columns).map((column) => (
-            <td key={column}>{renderContent(item, column)}</td>
+            <td key={column} className={style.cell}>
+              {renderContent(item, column)}
+            </td>
           ))}
         </tr>
       ))}
