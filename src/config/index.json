@@ -1,4 +1,5 @@
 {
-  "apiEndPoint": "http://localhost:5000/",
-  "isJsonServer": true
+  "apiEndPoint": "https://food-market-111-default-rtdb.europe-west1.firebasedatabase.app/",
+  "isJsonServer": false,
+  "isFireBase": true
 }

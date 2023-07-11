@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { setLogin } from "../../../store/authSlicer";
+import { setSignIn } from "../../../store/authSlicer";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
@@ -28,7 +28,7 @@ const Login = () => {
 
     login(data).then((response) => {
       if (response) {
-        dispatch(setLogin(response));
+        dispatch(setSignIn(response));
         navigate(`/`);
       }
     });
