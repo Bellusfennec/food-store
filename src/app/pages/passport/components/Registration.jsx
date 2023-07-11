@@ -1,9 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { setLogin } from "../../../store/authSlicer";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
@@ -14,32 +11,25 @@ import style from "./Registration.module.scss";
 const Registration = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const validateConfig = {
     email: { isRequared: "" },
     password: { isRequared: "" },
   };
   const email = searchParams?.get("email") ? searchParams?.get("email") : "";
   const INITIAL_FORM = { email, password: "" };
-  const { handlerChange, form, data } = useForm(INITIAL_FORM, validateConfig);
-  const { isLoading, registartion, info, setInfo } = useAuth();
+  const { handlerChange, form, data, setError } = useForm(
+    INITIAL_FORM,
+    validateConfig
+  );
+  const { isLoading, signUp } = useAuth();
 
   const handlerSubmit = async (event) => {
     event.preventDefault();
 
-    registartion(data).then((response) => {
-      if (response) {
-        dispatch(setLogin(response));
-        navigate(`/`);
-      }
-    });
+    await signUp(data)
+      .then(() => navigate(`/`))
+      .catch((error) => setError(error));
   };
-
-  useEffect(() => {
-    if (info) {
-      setInfo(null);
-    }
-  }, [form]);
 
   const toLogin = () => {
     form.email.value.length > 0
@@ -56,12 +46,12 @@ const Registration = () => {
       </div>
       <h3 className={style.label}>Регистрация</h3>
       <Divider row="2" />
-      {info && (
+      {/* {info && (
         <>
           <p className={style.hint}>{info}</p>
           <Divider row="2" />
         </>
-      )}
+      )} */}
       <TextInput
         autoComplete={form.email.name}
         name={form.email.name}

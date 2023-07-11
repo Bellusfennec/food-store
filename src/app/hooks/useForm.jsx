@@ -1,10 +1,12 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { createForm, formToData, validatorForm } from "../utils/form";
 
 const useForm = (initialState = {}, validateConfig = {}) => {
   const INITIAL_FORM = createForm(initialState, validateConfig);
   const [form, setForm] = useState(INITIAL_FORM);
   const [data, setData] = useState(initialState);
+  const [error, setError] = useState(null);
 
   const handlerChange = (event) => {
     const { value, name } = event.target;
@@ -15,6 +17,14 @@ const useForm = (initialState = {}, validateConfig = {}) => {
     setData(formToData(newForm));
   };
 
-  return { handlerChange, form, data };
+  useEffect(() => {
+    if (error !== null) {
+      Object.entries(error).map(([key, value]) => {
+        setForm({ ...form, [key]: { ...form[key], error: value } });
+      });
+    }
+  }, [error]);
+
+  return { handlerChange, form, setError, data };
 };
 export default useForm;

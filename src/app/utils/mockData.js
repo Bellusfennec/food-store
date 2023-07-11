@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import products from "../../mockData/products.json";
 import categories from "../../mockData/categories.json";

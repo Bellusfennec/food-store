@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { isJsonString } from "../utils/utils";
+import { getAccessToken, removeTokens } from "../services/localStorage.service";
+import jwt_decode from "jwt-decode";
 
-const tokenState = localStorage.getItem("token-access")
-  ? localStorage.getItem("token-access")
-  : false;
+const token = getAccessToken();
+console.log(token);
 
 const initialState = {
   authState: false,
   userState: {},
-  tokenState,
+  tokenState: token ? token : false,
 };
 
 const authSlice = createSlice({
@@ -16,44 +17,43 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthState(state) {
-      const isJson = isJsonString(state.tokenState);
-      const json = isJson ? JSON.parse(state.tokenState) : false;
-      if (json.token) {
+      // const isJson = isJsonString(state.tokenState);
+      // const json = isJson ? JSON.parse(state.tokenState) : false;
+      const decoded = jwt_decode(state.tokenState);
+      if (decoded) {
+        const { user_id } = decoded;
         state.authState = true;
-        state.userState = { token: json.token };
+        state.userState = { _id: user_id };
       } else {
-        if (state.tokenState) localStorage.removeItem("token-access");
-        state.authState = false;
+        if (state.tokenState) removeTokens();
         state.tokenState = false;
+        state.authState = false;
         state.userState = {};
       }
     },
     setUser(state, action) {
-      const user = action.payload;
-      if (!user) return;
+      const userId = action.payload;
+      if (!userId) return;
 
-      state.userState = user;
+      state.userState = { _id: userId };
     },
-    setLogout(state, action) {
-      if (state.tokenState) localStorage.removeItem("token-access");
-      state.authState = false;
+    setLogout(state) {
+      if (state.tokenState) removeTokens();
       state.tokenState = false;
+      state.authState = false;
       state.userState = {};
     },
-    setLogin(state, action) {
-      const user = action.payload;
-      if (!user) return;
+    setSignIn(state, action) {
+      const userId = action.payload;
+      if (!userId) return;
 
-      /* Сохранить в localStorage */
-      const token = JSON.stringify({ token: user.uuid });
-      localStorage.setItem("token-access", token);
-
-      state.userState = user;
+      state.userState = { _id: userId };
       state.authState = true;
     },
   },
 });
 
-export const { setAuthState, setLogout, setLogin, setUser } = authSlice.actions;
+export const { setAuthState, setLogout, setSignIn, setUser } =
+  authSlice.actions;
 
 export default authSlice.reducer;
