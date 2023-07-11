@@ -3,57 +3,56 @@ import { isJsonString } from "../utils/utils";
 import { getAccessToken, removeTokens } from "../services/localStorage.service";
 import jwt_decode from "jwt-decode";
 
-const token = getAccessToken();
-console.log(token);
+const accessToken = getAccessToken();
+console.log(accessToken);
 
 const initialState = {
-  authState: false,
-  userState: {},
-  tokenState: token ? token : false,
+  auth: false,
+  user: {},
+  accessToken: accessToken ? accessToken : false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuthState(state) {
-      // const isJson = isJsonString(state.tokenState);
-      // const json = isJson ? JSON.parse(state.tokenState) : false;
-      const decoded = jwt_decode(state.tokenState);
+    setAuth(state) {
+      // const isJson = isJsonString(state.accessToken);
+      // const json = isJson ? JSON.parse(state.accessToken) : false;
+      const decoded = jwt_decode(state.accessToken);
       if (decoded) {
         const { user_id } = decoded;
-        state.authState = true;
-        state.userState = { _id: user_id };
+        state.auth = true;
+        state.user = { _id: user_id };
       } else {
-        if (state.tokenState) removeTokens();
-        state.tokenState = false;
-        state.authState = false;
-        state.userState = {};
+        if (state.accessToken) removeTokens();
+        state.accessToken = false;
+        state.auth = false;
+        state.user = {};
       }
     },
     setUser(state, action) {
       const userId = action.payload;
       if (!userId) return;
 
-      state.userState = { _id: userId };
+      state.user = { _id: userId };
     },
     setLogout(state) {
-      if (state.tokenState) removeTokens();
-      state.tokenState = false;
-      state.authState = false;
-      state.userState = {};
+      if (state.accessToken) removeTokens();
+      state.accessToken = false;
+      state.auth = false;
+      state.user = {};
     },
     setSignIn(state, action) {
       const userId = action.payload;
       if (!userId) return;
 
-      state.userState = { _id: userId };
-      state.authState = true;
+      state.user = { _id: userId };
+      state.auth = true;
     },
   },
 });
 
-export const { setAuthState, setLogout, setSignIn, setUser } =
-  authSlice.actions;
+export const { setAuth, setLogout, setSignIn, setUser } = authSlice.actions;
 
 export default authSlice.reducer;

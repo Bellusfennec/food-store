@@ -30,7 +30,8 @@ http.interceptors.response.use(
       res.data = { content: res.data };
     }
     if (configFile.isFireBase) {
-      res.data = { content: transformData(res.data) };
+      res.data = { content: res.data };
+      // res.data = { content: transformData(res.data) };
     }
     return res;
   },

@@ -13,18 +13,17 @@ export const useUser = () => {
 
 const UserProvider = ({ children }) => {
   const dispatch = useDispatch();
-  const { userState } = useSelector((state) => state.auth);
-  const { token } = userState;
+  const { user, accessToken } = useSelector((state) => state.auth);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (token) {
-      getUser(token).then((response) => {
-        dispatch(setUser(response));
+    if (user) {
+      getUser(user._id).then((content) => {
+        dispatch(setUser(content));
       });
     }
-  }, [token]);
+  }, [accessToken]);
 
   useEffect(() => {
     if (error !== null) {
@@ -34,10 +33,10 @@ const UserProvider = ({ children }) => {
   }, [error]);
 
   async function getUser(id) {
+    console.log(id);
     try {
       setLoading(true);
       let { content } = await userService.get(id);
-      content = Array.isArray(content) ? content[0] : content;
       setLoading(false);
       return content;
     } catch (error) {
@@ -48,7 +47,6 @@ const UserProvider = ({ children }) => {
     try {
       setLoading(true);
       let { content } = await userService.update(id, data);
-      content = Array.isArray(content) ? content[0] : content;
       setLoading(false);
       return content;
     } catch (error) {
