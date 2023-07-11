@@ -1,317 +1,66 @@
 {
   "products": [
     {
-      "title": "Компьютер",
-      "category": "4",
-      "description": "классный",
-      "specification": [
-        {
-          "value": "123",
-          "specificationsId": "1"
-        },
-        {
-          "value": "45",
-          "specificationsId": "6"
-        }
-      ],
-      "uuid": "eaeeef01-db7f-49a9-89ab-0c4b94742e6b",
-      "id": 1
-    },
-    {
-      "title": "заг",
+      "id": "1",
+      "name": "Филадельфия",
+      "regularPrice": "399",
+      "salePrice": "359",
       "category": "1",
-      "description": "опи",
-      "specification": [
-        {
-          "value": "вер",
-          "specificationsId": ""
-        },
-        {
-          "value": "вы",
-          "specificationsId": "2"
-        }
-      ],
-      "uuid": "afd6376d-e0b9-4de8-9197-457bcc2df35f",
-      "id": 2
+      "image": "1.jpg"
     },
     {
-      "title": "заг2",
-      "category": "3",
-      "description": "опи2",
-      "specification": [
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        }
-      ],
-      "uuid": "f5499306-b8a9-43ca-b0ae-81869130dd38",
-      "id": 3
+      "id": "2",
+      "name": "Калифорния",
+      "regularPrice": "309",
+      "salePrice": "289",
+      "category": "1",
+      "image": "2.jpg"
     },
     {
-      "title": "заг3",
-      "category": "3",
-      "description": "опи3",
-      "specification": [
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        }
-      ],
-      "uuid": "d33688aa-2d23-46e5-8132-3893dc70c10e",
-      "id": 4
+      "id": "3",
+      "name": "Дракон",
+      "regularPrice": "419",
+      "salePrice": "",
+      "category": "1",
+      "image": "3.jpg"
     },
     {
-      "title": "заг4",
-      "category": "3",
-      "description": "опи4",
-      "specification": [
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        },
-        {
-          "value": "",
-          "specificationsId": ""
-        }
-      ],
-      "uuid": "d6205ef9-a1ea-47e9-b44f-e9bf7a49c471",
-      "id": 5
+      "id": "4",
+      "name": "Фараон",
+      "regularPrice": "379",
+      "salePrice": "",
+      "category": "1",
+      "image": "4.jpg"
     }
   ],
   "categories": [
     {
-      "name": "Горячие закуски и вареники",
-      "uuid": "2e68f97c-f293-4b94-85a0-a3f5f1d9baf2",
-      "id": 1
-    },
-    {
-      "name": "Салаты",
-      "uuid": "5caba85d-b3a3-4042-a0d4-6c28e5d81f36",
-      "id": 2
-    },
-    {
-      "name": "Блюда к пиву",
-      "uuid": "a961d4c3-241a-4efb-8b89-99f195c9dc9c",
-      "id": 3
-    },
-    {
-      "name": "Холодные закуски",
-      "uuid": "d5f94718-f904-46a7-87e7-7cfe4d8445db",
-      "id": 4
-    },
-    {
-      "name": "Летнее меню",
-      "uuid": "fc79ce2e-dd03-41dc-a4da-f2ab42671190",
-      "id": 5
-    },
-    {
-      "name": "Супы и борщи",
-      "uuid": "56e56231-7bf2-4061-9c4a-80f80ee645a1",
-      "id": 6
-    },
-    {
-      "name": "Детское меню",
-      "uuid": "a7c05ec3-23ef-4639-a36a-4f80dc27a5b1",
-      "id": 7
-    },
-    {
-      "name": "Холодные рыбные закуски",
-      "uuid": "e9f0aa33-3924-4434-bf67-c0ea4b7f5c09",
-      "id": 8
-    },
-    {
-      "name": "Холодные мясные закуски",
-      "uuid": "d05372c4-b200-4f46-adfb-1f0797a93c8e",
-      "id": 9
-    },
-    {
-      "name": "Блюда из рыбы",
-      "uuid": "c8cd8115-997c-4c0d-8e53-ea0b3305fac2",
-      "id": 10
-    },
-    {
-      "name": "Блюда из колбас и котлет",
-      "uuid": "a66119c9-73b6-445e-aa25-759b8bc211be",
-      "id": 11
-    },
-    {
-      "name": "Блюда из мяса",
-      "uuid": "aa46209a-0e48-40a2-83a7-73a79c4762b2",
-      "id": 12
-    },
-    {
-      "name": "Блюда из птицы",
-      "uuid": "bfb20960-fe88-4564-a5b0-98862175d063",
-      "id": 13
-    },
-    {
-      "name": "Блюда на мангале",
-      "uuid": "d155002f-c822-448b-bbd0-62e7c59ee849",
-      "id": 14
-    },
-    {
-      "name": "Гарниры",
-      "uuid": "872ed755-1f83-452a-ac22-1da63d5458ae",
-      "id": 15
-    },
-    {
-      "name": "Напитки и Добавки к блюдам",
-      "uuid": "f5b2c572-0f47-40e4-be3c-e8da3986e0fa",
-      "id": 16
-    },
-    {
-      "name": "Сдобные блюда",
-      "uuid": "9063c21b-65d6-42f7-9c5a-1148c56aad22",
-      "id": 17
-    },
-    {
-      "name": "Десерты",
-      "uuid": "4d21406f-fd78-4db3-b74e-f3e31f87af41",
-      "id": 18
-    },
-    {
-      "name": "​Русская кухня",
-      "uuid": "66c0d47a-7c2b-4a47-889d-29cb274716b5",
-      "id": 19
-    },
-    {
-      "name": "Блюда из украинской кухни",
-      "uuid": "f6f06361-42c0-4a0a-be55-382b31d4da0c",
-      "id": 20
-    },
-    {
-      "name": "Сеты на компанию",
-      "uuid": "cd7d9f59-200c-4976-a7f8-2ebd1d7b125b",
-      "id": 21
+      "id": "1",
+      "name": "Роллы"
     }
   ],
-  "specifications": [
-    {
-      "id": 1,
-      "name": "Версия"
-    },
-    {
-      "name": "Высота",
-      "uuid": "d2e3767d-29c4-45b8-a230-4f19bc3f8089",
-      "id": 2
-    },
-    {
-      "name": "Ширина",
-      "uuid": "a8a799d0-8081-43e9-8692-3d3e3013a2e2",
-      "id": 3
-    },
-    {
-      "name": "Длинна",
-      "uuid": "0b7515c4-d2c5-4ab0-bb21-cd3bee730c91",
-      "id": 4
-    },
-    {
-      "name": "Количество",
-      "uuid": "3cd6b969-a895-4e15-8b6b-985cc80d0567",
-      "id": 5
-    },
-    {
-      "name": "Вес",
-      "uuid": "079b098d-7c0b-4d8f-ac25-03c132cbc581",
-      "id": 6
-    },
-    {
-      "name": "Диаметр",
-      "uuid": "94408700-2391-446d-9229-fd3395ccf0f6",
-      "id": 7
-    }
-  ],
+  "specifications": [],
   "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "firstName": "Нияз",
+      "email": "bellusfennec@gmail.com",
+      "password": "1234",
+      "profession": "67rdca3eeb7f6fgeed471818",
+      "qualities": [
+        "67rdca3eeb7f6fgeed471198",
+        "67rdca3eeb7f6fgeed471102",
+        "67rdca3eeb7f6fgeed471100"
+      ],
+      "completedMeetings": 36,
+      "rate": 2.5
+    },
     {
       "email": "admin",
       "password": "1234",
-      "uuid": "be2e6ad2-2841-4ab9-a02e-7e0b1864dddf",
-      "id": 1
-    },
-    {
-      "email": "admin2e",
-      "password": "1234we",
-      "uuid": "9fb64a12-f4dc-4002-a6b1-b0fa4f3255e5",
-      "id": 2
-    },
-    {
-      "email": "b@mail.ru",
-      "password": "fds",
-      "uuid": "a449d4da-9f05-4f18-979d-8ad5c8ae82e9",
-      "id": 3
-    },
-    {
-      "email": "admin1",
-      "password": "123",
-      "id": 4
-    },
-    {
-      "email": "admin2",
-      "password": "123",
-      "uuid": "405b40a6-da60-477b-9765-de2f878f47ea",
-      "id": 5
-    },
-    {
-      "email": "admin4",
-      "password": "1231",
-      "uuid": "9c1395b9-c9da-4418-8ffe-cd7ea73e9d95",
-      "id": 6
-    },
-    {
-      "email": "admin5",
-      "password": "2312",
-      "uuid": "c1f38aab-8326-464c-8317-3335d0cfc082",
-      "id": 7
-    },
-    {
-      "email": "admin6",
-      "password": "sfs",
-      "uuid": "5a57eff3-8708-4968-8db7-71bbe8381f9d",
-      "id": 8
-    },
-    {
-      "email": "admind",
-      "password": "12312",
-      "uuid": "18ad9f90-1f2c-4f2c-a8c7-39764914aee7",
-      "id": 9
-    },
-    {
-      "email": "admin11",
-      "password": "1234",
-      "uuid": "ddc9455f-087a-46d0-95d9-c0f6e6985d21",
-      "id": 10
+      "uuid": "65ed3cf9-47fa-4b7c-b15f-595c671cdb51",
+      "id": "QaL4Exm"
     }
   ]
 }

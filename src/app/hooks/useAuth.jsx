@@ -24,7 +24,9 @@ const AuthProvider = ({ children }) => {
   async function registartion(data) {
     try {
       setLoading(true);
-      let { content } = await userService.checkEmail(data.email);
+      let response = await userService.checkEmail(data.email);
+      console.log(response);
+      let { content } = response;
       const isValue = content.length > 0;
       if (isValue) {
         setInfo("Такой email уже используется");

@@ -1,4 +1,5 @@
 {
   "apiEndPoint": "http://localhost:5000/",
-  "isJsonServer": true
+  "isJsonServer": true,
+  "isFireBase": false
 }

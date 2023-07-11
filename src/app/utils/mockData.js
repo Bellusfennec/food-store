@@ -3,6 +3,8 @@ import products from "../../mockData/products.json";
 import categories from "../../mockData/categories.json";
 import users from "../../mockData/users.json";
 import httpService from "../services/http.service";
+import configFile from "../../config/index.json";
+import { toast } from "react-toastify";
 
 const useMockData = () => {
   const statusConsts = {
@@ -38,22 +40,45 @@ const useMockData = () => {
     updateProgress();
   }, [count]);
 
+  useEffect(() => {
+    if (error !== null) {
+      toast.error(error);
+      setError(null);
+    }
+  }, [error]);
+
   async function initialize() {
     try {
-      for (const profession of products) {
-        await httpService.put("products/" + profession._id, profession);
-        incrementCount();
+      if (configFile.isJsonServer) {
+        for (const profession of products) {
+          await httpService.post("products/", profession);
+          incrementCount();
+        }
+        for (const user of users) {
+          await httpService.post("users/", user);
+          incrementCount();
+        }
+        for (const quality of categories) {
+          await httpService.post("categories/", quality);
+          incrementCount();
+        }
       }
-      for (const user of users) {
-        await httpService.put("user/" + user._id, user);
-        incrementCount();
-      }
-      for (const quality of categories) {
-        await httpService.put("categories/" + quality._id, quality);
-        incrementCount();
+      if (configFile.isFireBase) {
+        for (const profession of products) {
+          await httpService.put("products/" + profession._id, profession);
+          incrementCount();
+        }
+        for (const user of users) {
+          await httpService.put("user/" + user._id, user);
+          incrementCount();
+        }
+        for (const quality of categories) {
+          await httpService.put("categories/" + quality._id, quality);
+        }
       }
     } catch (error) {
       setError(error);
+      console.log(error);
       setStatus(statusConsts.error);
     }
   }
