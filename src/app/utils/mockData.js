@@ -6,6 +6,7 @@ import users from "../../mockData/users.json";
 import httpService from "../services/http.service";
 import configFile from "../../config/index.json";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 
 const useMockData = () => {
   const statusConsts = {
@@ -29,6 +30,7 @@ const useMockData = () => {
       setStatus(statusConsts.pending);
     }
     const newProgress = Math.floor((count / summaryCount) * 100);
+    console.log(count, "/", summaryCount, "* 100 =", newProgress);
     if (progress < newProgress) {
       setProgress(() => newProgress);
     }
@@ -50,31 +52,21 @@ const useMockData = () => {
 
   async function initialize() {
     try {
-      if (configFile.isJsonServer) {
-        for (const profession of products) {
-          await httpService.post("products/", profession);
-          incrementCount();
-        }
-        for (const user of users) {
-          await httpService.post("users/", user);
-          incrementCount();
-        }
-        for (const quality of categories) {
-          await httpService.post("categories/", quality);
-          incrementCount();
-        }
-      }
       if (configFile.isFireBase) {
-        for (const profession of products) {
-          await httpService.put("products/" + profession._id, profession);
+        for (let profession of products) {
+          profession = { _id: uuidv4(), ...profession };
+          await httpService.put("product/" + profession._id, profession);
           incrementCount();
         }
-        for (const user of users) {
+        for (let user of users) {
+          user = { _id: uuidv4(), ...user };
           await httpService.put("user/" + user._id, user);
           incrementCount();
         }
-        for (const quality of categories) {
-          await httpService.put("categories/" + quality._id, quality);
+        for (let quality of categories) {
+          quality = { _id: uuidv4(), ...quality };
+          await httpService.put("category/" + quality._id, quality);
+          incrementCount();
         }
       }
     } catch (error) {

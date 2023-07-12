@@ -15,10 +15,10 @@ const userService = {
     const { data } = await httpService.put(userEndPoint + payload._id, payload);
     return data;
   },
-  // update: async (id, content) => {
-  //   const { data } = await httpService.put(userEndPoint + "/" + id, content);
-  //   return data;
-  // },
+  update: async (payload) => {
+    const { data } = await httpService.put(userEndPoint + payload._id, payload);
+    return data;
+  },
   // delete: async (id) => {
   //   const { data } = await httpService.delete(userEndPoint + "/" + id);
   //   return data;

@@ -14,17 +14,9 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [currentUser, setUser] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (error !== null) {
-      toast.error(error);
-      setError(null);
-    }
-  }, [error]);
 
   async function signUp({ email, password, ...rest }) {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
@@ -41,32 +33,13 @@ const AuthProvider = ({ children }) => {
         password,
         ...rest,
       });
-      dispatch(setSignIn());
+      dispatch(setSignIn(data));
       setLoading(false);
     } catch (error) {
       errorCatcher(error);
       const { code, message } = error.response.data.error;
       if (code === 400) {
-        if (message === "EMAIL_EXISTS") {
-          const errorObject = {
-            email: "Пользователь с такой электронной почтой уже существует",
-          };
-          throw errorObject;
-        }
-        if (
-          message === "WEAK_PASSWORD : Password should be at least 6 characters"
-        ) {
-          const errorObject = {
-            password: "Минимальная длинна 6 символов",
-          };
-          throw errorObject;
-        }
-        if (message === "INVALID_EMAIL") {
-          const errorObject = {
-            email: "Проверьте корректность электронной почты",
-          };
-          throw errorObject;
-        }
+        errorThrow(message);
       }
     }
   }
@@ -80,32 +53,20 @@ const AuthProvider = ({ children }) => {
         returnSecureToken: true,
       });
       setTokens(data);
+      dispatch(setSignIn(data));
       setLoading(false);
     } catch (error) {
       errorCatcher(error);
       const { code, message } = error.response.data.error;
-      console.log(code, message);
       if (code === 400) {
-        if (message === "INVALID_PASSWORD") {
-          const errorObject = {
-            password: "Проверьте пароль",
-          };
-          throw errorObject;
-        }
-        if (message === "EMAIL_NOT_FOUND") {
-          const errorObject = {
-            email: "Проверьте email",
-          };
-          throw errorObject;
-        }
+        errorThrow(message);
       }
     }
   }
 
   async function createUser(data) {
     try {
-      const { content } = await userService.create(data);
-      setUser(content);
+      await userService.create(data);
     } catch (error) {
       errorCatcher(error);
     }
@@ -116,8 +77,50 @@ const AuthProvider = ({ children }) => {
     setError(message);
   }
 
+  useEffect(() => {
+    if (error !== null) {
+      toast.error(error);
+      setError(null);
+    }
+  }, [error]);
+
+  function errorThrow(message) {
+    if (message === "INVALID_PASSWORD") {
+      const errorObject = {
+        password: "Неверный пароль",
+      };
+      throw errorObject;
+    }
+    if (message === "EMAIL_NOT_FOUND") {
+      const errorObject = {
+        email: "Пользователь с такой электронной почтой не существует",
+      };
+      throw errorObject;
+    }
+    if (message === "EMAIL_EXISTS") {
+      const errorObject = {
+        email: "Пользователь с такой электронной почтой уже существует",
+      };
+      throw errorObject;
+    }
+    if (
+      message === "WEAK_PASSWORD : Password should be at least 6 characters"
+    ) {
+      const errorObject = {
+        password: "Минимальная длинна 6 символов",
+      };
+      throw errorObject;
+    }
+    if (message === "INVALID_EMAIL") {
+      const errorObject = {
+        email: "Проверьте корректность электронной почты",
+      };
+      throw errorObject;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoading, signUp, signIn, currentUser }}>
+    <AuthContext.Provider value={{ isLoading, signUp, signIn }}>
       {children}
     </AuthContext.Provider>
   );

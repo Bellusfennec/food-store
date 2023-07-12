@@ -1,6 +1,5 @@
 [
   {
-    "id": "1",
     "name": "Филадельфия",
     "regularPrice": "399",
     "salePrice": "359",
@@ -8,7 +7,6 @@
     "image": "1.jpg"
   },
   {
-    "id": "2",
     "name": "Калифорния",
     "regularPrice": "309",
     "salePrice": "289",
@@ -16,7 +14,6 @@
     "image": "2.jpg"
   },
   {
-    "id": "3",
     "name": "Дракон",
     "regularPrice": "419",
     "salePrice": "",
@@ -24,7 +21,6 @@
     "image": "3.jpg"
   },
   {
-    "id": "4",
     "name": "Фараон",
     "regularPrice": "379",
     "salePrice": "",

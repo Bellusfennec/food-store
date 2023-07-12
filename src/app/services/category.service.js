@@ -1,6 +1,6 @@
 import httpService from "./http.service";
 
-const categoryEndPoint = "categories";
+const categoryEndPoint = "category/";
 
 const categoryService = {
   fetchAll: async () => {
@@ -8,7 +8,7 @@ const categoryService = {
     return data;
   },
   get: async (id) => {
-    const { data } = await httpService.get(categoryEndPoint + "?id=" + id);
+    const { data } = await httpService.get(categoryEndPoint + id);
     return data;
   },
   create: async (content) => {

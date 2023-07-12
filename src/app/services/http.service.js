@@ -26,12 +26,11 @@ function transformData(data) {
 
 http.interceptors.response.use(
   (res) => {
-    if (configFile.isJsonServer) {
-      res.data = { content: res.data };
-    }
     if (configFile.isFireBase) {
-      res.data = { content: res.data };
-      // res.data = { content: transformData(res.data) };
+      // res.data = { content: res.data };
+
+      console.log(res, res.data, transformData(res.data));
+      res.data = { content: transformData(res.data) };
     }
     return res;
   },

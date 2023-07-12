@@ -14,14 +14,13 @@ import Logo from "../../common/components/header/Logo";
 
 const PassportIndex = () => {
   const { page } = useParams();
-  const { authState, userState } = useSelector((state) => state.auth);
+  const { auth } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
 
-  const isLoading = userState?.uuid ? false : true;
-
-  if (authState && page !== "profile" && page !== "edit") {
+  if (auth && page !== "profile" && page !== "edit") {
     return <Navigate to="/" />;
   }
-  if (!authState && page !== "registration" && page !== "login") {
+  if (!auth && page !== "registration" && page !== "login") {
     return <Navigate to="/passport/login" />;
   }
 
@@ -29,12 +28,12 @@ const PassportIndex = () => {
     <ModalLayout>
       <div className={style.container}>
         <Logo className={style.logo} />
-        {authState && isLoading && <Loading />}
-        {authState && !isLoading && page === "profile" && <Profile />}
-        {authState && !isLoading && page === "edit" && <EditUser />}
+        {auth && !user && <Loading />}
+        {auth && user && page === "profile" && <Profile />}
+        {auth && user && page === "edit" && <EditUser />}
         <AuthProvider>
-          {!authState && page === "login" && <Login />}
-          {!authState && page === "registration" && <Registration />}
+          {!auth && page === "login" && <Login />}
+          {!auth && page === "registration" && <Registration />}
         </AuthProvider>
       </div>
     </ModalLayout>

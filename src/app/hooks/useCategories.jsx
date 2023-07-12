@@ -15,7 +15,7 @@ export const CategoriesProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    // getCategoriesList();
+    getCategoriesList();
   }, []);
 
   useEffect(() => {

@@ -15,7 +15,7 @@ export const ProductsProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    // getProductsList();
+    getProductsList();
   }, []);
 
   useEffect(() => {

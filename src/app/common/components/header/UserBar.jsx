@@ -10,10 +10,10 @@ import { Link } from "react-router-dom";
 import style from "./UserBar.module.scss";
 
 const UserBar = () => {
-  const { authState } = useSelector((state) => state.auth);
+  const { auth } = useSelector((state) => state.auth);
   return (
     <div className={style.userMenu}>
-      {authState ? (
+      {auth ? (
         <>
           <Link to="/" title="Поиск">
             <AiOutlineSearch />

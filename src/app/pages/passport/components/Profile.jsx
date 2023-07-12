@@ -9,8 +9,8 @@ import { Button, IconButton } from "../../../common/components/form";
 import style from "./Profile.module.scss";
 
 const Profile = () => {
-  const { userState } = useSelector((state) => state.auth);
-  const { email } = userState;
+  const { user } = useSelector((state) => state.user);
+  const { email } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -1,6 +1,5 @@
 [
   {
-    "id": "1",
     "username": "admin",
     "firstName": "Нияз",
     "email": "bellusfennec@gmail.com",
@@ -10,8 +9,6 @@
       "67rdca3eeb7f6fgeed471198",
       "67rdca3eeb7f6fgeed471102",
       "67rdca3eeb7f6fgeed471100"
-    ],
-    "completedMeetings": 36,
-    "rate": 2.5
+    ]
   }
 ]

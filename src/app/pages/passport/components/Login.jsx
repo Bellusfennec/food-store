@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { setSignIn } from "../../../store/authSlicer";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
@@ -13,32 +11,25 @@ import style from "./Login.module.scss";
 const Login = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const validateConfig = {
     email: { isRequared: "" },
     password: { isRequared: "" },
   };
   const email = searchParams?.get("email") ? searchParams?.get("email") : "";
   const INITIAL_FORM = { email, password: "" };
-  const { handlerChange, form, data } = useForm(INITIAL_FORM, validateConfig);
-  const { isLoading, login, info, setInfo } = useAuth();
+  const { handlerChange, form, data, setError } = useForm(
+    INITIAL_FORM,
+    validateConfig
+  );
+  const { isLoading, signIn } = useAuth();
 
   const handlerSubmit = async (event) => {
     event.preventDefault();
 
-    login(data).then((response) => {
-      if (response) {
-        dispatch(setSignIn(response));
-        navigate(`/`);
-      }
-    });
+    await signIn(data)
+      .then(() => navigate(`/`))
+      .catch((error) => setError(error));
   };
-
-  useEffect(() => {
-    if (info) {
-      setInfo(null);
-    }
-  }, [form]);
 
   const toRegistration = () => {
     form.email.value.length > 0
@@ -50,12 +41,12 @@ const Login = () => {
     <form onSubmit={handlerSubmit}>
       <h3 className={style.label}>Вход</h3>
       <Divider row="2" />
-      {info && (
+      {/* {info && (
         <>
           <p className={style.hint}>{info}</p>
           <Divider row="2" />
         </>
-      )}
+      )} */}
       <TextInput
         autoComplete={form.email.name}
         name={form.email.name}

@@ -1,6 +1,6 @@
 import httpService from "./http.service";
 
-const productEndPoint = "products";
+const productEndPoint = "product/";
 
 const productService = {
   fetchAll: async () => {
@@ -8,7 +8,7 @@ const productService = {
     return data;
   },
   get: async (id) => {
-    const { data } = await httpService.get(productEndPoint + "?id=" + id);
+    const { data } = await httpService.get(productEndPoint + id);
     return data;
   },
   create: async (content) => {
