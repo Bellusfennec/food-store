@@ -1,25 +1,35 @@
 import React from "react";
 import Table, { TableHeader, TableBody } from "../../common/components/table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductsTable = ({ products, onDeleteProduct, onSort, selectedSort }) => {
-  console.log(products);
+  const navigate = useNavigate();
   const columns = {
     title: {
-      path: "title",
+      path: "name",
       name: "Название",
       component: (product) => (
-        <Link to={`/product/${product._id}`}>{product.title}</Link>
+        <Link to={`/product/${product._id}`}>{product.name}</Link>
       ),
     },
     category: { path: "category", name: "Категория" },
+    edit: {
+      component: (product) => (
+        <button
+          className="btn btn-danger"
+          onClick={() => navigate(`/admin/product/edit/${product._id}`)}
+        >
+          Редактировать
+        </button>
+      ),
+    },
     delete: {
       component: (product) => (
         <button
           className="btn btn-danger"
           onClick={() => onDeleteProduct(product._id)}
         >
-          Delete
+          Удалить
         </button>
       ),
     },

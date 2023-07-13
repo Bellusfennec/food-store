@@ -27,10 +27,8 @@ function transformData(data) {
 http.interceptors.response.use(
   (res) => {
     if (configFile.isFireBase) {
-      // res.data = { content: res.data };
-
-      console.log(res, res.data, transformData(res.data));
-      res.data = { content: transformData(res.data) };
+      const containSlash = /\//gi.test(res.config.url);
+      res.data = { content: containSlash ? res.data : transformData(res.data) };
     }
     return res;
   },

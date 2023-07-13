@@ -54,17 +54,20 @@ const useMockData = () => {
     try {
       if (configFile.isFireBase) {
         for (let profession of products) {
-          profession = { _id: uuidv4(), ...profession };
+          const id = profession._id ? profession._id : uuidv4();
+          profession = { _id: id, ...profession };
           await httpService.put("product/" + profession._id, profession);
           incrementCount();
         }
         for (let user of users) {
-          user = { _id: uuidv4(), ...user };
+          const id = user._id ? user._id : uuidv4();
+          user = { _id: id, ...user };
           await httpService.put("user/" + user._id, user);
           incrementCount();
         }
         for (let quality of categories) {
-          quality = { _id: uuidv4(), ...quality };
+          const id = quality._id ? quality._id : uuidv4();
+          quality = { _id: id, ...quality };
           await httpService.put("category/" + quality._id, quality);
           incrementCount();
         }

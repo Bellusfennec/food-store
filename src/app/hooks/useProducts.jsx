@@ -15,7 +15,7 @@ export const ProductsProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProductsList();
+    getProductsList().then((res) => {});
   }, []);
 
   useEffect(() => {
@@ -34,6 +34,7 @@ export const ProductsProvider = ({ children }) => {
       const { content } = await productService.fetchAll();
       setProducts(content);
       setLoading(false);
+      return content;
     } catch (error) {
       errorCather(error);
     }

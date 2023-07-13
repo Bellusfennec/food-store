@@ -7,7 +7,7 @@ import { ProductsProvider } from "../../hooks/useProducts";
 import MockDataAdmin from "./MockDataAdmin";
 
 const AdminIndex = () => {
-  const { page, action } = useParams();
+  const { page, action, id } = useParams();
 
   return (
     <MainLayout>
@@ -20,6 +20,7 @@ const AdminIndex = () => {
       </SectionWrapper>
       <ProductsProvider>
         {page === "product" && <ProductAdmin />}
+        {page === "product" && action === "edit" && id && <ProductAdmin />}
       </ProductsProvider>
       <SectionWrapper>
         {page === "mock-data" && <MockDataAdmin />}

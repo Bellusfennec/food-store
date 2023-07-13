@@ -12,13 +12,13 @@ import ProductCard from "../../../common/components/card/ProductCard";
 const ListProducts = () => {
   const { products, isLoading: isLoadingProducts } = useProducts();
   const { categories, isLoading: isLoadingCategories } = useCategories();
-
   const categoriesListProducts = (categories) => {
     return categories.map((category) => {
       const productsList = [...products].filter(
-        (product) => Number(product.category) === Number(category.id)
+        (product) => product.category === category._id
       );
       category.products = productsList ? productsList : [];
+      console.log(category);
       return category;
     });
   };
@@ -35,16 +35,16 @@ const ListProducts = () => {
           !isLoadingProducts &&
           categories?.length > 0 &&
           categoriesListProducts(categories).map(
-            ({ name, id, products }, i) =>
+            ({ name, _id, products }, i) =>
               products?.length > 0 && (
-                <div key={id} className={style.container}>
+                <div key={_id} className={style.container}>
                   <h3 className={style.title}>{name}</h3>
                   <List>
                     {products.map((product) => (
                       <ProductCard
-                        key={product.id}
+                        key={product._id}
                         {...product}
-                        link={`/product/detail/${product.id}`}
+                        link={`/product/detail/${product._id}`}
                       />
                     ))}
                   </List>

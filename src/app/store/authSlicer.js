@@ -3,7 +3,6 @@ import { getAccessToken, removeTokens } from "../services/localStorage.service";
 import jwt_decode from "jwt-decode";
 
 const accessToken = getAccessToken();
-console.log(accessToken);
 
 const initialState = {
   auth: false,
@@ -17,12 +16,15 @@ const authSlice = createSlice({
   reducers: {
     setAuth(state) {
       const decoded = jwt_decode(state.accessToken);
+
       if (decoded) {
         const { user_id } = decoded;
+
         state.auth = true;
         state.userId = user_id;
       } else {
         if (state.accessToken) removeTokens();
+
         state.accessToken = false;
         state.auth = false;
         state.userId = null;
@@ -30,6 +32,7 @@ const authSlice = createSlice({
     },
     setLogout(state) {
       if (state.accessToken) removeTokens();
+
       state.accessToken = false;
       state.auth = false;
       state.userId = null;

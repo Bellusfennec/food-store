@@ -11,7 +11,7 @@ const AppRoutes = () => {
       <Route index element={<HomeIndex />} />
       <Route path="passport/:page?" element={<PassportIndex />} />
       <Route path="product/:page?/:productId?" element={<ProductIndex />} />
-      <Route path="admin/:page?/:action?" element={<AdminIndex />} />
+      <Route path="admin/:page?/:action?/:id?" element={<AdminIndex />} />
       <Route path="*" element={<NotFoundIndex />} />
     </Routes>
   );

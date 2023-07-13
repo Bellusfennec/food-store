@@ -6,7 +6,6 @@ import style from "./Table.module.scss";
 
 const TableBody = ({ data, columns }) => {
   const renderContent = (item, column) => {
-    console.log(item);
     if (columns[column].component) {
       const component = columns[column].component;
       if (typeof component === "function") {
@@ -16,10 +15,11 @@ const TableBody = ({ data, columns }) => {
     }
     return _.get(item, columns[column].path);
   };
+
   return (
     <tbody className={style.body}>
       {data.map((item) => (
-        <tr key={item.id} className={style.row}>
+        <tr key={item._id} className={style.row}>
           {Object.keys(columns).map((column) => (
             <td key={column} className={style.cell}>
               {renderContent(item, column)}

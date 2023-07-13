@@ -15,7 +15,7 @@ export const CategoriesProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCategoriesList();
+    getCategoriesList().then((res) => {});
   }, []);
 
   useEffect(() => {
@@ -34,6 +34,7 @@ export const CategoriesProvider = ({ children }) => {
       const { content } = await categoryService.fetchAll();
       setCategories(content);
       setLoading(false);
+      return content;
     } catch (error) {
       errorCather(error);
     }
