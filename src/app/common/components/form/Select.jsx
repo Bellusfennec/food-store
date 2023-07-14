@@ -15,7 +15,11 @@ const Select = (props) => {
         >
           {value === "" && <option value="0" className={style.option}></option>}
           {options.map((option) => (
-            <option key={option.id} value={option.id} className={style.option}>
+            <option
+              key={option._id}
+              value={option._id}
+              className={style.option}
+            >
               {option.name}
             </option>
           ))}

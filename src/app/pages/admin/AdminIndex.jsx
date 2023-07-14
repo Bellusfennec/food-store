@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import MainLayout from "../../common/components/layouts";
-import ProductAdmin from "./ProductAdmin";
+import MainLayout, { ContainerLayout } from "../../common/components/layouts";
+import AdminProduct from "./AdminProduct";
 import { SectionWrapper } from "../../common/components/wrapper";
 import { ProductsProvider } from "../../hooks/useProducts";
 import MockDataAdmin from "./MockDataAdmin";
+import AdminProductForm from "./AdminProductForm";
+import { CategoriesProvider } from "../../hooks/useCategories";
 
 const AdminIndex = () => {
   const { page, action, id } = useParams();
@@ -19,8 +21,19 @@ const AdminIndex = () => {
         <Link to={`/admin/mock-data`}>Mock data</Link>
       </SectionWrapper>
       <ProductsProvider>
-        {page === "product" && <ProductAdmin />}
-        {page === "product" && action === "edit" && id && <ProductAdmin />}
+        <CategoriesProvider>
+          {page === "product" && action === "edit" && id && (
+            <ContainerLayout>
+              <AdminProductForm />
+            </ContainerLayout>
+          )}
+          {page === "product" && action === "create" && (
+            <ContainerLayout>
+              <AdminProductForm />
+            </ContainerLayout>
+          )}
+          {page === "product" && <AdminProduct />}
+        </CategoriesProvider>
       </ProductsProvider>
       <SectionWrapper>
         {page === "mock-data" && <MockDataAdmin />}

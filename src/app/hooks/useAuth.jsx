@@ -85,15 +85,10 @@ const AuthProvider = ({ children }) => {
   }, [error]);
 
   function errorThrow(message) {
-    if (message === "INVALID_PASSWORD") {
+    if (message === "EMAIL_NOT_FOUND" || message === "INVALID_PASSWORD") {
       const errorObject = {
-        password: "Неверный пароль",
-      };
-      throw errorObject;
-    }
-    if (message === "EMAIL_NOT_FOUND") {
-      const errorObject = {
-        email: "Пользователь с такой электронной почтой не существует",
+        email: "Некорректная электронная почта или пароль",
+        password: "Некорректная электронная почта или пароль",
       };
       throw errorObject;
     }

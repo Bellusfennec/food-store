@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getProductByIdHTTP,
-  updateProductHTTP,
-} from "../../../http/productHTTP";
-import { Loading } from "../../../common/components/loading";
-import { createForm, formToData, validatorForm } from "../../../utils/form";
+import { getProductByIdHTTP, updateProductHTTP } from "../../http/productHTTP";
+import { Loading } from "../../common/components/loading";
+import { createForm, formToData, validatorForm } from "../../utils/form";
 
 const EditProduct = () => {
   const { page, productId } = useParams();

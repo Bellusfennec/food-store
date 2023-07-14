@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 import { useCategories } from "../../hooks/useCategories";
 
-const ProductAdmin = () => {
+const AdminProduct = () => {
   const { products, isLoading } = useProducts();
   // const { categories, isLoading: isLoadingCategories } = useCategories();
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -38,7 +38,7 @@ const ProductAdmin = () => {
 
   return (
     <SectionWrapper>
-      <Link to="/product/create">
+      <Link to="/admin/product/create">
         <FiPlus />
       </Link>
       {isLoading && (
@@ -75,4 +75,4 @@ const ProductAdmin = () => {
   );
 };
 
-export default ProductAdmin;
+export default AdminProduct;

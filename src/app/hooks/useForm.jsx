@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { createForm, formToData, validatorForm } from "../utils/form";
 
 const useForm = (initialState = {}, validateConfig = {}) => {
-  const INITIAL_FORM = createForm(initialState, validateConfig);
-  const [form, setForm] = useState(INITIAL_FORM);
+  const STATE_FORM = createForm(initialState, validateConfig);
+  const [form, setForm] = useState(STATE_FORM);
   const [data, setData] = useState(initialState);
   const [error, setError] = useState(null);
 

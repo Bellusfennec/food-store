@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import categoryService from "../services/category.service";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 
 export const CategoriesContext = React.createContext();
 
@@ -40,6 +41,20 @@ export const CategoriesProvider = ({ children }) => {
     }
   };
 
+  const createCategory = async (data) => {
+    setLoading(true);
+    const _id = uuidv4();
+    data = { ...data, _id };
+    try {
+      const { content } = await categoryService.create(data);
+      setCategories((prevState) => [...prevState, content]);
+      setLoading(false);
+      return content;
+    } catch (error) {
+      errorCather(error);
+    }
+  };
+
   // const updateQuality = async ({ _id: id, ...data }) => {
   //   try {
   //     const { content } = await qualityService.update(id, data);
@@ -51,16 +66,6 @@ export const CategoriesProvider = ({ children }) => {
   //         return item;
   //       })
   //     );
-  //     return content;
-  //   } catch (error) {
-  //     errorCather(error);
-  //   }
-  // };
-
-  // const addQuality = async (data) => {
-  //   try {
-  //     const { content } = await qualityService.create(data);
-  //     setQualities((prevState) => [...prevState, content]);
   //     return content;
   //   } catch (error) {
   //     errorCather(error);
@@ -80,8 +85,10 @@ export const CategoriesProvider = ({ children }) => {
   // };
 
   function errorCather(error) {
+    console.log(error);
     const { message } = error.response.data;
     setError(message);
+    setLoading(false);
   }
 
   return (
@@ -89,6 +96,7 @@ export const CategoriesProvider = ({ children }) => {
       value={{
         categories,
         getCategory,
+        createCategory,
         isLoading,
       }}
     >

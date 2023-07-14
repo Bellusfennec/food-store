@@ -11,8 +11,11 @@ const categoryService = {
     const { data } = await httpService.get(categoryEndPoint + id);
     return data;
   },
-  create: async (content) => {
-    const { data } = await httpService.post(categoryEndPoint, content);
+  create: async (payload) => {
+    const { data } = await httpService.put(
+      categoryEndPoint + payload._id,
+      payload
+    );
     return data;
   },
   update: async (id, content) => {
