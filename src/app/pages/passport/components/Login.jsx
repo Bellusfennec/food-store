@@ -11,25 +11,24 @@ import style from "./Login.module.scss";
 const Login = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const validateConfig = {
+  const CONFIG = {
     email: { isRequared: "" },
     password: { isRequared: "" },
   };
   const email = searchParams?.get("email") ? searchParams?.get("email") : "";
-  const INITIAL_FORM = { email, password: "" };
-  const { handlerChange, form, data, setError } = useForm(
-    INITIAL_FORM,
-    validateConfig
-  );
+  const FORM = { email, password: "" };
+  const { handlerChange, form, setError, handlerSubmit } = useForm({
+    onSubmit,
+    FORM,
+    CONFIG,
+  });
   const { isLoading, signIn } = useAuth();
 
-  const handlerSubmit = async (event) => {
-    event.preventDefault();
-
-    await signIn(data)
+  function onSubmit(data) {
+    signIn(data)
       .then(() => navigate(`/`))
       .catch((error) => setError(error));
-  };
+  }
 
   const toRegistration = () => {
     form.email.value.length > 0

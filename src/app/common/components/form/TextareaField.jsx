@@ -1,23 +1,20 @@
 import React from "react";
-import style from "./TextInput.module.scss";
+import style from "./TextareaField.module.scss";
 
-const TextInput = (props) => {
-  const { name, value, error, onChange, autoComplete, placeholder, onBlur } =
-    props;
-  const type = props.type ? props.type : "text";
+const TextareaField = (props) => {
+  const { name, value, error, onChange, placeholder, onBlur } = props;
 
   return (
     <div className={style.grow}>
       <div className={style.container + (error ? " " + style.error : "")}>
-        <input
-          type={type}
-          autoComplete={autoComplete}
+        <textarea
           name={name}
-          value={value}
           placeholder=" "
           onChange={onChange}
+          value={value}
+          className={style.textarea}
           onBlur={onBlur}
-          className={style.input}
+          spellCheck="true"
         />
         {placeholder && <div className={style.placeholder}>{placeholder}</div>}
         <div className={style.border}></div>
@@ -27,4 +24,4 @@ const TextInput = (props) => {
   );
 };
 
-export default TextInput;
+export default TextareaField;

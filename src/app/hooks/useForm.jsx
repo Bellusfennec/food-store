@@ -1,30 +1,86 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { createForm, formToData, validatorForm } from "../utils/form";
+import {
+  createName,
+  createPlaceholder,
+  totalError,
+  validator,
+  validate,
+} from "../utils/form";
 
-const useForm = (initialState = {}, validateConfig = {}) => {
-  const STATE_FORM = createForm(initialState, validateConfig);
-  const [form, setForm] = useState(STATE_FORM);
-  const [data, setData] = useState(initialState);
-  const [error, setError] = useState(null);
+const useForm = ({ onSubmit, FORM, CONFIG }) => {
+  FORM = FORM ? FORM : {};
+  CONFIG = CONFIG ? CONFIG : {};
+  const [form, setForm] = useState(FORM);
+  const [name, setName] = useState(createName(FORM));
+  const initPlaceholder = createPlaceholder(FORM, CONFIG);
+  const [placeholder, setPlaceholder] = useState(initPlaceholder);
+  const [errorList, setErrorList] = useState(validator(FORM, CONFIG));
+  const [focusList, setFocusList] = useState({});
+  const [error, setError] = useState({});
+  const [isValid, setValid] = useState(null);
 
-  const handlerChange = (event) => {
-    const { value, name } = event.target;
+  // Обработчик изменений
+  const handlerChange = (e) => {
+    const { value, name } = e.target;
 
-    const newForm = { ...form, [name]: { ...form[name], value } };
-    setForm(newForm);
-    setForm(validatorForm(newForm, validateConfig));
-    setData(formToData(newForm));
+    setForm({ ...form, [name]: value });
   };
 
   useEffect(() => {
-    if (error !== null) {
-      Object.entries(error).map(([key, value]) => {
-        setForm({ ...form, [key]: { ...form[key], error: value } });
-      });
+    if (focusList !== error) {
+      console.log("focusList", focusList);
+      const errors = validator(focusList, CONFIG);
+      console.log("errors", errors);
+      // setError(errors)
     }
-  }, [error]);
 
-  return { handlerChange, form, setError, data };
+    // const errors = validator(form, CONFIG);
+    // setErrorList(errors);
+    // // setError(errors);
+    const errors = validator(form, CONFIG);
+    setErrorList(errors);
+    console.log("ErrorList", errors);
+    setValid(!totalError(errors));
+    console.log(form);
+  }, [form, focusList]);
+
+  // Обработчик кнопки Submit
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit(form);
+    setForm(FORM);
+  };
+
+  const handlerBlur = (e) => {
+    const { name, value } = e.target;
+    console.log("handlerBlur", e);
+    // console.log(errorList, error, name, value);
+    // const current = { [name]: value };
+    // console.log(current);
+    // // const err = false validator(current, CONFIG);
+    // console.log("for", value, CONFIG[name]);
+    // const err = validate(value, CONFIG[name]);
+    // console.log("err", err);
+    // setError({ ...error, [name]: err });
+    setError({ ...error, [name]: errorList[name] });
+    setFocusList({ ...focusList, [name]: value });
+  };
+
+  return {
+    form,
+    setForm,
+    error,
+    setError,
+    placeholder,
+    setPlaceholder,
+    name,
+    setName,
+    handlerChange,
+    handlerSubmit,
+    isValid,
+    handlerBlur,
+  };
 };
 export default useForm;

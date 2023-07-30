@@ -3,7 +3,7 @@ import style from "./IconButton.module.scss";
 
 const IconButton = (props) => {
   const { onClick, disabled, children, outline, className } = props;
-  const type = props.type ? props.type : "submit";
+  const type = props.type ? props.type : "button";
 
   return (
     <button

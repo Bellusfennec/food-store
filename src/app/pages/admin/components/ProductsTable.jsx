@@ -1,7 +1,7 @@
 import React from "react";
-import Table from "../../common/components/table";
-import TableHeader from "../../common/components/table/TableHeader";
-import TableBody from "../../common/components/table/TableBody";
+import Table from "../../../common/components/table";
+import TableHeader from "../../../common/components/table/TableHeader";
+import TableBody from "../../../common/components/table/TableBody";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProductsTable = ({ products, onDeleteProduct, onSort, selectedSort }) => {

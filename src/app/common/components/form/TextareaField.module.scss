@@ -3,6 +3,7 @@
 .grow {
   flex-grow: 1;
 }
+
 .container {
   position: relative;
   display: flex;
@@ -27,14 +28,14 @@
     color: $colorNeutral400;
     pointer-events: none;
     position: absolute;
-    top: 50%;
+    top: 0.75rem;
     left: 0.75rem;
-    transform: translateY(-50%);
+    // transform: translateY(-50%);
     transition: $transition100;
     transform-origin: 0 50%;
     font-size: 1.15rem;
   }
-  .input {
+  .textarea {
     min-width: 229px;
     width: 100%;
     align-self: end;
@@ -70,6 +71,7 @@
     &:focus {
       border: none;
     }
+
     // &:-webkit-autofill,
     // &:-webkit-autofill:hover,
     // &:-webkit-autofill:focus,
@@ -107,7 +109,7 @@
   .border {
     background: $colorErrorSecondary;
   }
-  .input {
+  .textarea {
     background: $colorErrorSecondary;
   }
 }

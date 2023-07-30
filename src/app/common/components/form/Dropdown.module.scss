@@ -1,33 +1,144 @@
 @import "../../../common/styles/vars";
-
-.dropdown {
-  position: relative;
+.grow {
+  flex-grow: 1;
 }
-
-.select {
-  position: absolute;
-  list-style-type: none;
-  margin: 5px 0;
-  padding: 0;
-  border: 1px solid grey;
-  width: 150px;
-  & > li {
-    margin: 0;
-    background-color: white;
-    &:hover {
-      background-color: lightgray;
+.container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: $transition100;
+  .border {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid $colorNeutral300;
+    border-radius: $borderRadius100;
+    z-index: -1;
+  }
+  &:hover > .border {
+    border: 1px solid $colorNeutral600;
+  }
+  .placeholder {
+    color: $colorNeutral400;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    transition: $transition100;
+    transform-origin: 0 50%;
+    font-size: 1.15rem;
+  }
+  .input {
+    min-width: 200px;
+    width: 100%;
+    align-self: end;
+    padding-left: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.25rem;
+    margin: 0.25rem;
+    border: none;
+    &.empty {
+      color: transparent;
     }
-    & > button {
-      width: 100%;
-      height: 100%;
-      text-align: left;
-      background: none;
-      color: inherit;
+    &:not(:placeholder-shown) ~ .border {
+      border: 1px solid $colorNeutral600;
+    }
+    &:not(:placeholder-shown) ~ .placeholder {
+      color: $colorNeutral500;
+    }
+    &:focus ~ .placeholder,
+    &:not(:placeholder-shown) ~ .placeholder {
+      transform: translateY(0) scale(0.8);
+      top: 0.5rem;
+    }
+    &:focus ~ .placeholder {
+      color: $colorNeutral500;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:focus ~ .border {
+      border: 1px solid $colorNeutral600;
+      outline: 1px solid $colorNeutral600;
+    }
+    &:focus {
       border: none;
-      padding: 5px;
-      margin: 0;
-      font: inherit;
-      cursor: pointer;
     }
+
+    // &:-webkit-autofill,
+    // &:-webkit-autofill:hover,
+    // &:-webkit-autofill:focus,
+    // &:-webkit-autofill:active {
+    //   -webkit-box-shadow: 0 0 0 30px white inset !important;
+    // }
+  }
+  .func {
+    display: flex;
+    .divider {
+      align-self: stretch;
+      width: 1px;
+      background-color: $colorNeutral300;
+    }
+    .clear,
+    .arrow {
+      color: $colorNeutral300;
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-self: center;
+      &:hover {
+        color: $colorNeutral600;
+      }
+    }
+  }
+}
+.containerOptions {
+  position: relative;
+  .notFound {
+    text-align: center;
+    color: $colorNeutral600;
+    user-select: none;
+  }
+  .options {
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    top: 0.25rem;
+    border: 1px solid $colorNeutral600;
+    background: $colorNeutral100;
+    z-index: 1;
+    border-radius: $borderRadius100;
+    padding: 0.5rem 0;
+    max-height: 11rem;
+    overflow: auto;
+    .option {
+      padding: 0.25rem 1rem;
+      &:hover {
+        cursor: pointer;
+        background: $colorSecondary;
+      }
+      &.active {
+        background: $colorPrimary;
+        color: $colorNeutral100;
+      }
+    }
+  }
+}
+.hint {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  color: $colorErrorPrimary;
+}
+.error {
+  .border {
+    background: $colorErrorSecondary;
+  }
+  .input {
+    background: $colorErrorSecondary;
   }
 }

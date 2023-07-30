@@ -1,6 +1,7 @@
 import React from "react";
 import { GrClose } from "react-icons/gr";
 import style from "./Modal.module.scss";
+import { IconButton } from "../form";
 
 const Modal = (props) => {
   const { open, setOpen, children, title } = props;
@@ -11,13 +12,13 @@ const Modal = (props) => {
           <div className={style.body}>
             <div className={style.header}>
               <h4>{title}</h4>
-              <button
+              <IconButton
                 onClick={() => setOpen(false)}
                 className={style.icon}
                 title="Закрыть"
               >
                 <GrClose />
-              </button>
+              </IconButton>
             </div>
             <div className={style.main}>{children}</div>
           </div>

@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import productService from "../../app/services/product.service";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 
 export const ProductsContext = React.createContext();
 
@@ -31,10 +32,22 @@ export const ProductsProvider = ({ children }) => {
 
   const getProductsList = async () => {
     try {
-      const { content } = await productService.fetchAll();
+      const { content } = await productService.getAll();
       setProducts(content);
       setLoading(false);
       return content;
+    } catch (error) {
+      errorCather(error);
+    }
+  };
+
+  const createProduct = async (data) => {
+    data = { ...data, _id: uuidv4() };
+    console.log(data);
+    try {
+      // const { content } = await productService.create(data);
+      // setProducts((prevState) => [...prevState, content]);
+      // return content;
     } catch (error) {
       errorCather(error);
     }
@@ -51,16 +64,6 @@ export const ProductsProvider = ({ children }) => {
   //         return item;
   //       })
   //     );
-  //     return content;
-  //   } catch (error) {
-  //     errorCather(error);
-  //   }
-  // };
-
-  // const addQuality = async (data) => {
-  //   try {
-  //     const { content } = await qualityService.create(data);
-  //     setQualities((prevState) => [...prevState, content]);
   //     return content;
   //   } catch (error) {
   //     errorCather(error);
@@ -90,6 +93,7 @@ export const ProductsProvider = ({ children }) => {
         products,
         getProduct,
         isLoading,
+        createProduct,
       }}
     >
       {children}

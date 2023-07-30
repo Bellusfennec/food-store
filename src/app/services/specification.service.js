@@ -1,40 +1,40 @@
 import httpService from "./http.service";
 
-const categoryEndPoint = "category/";
+const specificationEndPoint = "specification/";
 
-const categoryService = {
+const specificationService = {
   getAll: async () => {
-    const { data } = await httpService.get(categoryEndPoint);
+    const { data } = await httpService.get(specificationEndPoint);
     return data;
   },
   get: async (id) => {
-    const { data } = await httpService.get(categoryEndPoint + id);
+    const { data } = await httpService.get(specificationEndPoint + id);
     return data;
   },
   create: async (payload) => {
     const { data } = await httpService.put(
-      categoryEndPoint + payload._id,
+      specificationEndPoint + payload._id,
       payload
     );
     return data;
   },
   update: async (payload) => {
     const { data } = await httpService.patch(
-      categoryEndPoint + payload._id,
+      specificationEndPoint + payload._id,
       payload
     );
     return data;
   },
   delete: async (id) => {
-    const { data } = await httpService.delete(categoryEndPoint + id);
+    const { data } = await httpService.delete(specificationEndPoint + id);
     return data;
   },
   checkTitle: async (title) => {
     const { data } = await httpService.get(
-      categoryEndPoint + "?title=" + title
+      specificationEndPoint + "?title=" + title
     );
     return data;
   },
 };
 
-export default categoryService;
+export default specificationService;
