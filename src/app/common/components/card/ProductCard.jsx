@@ -2,17 +2,18 @@ import React from "react";
 import style from "./ProductCard.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../form/Button";
-import { MdCurrencyRuble, MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IconButton } from "../form";
 
 const ProductCard = (props) => {
   const { image, title, link } = props;
+  console.log(process.env);
 
   return (
     <div className={style.item}>
       <div className={style.image}>
         {/* <img src={process.env.PUBLIC_URL + `/image/${i}.jpg`} alt={title} /> */}
-        <img src={process.env.PUBLIC_URL + image} alt={title} />
+        <img src={process.env.REACT_APP_IMAGE_URL + image} alt={title} />
       </div>
       <div className={style.main}>
         <Link

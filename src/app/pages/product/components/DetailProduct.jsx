@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProductByIdHTTP } from "../../../http/productHTTP";
 import { Loading } from "../../../common/components/loading";
-import { createForm } from "../../../utils/form";
+import { getProductByIdHTTP } from "../../../http/productHTTP";
 
 const DetailProduct = () => {
   const { page, productId } = useParams();
@@ -16,7 +14,7 @@ const DetailProduct = () => {
     try {
       const response = await getProductByIdHTTP(productId);
       if (response.ok) {
-        const newForm = createForm(response.data);
+        const newForm = response.data;
         setForm(newForm);
       }
     } catch (error) {

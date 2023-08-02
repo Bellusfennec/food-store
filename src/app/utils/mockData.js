@@ -30,7 +30,7 @@ const useMockData = () => {
       setStatus(statusConsts.pending);
     }
     const newProgress = Math.floor((count / summaryCount) * 100);
-    console.log(count, "/", summaryCount, "* 100 =", newProgress);
+
     if (progress < newProgress) {
       setProgress(() => newProgress);
     }

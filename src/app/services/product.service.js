@@ -3,7 +3,7 @@ import httpService from "./http.service";
 const productEndPoint = "product/";
 
 const productService = {
-  fetchAll: async () => {
+  getAll: async () => {
     const { data } = await httpService.get(productEndPoint);
     return data;
   },
@@ -11,12 +11,18 @@ const productService = {
     const { data } = await httpService.get(productEndPoint + id);
     return data;
   },
-  create: async (content) => {
-    const { data } = await httpService.post(productEndPoint, content);
+  create: async (payload) => {
+    const { data } = await httpService.put(
+      productEndPoint + payload._id,
+      payload
+    );
     return data;
   },
-  update: async (id, content) => {
-    const { data } = await httpService.put(productEndPoint + id, content);
+  update: async (payload) => {
+    const { data } = await httpService.patch(
+      productEndPoint + payload._id,
+      payload
+    );
     return data;
   },
   delete: async (id) => {

@@ -1,39 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from "react";
-import categoryService from "../services/category.service";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import categoryService from "../services/category.service";
+import { addCategory, setCategoriesList } from "../store/categorySlicer";
 
-export const CategoriesContext = React.createContext();
-
-export const useCategories = () => {
-  return useContext(CategoriesContext);
-};
-
-export const CategoriesProvider = ({ children }) => {
-  const [categories, setCategories] = useState([]);
+const useCategories = () => {
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getCategoriesList().then((res) => {});
-  }, []);
-
-  useEffect(() => {
-    if (error !== null) {
-      toast.error(error);
-      setError(null);
-    }
-  }, [error]);
-
-  const getCategory = (id) => {
-    return categories.find((p) => p._id === id);
-  };
+  const [isLoading, setLoading] = useState(false);
 
   const getCategoriesList = async () => {
     try {
-      const { content } = await categoryService.fetchAll();
-      setCategories(content);
+      const { content } = await categoryService.getAll();
+      dispatch(setCategoriesList(content));
       setLoading(false);
       return content;
     } catch (error) {
@@ -43,17 +24,20 @@ export const CategoriesProvider = ({ children }) => {
 
   const createCategory = async (data) => {
     setLoading(true);
-    const _id = uuidv4();
-    data = { ...data, _id };
+    data = { ...data, _id: uuidv4() };
     try {
       const { content } = await categoryService.create(data);
-      setCategories((prevState) => [...prevState, content]);
+      dispatch(addCategory(content));
       setLoading(false);
       return content;
     } catch (error) {
       errorCather(error);
     }
   };
+
+  // const getCategory = (id) => {
+  //   return categories.find((p) => p._id === id);
+  // };
 
   // const updateQuality = async ({ _id: id, ...data }) => {
   //   try {
@@ -91,16 +75,18 @@ export const CategoriesProvider = ({ children }) => {
     setLoading(false);
   }
 
-  return (
-    <CategoriesContext.Provider
-      value={{
-        categories,
-        getCategory,
-        createCategory,
-        isLoading,
-      }}
-    >
-      {children}
-    </CategoriesContext.Provider>
-  );
+  useEffect(() => {
+    if (error !== null) {
+      toast.error(error);
+      setError(null);
+    }
+  }, [error]);
+
+  return {
+    createCategory,
+    isLoading,
+    getCategoriesList,
+  };
 };
+
+export default useCategories;

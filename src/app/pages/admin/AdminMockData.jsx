@@ -1,6 +1,7 @@
+import { Button } from "../../common/components/form";
 import useMockData from "../../utils/mockData";
 
-const MockDataAdmin = () => {
+const AdminMockData = () => {
   const { initialize, progress, status, error } = useMockData();
   const handlerClick = () => {
     initialize();
@@ -13,11 +14,12 @@ const MockDataAdmin = () => {
         <li>Progress: {progress} %</li>
         {error && <li>Error: {error}</li>}
       </ul>
-      <button className="btn btn-primary" onClick={handlerClick}>
+      <br />
+      <Button className="btn btn-primary" onClick={handlerClick}>
         инициализировать
-      </button>
+      </Button>
     </>
   );
 };
 
-export default MockDataAdmin;
+export default AdminMockData;

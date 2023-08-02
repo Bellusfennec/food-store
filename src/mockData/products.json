@@ -1,29 +1,29 @@
 [
   {
     "name": "Филадельфия",
-    "regularPrice": "399",
-    "salePrice": "359",
+    "price": "399",
+    "priceSale": "359",
     "category": "1c535a49-6f86-4d65-afb2-d7c79ff72d72",
     "image": "1.jpg"
   },
   {
     "name": "Калифорния",
-    "regularPrice": "309",
-    "salePrice": "289",
+    "price": "309",
+    "priceSale": "289",
     "category": "1c535a49-6f86-4d65-afb2-d7c79ff72d72",
     "image": "2.jpg"
   },
   {
     "name": "Дракон",
-    "regularPrice": "419",
-    "salePrice": "",
+    "price": "419",
+    "priceSale": "",
     "category": "1c535a49-6f86-4d65-afb2-d7c79ff72d72",
     "image": "3.jpg"
   },
   {
     "name": "Фараон",
-    "regularPrice": "379",
-    "salePrice": "",
+    "price": "379",
+    "priceSale": "",
     "category": "1c535a49-6f86-4d65-afb2-d7c79ff72d72",
     "image": "4.jpg"
   }

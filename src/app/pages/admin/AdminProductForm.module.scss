@@ -7,6 +7,9 @@
 .inputGroup {
   display: flex;
   justify-content: space-between;
+  .inputItem {
+    justify-self: stretch;
+  }
   .inputItem:nth-child(even) {
     margin-left: 1rem;
     margin-right: 1rem;

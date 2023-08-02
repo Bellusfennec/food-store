@@ -1,38 +1,37 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import List from "../../../common/components/card/List";
+import ProductCard from "../../../common/components/card/ProductCard";
 import { Loading } from "../../../common/components/loading";
 import ContainerWrapper, {
   SectionWrapper,
 } from "../../../common/components/wrapper";
-import style from "./ListProducts.module.scss";
 import { useProducts } from "../../../hooks/useProducts";
-import { useCategories } from "../../../hooks/useCategories";
-import ProductCard from "../../../common/components/card/ProductCard";
+import style from "./ListProducts.module.scss";
 
 const ListProducts = () => {
   const { products, isLoading: isLoadingProducts } = useProducts();
-  const { categories, isLoading: isLoadingCategories } = useCategories();
-  const categoriesListProducts = (categories) => {
-    return categories.map((category) => {
-      const productsList = [...products].filter(
+  const { categories } = useSelector((state) => state.category);
+
+  const categoriesListProducts = (data) => {
+    return [...data].map((category) => {
+      const filtredProducts = [...products].filter(
         (product) => product.category === category._id
       );
-      category.products = productsList ? productsList : [];
-      console.log(category);
-      return category;
+      const productsList = filtredProducts ? filtredProducts : [];
+      return { ...category, products: productsList };
     });
   };
 
   return (
     <SectionWrapper>
       <ContainerWrapper>
-        {isLoadingCategories && isLoadingProducts && (
+        {isLoadingProducts && (
           <>
             <Loading />
           </>
         )}
-        {!isLoadingCategories &&
-          !isLoadingProducts &&
+        {!isLoadingProducts &&
           categories?.length > 0 &&
           categoriesListProducts(categories).map(
             ({ name, _id, products }, i) =>
