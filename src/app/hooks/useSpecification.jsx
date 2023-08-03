@@ -3,8 +3,8 @@ import specificationService from "../services/specification.service";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import {
-  addSpecification,
-  setSpecificationsList,
+  createSpecifications,
+  setSpecifications,
 } from "../store/specificationSlicer";
 import { useDispatch } from "react-redux";
 
@@ -17,7 +17,7 @@ const useSpecification = () => {
     setLoading(true);
     try {
       const { content } = await specificationService.getAll();
-      dispatch(setSpecificationsList(content));
+      dispatch(setSpecifications(content));
       setLoading(false);
       return content;
     } catch (error) {
@@ -25,12 +25,12 @@ const useSpecification = () => {
     }
   };
 
-  const createSpecification = async (data) => {
+  const addSpecification = async (data) => {
     setLoading(true);
     data = { ...data, _id: uuidv4() };
     try {
       const { content } = await specificationService.create(data);
-      dispatch(addSpecification(content));
+      dispatch(createSpecifications(content));
       setLoading(false);
       return content;
     } catch (error) {
@@ -52,7 +52,7 @@ const useSpecification = () => {
     }
   }, [error]);
 
-  return { isLoading, createSpecification, getSpecificationsList };
+  return { isLoading, addSpecification, getSpecificationsList };
 };
 
 export default useSpecification;

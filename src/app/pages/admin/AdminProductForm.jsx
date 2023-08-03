@@ -18,6 +18,7 @@ import style from "./AdminProductForm.module.scss";
 import CategoryCreate from "./components/CategoryCreate";
 import SpecificationForm from "./components/SpecificationForm";
 import useForm from "../../hooks/useForm";
+import { getCategories } from "../../store/categorySlicer";
 
 const AdminProductForm = () => {
   // const { page, action, id } = useParams();
@@ -53,7 +54,7 @@ const AdminProductForm = () => {
     CONFIG,
   });
   const { isLoading, createProduct } = useProducts();
-  const { categories } = useSelector((state) => state.category);
+  const categories = useSelector(getCategories());
 
   async function onSubmit(data) {
     await createProduct(data).then(() => {

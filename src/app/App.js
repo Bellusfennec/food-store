@@ -5,7 +5,7 @@ import { Loading } from "./common/components/loading";
 import ErrorLayout from "./pages/error/components/ErrorLayout";
 import { setAuth } from "./store/authSlicer";
 import AppRoutes from "./AppRoutes";
-import { setUser } from "./store/userSlicer";
+import { loadUser, setUser } from "./store/userSlicer";
 import { useUser } from "./hooks/useUsers";
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
 
   useEffect(() => {
     if (userId) {
+      // dispatch(loadUser(userId));
       getUser(userId).then((user) => {
         dispatch(setUser(user));
       });

@@ -8,10 +8,11 @@ import ContainerWrapper, {
 } from "../../../common/components/wrapper";
 import { useProducts } from "../../../hooks/useProducts";
 import style from "./ListProducts.module.scss";
+import { getCategories } from "../../../store/categorySlicer";
 
 const ListProducts = () => {
   const { products, isLoading: isLoadingProducts } = useProducts();
-  const { categories } = useSelector((state) => state.category);
+  const categories = useSelector(getCategories());
 
   const categoriesListProducts = (data) => {
     return [...data].map((category) => {

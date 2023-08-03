@@ -1,25 +1,55 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  categories: [],
+  entities: [],
+  isLoading: true,
 };
 
 const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    setCategoriesList(state, action) {
-      const categories = action.payload;
-      state.categories = categories;
+    set(state, action) {
+      state.entities = action.payload;
     },
-    addCategory(state, action) {
-      const category = action.payload;
-      state.categories = [...state.categories, category];
+    add(state, action) {
+      state.entities = [...state.entities, action.payload];
+    },
+    update(state, action) {
+      const elementIndex = state.entities.findIndex(
+        (el) => el.id === action.payload.id
+      );
+      state.entities[elementIndex] = {
+        ...state.entities[elementIndex],
+        ...action.payload,
+      };
+    },
+    remove(state, action) {
+      state.entities = state.entities.filter(
+        (el) => el.id !== action.payload.id
+      );
+    },
+    taskRequested(state) {
+      state.isLoading = true;
+    },
+    taskRequestFailed(state, action) {
+      state.isLoading = false;
     },
   },
 });
 
 const { actions, reducer: categoryReducer } = categorySlice;
-export const { setCategory } = actions;
+const { set, create, update, remove, requested, requestFailed } = actions;
+
+export function createCategory(payload) {
+  return create(payload);
+}
+export function setCategories(payload) {
+  return set(payload);
+}
+
+export const getCategories = () => (state) => state.category.entities;
+export const getCategoriesLoadingStatus = () => (state) =>
+  state.category.isLoading;
 
 export default categoryReducer;

@@ -7,7 +7,6 @@ import { IconButton } from "../form";
 
 const ProductCard = (props) => {
   const { image, title, link } = props;
-  console.log(process.env);
 
   return (
     <div className={style.item}>

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import categoryService from "../services/category.service";
-import { addCategory, setCategoriesList } from "../store/categorySlicer";
+import { createCategory, setCategories } from "../store/categorySlicer";
 
 const useCategories = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const useCategories = () => {
   const getCategoriesList = async () => {
     try {
       const { content } = await categoryService.getAll();
-      dispatch(setCategoriesList(content));
+      dispatch(setCategories(content));
       setLoading(false);
       return content;
     } catch (error) {
@@ -22,12 +22,12 @@ const useCategories = () => {
     }
   };
 
-  const createCategory = async (data) => {
+  const addCategory = async (data) => {
     setLoading(true);
     data = { ...data, _id: uuidv4() };
     try {
       const { content } = await categoryService.create(data);
-      dispatch(addCategory(content));
+      dispatch(createCategory(content));
       setLoading(false);
       return content;
     } catch (error) {
@@ -83,7 +83,7 @@ const useCategories = () => {
   }, [error]);
 
   return {
-    createCategory,
+    addCategory,
     isLoading,
     getCategoriesList,
   };

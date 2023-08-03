@@ -31,10 +31,10 @@ const SpecificationCreate = () => {
     FORM,
     CONFIG,
   });
-  const { isLoading, createSpecification } = useSpecification();
+  const { isLoading, addSpecification } = useSpecification();
 
   function onSubmit(data) {
-    createSpecification(data)
+    addSpecification(data)
       .then(() => setModal(false))
       .catch((error) => setError(error));
   }

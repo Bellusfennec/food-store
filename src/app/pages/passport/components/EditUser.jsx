@@ -30,6 +30,8 @@ const EditUser = () => {
   const handlerSubmit = async (event) => {
     event.preventDefault();
 
+    // dispatch(loadUser(userId));
+
     updateUser(data)
       .then((user) => {
         dispatch(setUser(user));

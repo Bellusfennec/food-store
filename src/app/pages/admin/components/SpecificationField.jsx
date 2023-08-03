@@ -8,10 +8,11 @@ import Dropdown from "../../../common/components/form/Dropdown";
 import FormGroup from "../../../common/components/form/FormGroup";
 import FormItem from "../../../common/components/form/FormItem";
 import useForm from "../../../hooks/useForm";
+import { getSpecifications } from "../../../store/specificationSlicer";
 
 const SpecificationField = (props) => {
   const { item, setData, onRemove } = props;
-  const { specifications } = useSelector((state) => state.specification);
+  const specifications = useSelector(getSpecifications());
   const FORM = item;
   const { handlerChange, form, setForm, name, placeholder } = useForm({
     FORM,

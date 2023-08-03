@@ -25,11 +25,11 @@ const CategoryCreate = () => {
     FORM,
     CONFIG,
   });
-  const { isLoading, createCategory } = useCategories();
+  const { isLoading, addCategory } = useCategories();
   // console.log(form, placeholder, name, error, isValid);
 
   function onSubmit(data) {
-    createCategory(data)
+    addCategory(data)
       .then(() => setModal(false))
       .catch((error) => setError(error));
   }
