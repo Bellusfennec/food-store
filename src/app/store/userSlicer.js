@@ -36,7 +36,7 @@ const userSlice = createSlice({
     requested(state) {
       state.isLoading = true;
     },
-    requestFailed(state, action) {
+    requestFailed(state) {
       state.isLoading = false;
     },
   },

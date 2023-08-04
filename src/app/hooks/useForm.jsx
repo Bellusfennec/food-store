@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import {
@@ -9,7 +10,6 @@ import {
 
 const useForm = ({ onSubmit, FORM, CONFIG }) => {
   FORM = FORM ? FORM : {};
-  console.log(FORM);
   CONFIG = CONFIG ? CONFIG : {};
   const [form, setForm] = useState(FORM);
   const [name, setName] = useState(createName(FORM));
@@ -40,7 +40,7 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
   const handlerBlur = (e) => {
     const { name } = e.target;
     const arrayСonfig = Object.entries(CONFIG);
-    const newСonfig = arrayСonfig.map(([keyСonfig, valueСonfig], i) => {
+    const newСonfig = arrayСonfig.map(([keyСonfig, valueСonfig]) => {
       if (keyСonfig === name) {
         return [keyСonfig, valueСonfig];
       }
@@ -55,16 +55,15 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
     setError(errors);
     const totalErrors = validator(form, CONFIG);
     setValid(!totalError(totalErrors));
-    console.log(form);
   }, [form, focusСonfig]);
 
   // обновление FORM
-  useEffect(() => {
-    setForm(FORM);
-    setName(createName(FORM));
-    const initPlaceholder = createPlaceholder(FORM, CONFIG);
-    setPlaceholder(initPlaceholder);
-  }, [FORM]);
+  // useEffect(() => {
+  //   setForm(FORM);
+  //   setName(createName(FORM));
+  //   const initPlaceholder = createPlaceholder(FORM, CONFIG);
+  //   setPlaceholder(initPlaceholder);
+  // }, [FORM]);
 
   return {
     form,

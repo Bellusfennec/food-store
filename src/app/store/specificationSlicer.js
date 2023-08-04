@@ -32,14 +32,14 @@ const specificationSlice = createSlice({
     taskRequested(state) {
       state.isLoading = true;
     },
-    taskRequestFailed(state, action) {
+    taskRequestFailed(state) {
       state.isLoading = false;
     },
   },
 });
 
 const { actions, reducer: specificationReducer } = specificationSlice;
-const { set, create, update, remove, requested, requestFailed } = actions;
+const { set, create } = actions;
 
 export function setSpecifications(payload) {
   return set(payload);

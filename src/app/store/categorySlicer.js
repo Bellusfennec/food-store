@@ -32,14 +32,14 @@ const categorySlice = createSlice({
     taskRequested(state) {
       state.isLoading = true;
     },
-    taskRequestFailed(state, action) {
+    taskRequestFailed(state) {
       state.isLoading = false;
     },
   },
 });
 
 const { actions, reducer: categoryReducer } = categorySlice;
-const { set, create, update, remove, requested, requestFailed } = actions;
+const { set, create } = actions;
 
 export function createCategory(payload) {
   return create(payload);

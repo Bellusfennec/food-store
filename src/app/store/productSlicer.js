@@ -32,13 +32,14 @@ const productSlice = createSlice({
     taskRequested(state) {
       state.isLoading = true;
     },
-    taskRequestFailed(state, action) {
+    taskRequestFailed(state) {
       state.isLoading = false;
     },
   },
 });
-const { actions, reducer: productReducer } = productSlice;
-const { set, add } = actions;
+const { reducer: productReducer } = productSlice;
+// const { actions, reducer: productReducer } = productSlice;
+// const {} = actions;
 
 export const getProducts = () => (state) => state.product.entities;
 export const getProductsLoadingStatus = () => (state) =>
