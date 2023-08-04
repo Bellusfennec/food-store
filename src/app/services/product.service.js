@@ -29,10 +29,6 @@ const productService = {
     const { data } = await httpService.delete(productEndPoint + id);
     return data;
   },
-  checkTitle: async (title) => {
-    const { data } = await httpService.get(productEndPoint + "?title=" + title);
-    return data;
-  },
 };
 
 export default productService;

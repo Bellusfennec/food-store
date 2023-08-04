@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import productService from "../../app/services/product.service";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import productSpecificationService from "../services/productSpecification.service";
 
 export const ProductsContext = React.createContext();
 
@@ -26,30 +27,65 @@ export const ProductsProvider = ({ children }) => {
     }
   }, [error]);
 
-  const getProduct = (id) => {
-    return products.find((p) => p._id === id);
+  const getProduct = async (id) => {
+    setLoading(true);
+    console.log("products", products);
+    let product = products.filter((p) => {
+      console.log("p", p);
+      return p._id === id;
+    });
+    console.log("product", product[0]);
+    try {
+      // Если есть характеристики
+      if (product.specifications.length > 0) {
+        for (let i = 0; i < product.specifications.length; i++) {
+          const id = product.specifications[i];
+          console.log(id);
+          const { content } = await productSpecificationService.get(id);
+          console.log(content);
+          product.specifications[i] = content;
+        }
+      }
+      return product;
+    } catch (error) {
+      errorCather(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getProductsList = async () => {
+    setLoading(true);
     try {
       const { content } = await productService.getAll();
       setProducts(content);
-      setLoading(false);
       return content;
     } catch (error) {
       errorCather(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const createProduct = async (data) => {
+    setLoading(true);
     data = { ...data, _id: uuidv4() };
-    console.log(data);
     try {
-      // const { content } = await productService.create(data);
-      // setProducts((prevState) => [...prevState, content]);
+      // Если есть характеристики
+      if (data.specifications.length > 0) {
+        for (let i = 0; i < data.specifications.length; i++) {
+          const item = { ...data.specifications[i], _id: uuidv4() };
+          const { content } = await productSpecificationService.create(item);
+          data.specifications[i] = content._id;
+        }
+      }
+      const { content } = await productService.create(data);
+      setProducts((prevState) => [...prevState, content]);
       // return content;
     } catch (error) {
       errorCather(error);
+    } finally {
+      setLoading(false);
     }
   };
 

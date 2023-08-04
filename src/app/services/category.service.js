@@ -29,12 +29,6 @@ const categoryService = {
     const { data } = await httpService.delete(categoryEndPoint + id);
     return data;
   },
-  checkTitle: async (title) => {
-    const { data } = await httpService.get(
-      categoryEndPoint + "?title=" + title
-    );
-    return data;
-  },
 };
 
 export default categoryService;

@@ -6,13 +6,13 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { IconButton } from "../form";
 
 const ProductCard = (props) => {
-  const { image, title, link } = props;
+  const { image, name, link } = props;
 
   return (
     <div className={style.item}>
       <div className={style.image}>
         {/* <img src={process.env.PUBLIC_URL + `/image/${i}.jpg`} alt={title} /> */}
-        <img src={process.env.REACT_APP_IMAGE_URL + image} alt={title} />
+        <img src={process.env.REACT_APP_IMAGE_URL + image} alt={name} />
       </div>
       <div className={style.main}>
         <Link
@@ -20,7 +20,7 @@ const ProductCard = (props) => {
           to={link}
           className={style.label}
         >
-          <h3>{title}</h3>
+          <h3>{name}</h3>
         </Link>
         <div className={style.sale}>Скидка -30%</div>
         <IconButton className={style.favorite}>

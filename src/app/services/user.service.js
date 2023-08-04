@@ -3,10 +3,10 @@ import httpService from "./http.service";
 const userEndPoint = "user/";
 
 const userService = {
-  // fetchAll: async () => {
-  //   const { data } = await httpService.get(userEndPoint);
-  //   return data;
-  // },
+  getAll: async () => {
+    const { data } = await httpService.get(userEndPoint);
+    return data;
+  },
   get: async (id) => {
     const { data } = await httpService.get(userEndPoint + id);
     return data;
@@ -19,19 +19,9 @@ const userService = {
     const { data } = await httpService.put(userEndPoint + payload._id, payload);
     return data;
   },
-  // delete: async (id) => {
-  //   const { data } = await httpService.delete(userEndPoint + "/" + id);
-  //   return data;
-  // },
-  // checkEmail: async (email) => {
-  //   const { data } = await httpService.get(userEndPoint + "?email=" + email);
-  //   return data;
-  // },
-  // login: async (email, password) => {
-  //   const { data } = await httpService.get(
-  //     userEndPoint + "?email=" + email + "&password=" + password
-  //   );
-  //   return data;
-  // },
+  delete: async (id) => {
+    const { data } = await httpService.delete(userEndPoint + id);
+    return data;
+  },
 };
 export default userService;

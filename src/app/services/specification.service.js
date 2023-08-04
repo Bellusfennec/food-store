@@ -29,12 +29,6 @@ const specificationService = {
     const { data } = await httpService.delete(specificationEndPoint + id);
     return data;
   },
-  checkTitle: async (title) => {
-    const { data } = await httpService.get(
-      specificationEndPoint + "?title=" + title
-    );
-    return data;
-  },
 };
 
 export default specificationService;

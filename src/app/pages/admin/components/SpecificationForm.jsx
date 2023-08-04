@@ -13,7 +13,7 @@ const SpecificationForm = (props) => {
     };
     setForm((form) => ({
       ...form,
-      specification: [...form.specification, newSpecification],
+      specifications: [...form.specifications, newSpecification],
     }));
   };
 
@@ -24,11 +24,11 @@ const SpecificationForm = (props) => {
 
   const handlerChangeData = (data) => {
     const isRepeat = value.filter((item) => item._id === data._id);
-    const specification =
+    const specifications =
       isRepeat.length > 0
         ? value.map((item) => (item._id === data._id ? data : item))
         : [...value, data];
-    setForm((form) => ({ ...form, specification }));
+    setForm((form) => ({ ...form, specifications }));
   };
 
   return (

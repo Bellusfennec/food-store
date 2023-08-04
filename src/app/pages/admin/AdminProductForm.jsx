@@ -1,7 +1,7 @@
 import React from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Divider from "../../../app/common/components/divider/Divider";
 import {
   Button,
@@ -21,7 +21,9 @@ import useForm from "../../hooks/useForm";
 import { getCategories } from "../../store/categorySlicer";
 
 const AdminProductForm = () => {
-  // const { page, action, id } = useParams();
+  const { id } = useParams();
+  const { isLoading, createProduct, getProduct } = useProducts();
+  const product = getProduct(id);
   const navigate = useNavigate();
   const CONFIG = {
     name: { isRequared: "" },
@@ -29,15 +31,16 @@ const AdminProductForm = () => {
     description: { isRequared: "" },
     price: { isRequared: "" },
   };
-  const FORM = {
+  const initialForm = {
     name: "",
     category: "",
     description: "",
-    specification: [],
+    specifications: [],
     price: "",
     priceSale: "",
     image: "1.jpg",
   };
+  const FORM = product ? product : initialForm;
   const {
     handlerChange,
     form,
@@ -53,7 +56,7 @@ const AdminProductForm = () => {
     FORM,
     CONFIG,
   });
-  const { isLoading, createProduct } = useProducts();
+
   const categories = useSelector(getCategories());
 
   async function onSubmit(data) {
@@ -63,10 +66,11 @@ const AdminProductForm = () => {
     // .catch((error) => setError(error));
   }
 
+  if (isLoading) return <Loading />;
+
   return (
     <>
-      {!form && <Loading />}
-      {form && (
+      {!isLoading && (
         <form onSubmit={handlerSubmit} className={style.container}>
           <div className={style.back}>
             <IconButton
@@ -128,7 +132,7 @@ const AdminProductForm = () => {
             </FormItem>
           </FormGroup>
           <Divider />
-          <SpecificationForm value={form.specification} setForm={setForm} />
+          <SpecificationForm value={form.specifications} setForm={setForm} />
           <Divider row="2" />
           <Button disabled={!isValid}>
             {isLoading ? <Loading /> : "Создать"}

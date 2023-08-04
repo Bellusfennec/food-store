@@ -9,6 +9,7 @@ import {
 
 const useForm = ({ onSubmit, FORM, CONFIG }) => {
   FORM = FORM ? FORM : {};
+  console.log(FORM);
   CONFIG = CONFIG ? CONFIG : {};
   const [form, setForm] = useState(FORM);
   const [name, setName] = useState(createName(FORM));
@@ -25,20 +26,14 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
     setForm({ ...form, [name]: value });
   };
 
-  // обновление ошибок
-  useEffect(() => {
-    const errors = validator(form, focusСonfig);
-    setError(errors);
-    const totalErrors = validator(form, CONFIG);
-    setValid(!totalError(totalErrors));
-  }, [form, focusСonfig]);
-
   // обработчик кнопки Submit
   const handlerSubmit = (event) => {
     event.preventDefault();
 
     onSubmit(form);
     setForm(FORM);
+    setFocusСonfig({});
+    setError({});
   };
 
   // обработчик отпускания фокуса
@@ -53,6 +48,23 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
     const newOutFocus = Object.fromEntries(newСonfig.filter(Boolean));
     setFocusСonfig({ ...focusСonfig, ...newOutFocus });
   };
+
+  // обновление ошибок
+  useEffect(() => {
+    const errors = validator(form, focusСonfig);
+    setError(errors);
+    const totalErrors = validator(form, CONFIG);
+    setValid(!totalError(totalErrors));
+    console.log(form);
+  }, [form, focusСonfig]);
+
+  // обновление FORM
+  useEffect(() => {
+    setForm(FORM);
+    setName(createName(FORM));
+    const initPlaceholder = createPlaceholder(FORM, CONFIG);
+    setPlaceholder(initPlaceholder);
+  }, [FORM]);
 
   return {
     form,
