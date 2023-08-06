@@ -5,7 +5,8 @@ export function labelForm(value) {
   if (value === "birthDate") return "Год рождения";
   if (value === "category") return "Категория";
   if (value === "name") return "Название";
-  if (value === "specification") return "Характеристика";
+  if (value === "specification") return "Характеристикa";
+  if (value === "specifications") return "Характеристики";
   if (value === "title") return "Загаловок";
   if (value === "description") return "Описание";
   if (value === "email") return "Электронная почта";
@@ -117,21 +118,3 @@ export function createName(form) {
   });
   return Object.fromEntries(newArrayForm);
 }
-
-// export const createForm = (initialState, validateConfig) => {
-//   if (!initialState) return;
-//   const arrayForm = Object.entries(initialState);
-//   const newArrayForm = arrayForm.map(([keyForm, valueForm]) => {
-//     /* Создать нужные поля для ключа */
-//     valueForm = {
-//       name: keyForm,
-//       label: labelForm(keyForm),
-//       value: valueForm,
-//       error: false,
-//     };
-
-//     return [keyForm, valueForm];
-//   });
-
-//   return Object.fromEntries(newArrayForm);
-// };

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import categoryService from "../services/category.service";
-import { createCategory, setCategories } from "../store/categorySlicer";
+import { createCategory, setCategories } from "../store/category";
 
 const useCategories = () => {
   const dispatch = useDispatch();

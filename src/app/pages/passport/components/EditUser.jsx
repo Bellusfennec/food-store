@@ -7,38 +7,45 @@ import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
+import {
+  getCurrentUser,
+  getCurrentUserLoadingStatus,
+  updateUser,
+} from "../../../store/currentUser";
 import style from "./EditUser.module.scss";
-import { useUser } from "../../../hooks/useUsers";
-import { setUser } from "../../../store/userSlicer";
 
 const EditUser = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector(getCurrentUser());
+  const isLoading = useSelector(getCurrentUserLoadingStatus());
   const navigate = useNavigate();
-  const validateConfig = {
+  const CONFIG = {
     email: { isRequared: "" },
     password: { isRequared: "" },
   };
 
-  const INITIAL_FORM = { ...user };
-  const { handlerChange, form, data, setError } = useForm(
-    INITIAL_FORM,
-    validateConfig
-  );
-  const { isLoading, updateUser } = useUser();
+  const FORM = { ...user };
+  const {
+    handlerChange,
+    handlerSubmit,
+    form,
+    setError,
+    isValid,
+    name,
+    placeholder,
+    error,
+  } = useForm({ FORM, CONFIG, onSubmit });
 
-  const handlerSubmit = async (event) => {
-    event.preventDefault();
+  function onSubmit(data) {
+    dispatch(updateUser(data));
 
-    // dispatch(loadUser(userId));
-
-    updateUser(data)
-      .then((user) => {
-        dispatch(setUser(user));
-        navigate(`/passport/profile`);
-      })
-      .catch((error) => setError(error));
-  };
+    // updateUser(data)
+    //   .then((user) => {
+    //     dispatch(setUser(user));
+    //     navigate(`/passport/profile`);
+    //   })
+    //   .catch((error) => setError(error));
+  }
 
   return (
     <>
@@ -54,25 +61,25 @@ const EditUser = () => {
         <h3 className={style.label}>Редактирвание профиля</h3>
         <Divider row="2" />
         <TextInput
-          autoComplete={form.email.name}
-          name={form.email.name}
-          value={form.email.value}
-          placeholder={form.email.label}
-          error={form.email.error}
+          autoComplete={name.email}
+          name={name.email}
+          value={form.email}
+          placeholder={placeholder.email}
+          error={error.email}
           onChange={handlerChange}
         />
         <Divider />
         <TextInput
           type="password"
           autoComplete="off"
-          name={form.password.name}
-          value={form.password.value}
-          placeholder={form.password.label}
-          error={form.password.error}
+          name={name.password}
+          value={form.password}
+          placeholder={placeholder.password}
+          error={error.password}
           onChange={handlerChange}
         />
         <Divider row="2" />
-        <Button disabled={form.email.error || form.password.error}>
+        <Button disabled={!isValid}>
           {isLoading ? <Loading /> : "Обновить"}
         </Button>
       </form>

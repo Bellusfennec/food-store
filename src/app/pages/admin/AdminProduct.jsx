@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import SearchInput from "../../common/components/form/SearchInput";
 import { Loading } from "../../common/components/loading";
 import { SectionWrapper } from "../../common/components/wrapper";
-import { useProducts } from "../../hooks/useProducts";
 import ProductsTable from "./components/ProductsTable";
 import { FormGroup, FormItem } from "../../common/components/form";
+import { useSelector } from "react-redux";
+import { getProducts, getProductsLoadingStatus } from "../../store/product";
 
 const AdminProduct = () => {
-  const { products, isLoading } = useProducts();
-  // const { categories, isLoading: isLoadingCategories } = useCategories();
+  const products = useSelector(getProducts());
+  const isLoading = useSelector(getProductsLoadingStatus());
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const [search, setSearch] = useState("");
 

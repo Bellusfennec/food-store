@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Divider from "../../../app/common/components/divider/Divider";
 import {
@@ -13,17 +13,23 @@ import {
   TextareaField,
 } from "../../../app/common/components/form";
 import { Loading } from "../../../app/common/components/loading";
-import { useProducts } from "../../hooks/useProducts";
+import useForm from "../../hooks/useForm";
+import { getCategories } from "../../store/category";
+import {
+  createProduct,
+  getProductById,
+  getProductsLoadingStatus,
+} from "../../store/product";
 import style from "./AdminProductForm.module.scss";
 import CategoryCreate from "./components/CategoryCreate";
 import SpecificationForm from "./components/SpecificationForm";
-import useForm from "../../hooks/useForm";
-import { getCategories } from "../../store/categorySlicer";
 
 const AdminProductForm = () => {
   const { id } = useParams();
-  const { isLoading, createProduct, getProduct } = useProducts();
-  const product = id ? getProduct(id) : null;
+  const dispatch = useDispatch();
+  const categories = useSelector(getCategories());
+  const isLoading = useSelector(getProductsLoadingStatus());
+  const product = useSelector(getProductById(id));
   const navigate = useNavigate();
   const CONFIG = {
     name: { isRequared: "" },
@@ -40,8 +46,7 @@ const AdminProductForm = () => {
     priceSale: "",
     image: "1.jpg",
   };
-  const FORM = product ? product : initialForm;
-  // const FORM = initialForm;
+  const FORM = initialForm;
   const {
     handlerChange,
     form,
@@ -58,14 +63,22 @@ const AdminProductForm = () => {
     CONFIG,
   });
 
-  const categories = useSelector(getCategories());
-
-  async function onSubmit(data) {
-    await createProduct(data).then(() => {
-      // navigate(`/`);
-    });
-    // .catch((error) => setError(error));
+  function onSubmit(data) {
+    if (product) {
+      console.log("upd", data);
+      navigate(`/admin/product`);
+    } else {
+      console.log("создать", data);
+      dispatch(createProduct(data));
+      navigate(`/admin/product`);
+    }
   }
+
+  useEffect(() => {
+    if (product) {
+      setForm(product);
+    }
+  }, [product]);
 
   if (isLoading) return <Loading />;
 
@@ -130,7 +143,9 @@ const AdminProductForm = () => {
       <Divider />
       <SpecificationForm value={form.specifications} setForm={setForm} />
       <Divider row="2" />
-      <Button disabled={!isValid}>{isLoading ? <Loading /> : "Создать"}</Button>
+      <Button disabled={!isValid}>
+        {isLoading ? <Loading /> : product ? "Обновить" : "Создать"}
+      </Button>
     </form>
   );
 };

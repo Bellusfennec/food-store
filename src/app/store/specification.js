@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setError } from "./errors";
+import specificationService from "../services/specification.service";
 
 const initialState = {
   entities: [],
@@ -29,17 +31,28 @@ const specificationSlice = createSlice({
         (el) => el.id !== action.payload.id
       );
     },
-    taskRequested(state) {
+    requested(state) {
       state.isLoading = true;
     },
-    taskRequestFailed(state) {
+    requestFailed(state) {
       state.isLoading = false;
     },
   },
 });
 
 const { actions, reducer: specificationReducer } = specificationSlice;
-const { set, create } = actions;
+const { set, create, requested, requestFailed } = actions;
+
+export const loadSpecifications = () => async (dispatch) => {
+  dispatch(requested());
+  try {
+    const { content } = await specificationService.getAll();
+    dispatch(set(content));
+  } catch (error) {
+    dispatch(requestFailed(error.message));
+    dispatch(setError(error.message));
+  }
+};
 
 export function setSpecifications(payload) {
   return set(payload);

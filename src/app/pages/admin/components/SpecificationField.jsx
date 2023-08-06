@@ -8,7 +8,7 @@ import Dropdown from "../../../common/components/form/Dropdown";
 import FormGroup from "../../../common/components/form/FormGroup";
 import FormItem from "../../../common/components/form/FormItem";
 import useForm from "../../../hooks/useForm";
-import { getSpecifications } from "../../../store/specificationSlicer";
+import { getSpecifications } from "../../../store/specification";
 
 const SpecificationField = (props) => {
   const { item, setData, onRemove } = props;
@@ -24,7 +24,6 @@ const SpecificationField = (props) => {
 
   return (
     <>
-      <Divider />
       <FormGroup>
         <FormItem grow="1">
           <TextInput
@@ -54,6 +53,7 @@ const SpecificationField = (props) => {
           </IconButton>
         </FormItem>
       </FormGroup>
+      <Divider />
     </>
   );
 };

@@ -8,12 +8,14 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./UserBar.module.scss";
+import { getAuthStatus } from "../../../store/auth";
 
 const UserBar = () => {
-  const { auth } = useSelector((state) => state.auth);
+  const isAuth = useSelector(getAuthStatus());
+
   return (
     <div className={style.userMenu}>
-      {auth ? (
+      {isAuth ? (
         <>
           <Link to="/" title="Поиск">
             <AiOutlineSearch />

@@ -1,16 +1,16 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authSlicer from "./authSlicer";
-import userSlicer from "./userSlicer";
+import authReducer from "./auth";
+import currentUserReducer from "./currentUser";
 import { logger } from "./middleware/logger";
-import productReducer from "./productSlicer";
-import specificationReducer from "./specificationSlicer";
-import categoryReducer from "./categorySlicer";
-import errorReducer from "./errorsSlicer";
+import productReducer from "./product";
+import specificationReducer from "./specification";
+import categoryReducer from "./category";
+import errorReducer from "./errors";
 
 const rootReducer = combineReducers({
   error: errorReducer,
-  auth: authSlicer,
-  user: userSlicer,
+  auth: authReducer,
+  currentUser: currentUserReducer,
   product: productReducer,
   category: categoryReducer,
   specification: specificationReducer,

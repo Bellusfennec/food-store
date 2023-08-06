@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setError } from "./errors";
+import categoryService from "../services/category.service";
 
 const initialState = {
   entities: [],
@@ -29,17 +31,28 @@ const categorySlice = createSlice({
         (el) => el.id !== action.payload.id
       );
     },
-    taskRequested(state) {
+    requested(state) {
       state.isLoading = true;
     },
-    taskRequestFailed(state) {
+    requestFailed(state) {
       state.isLoading = false;
     },
   },
 });
 
 const { actions, reducer: categoryReducer } = categorySlice;
-const { set, create } = actions;
+const { set, create, requestFailed, requested } = actions;
+
+export const loadCategories = () => async (dispatch) => {
+  dispatch(requested());
+  try {
+    const { content } = await categoryService.getAll();
+    dispatch(set(content));
+  } catch (error) {
+    dispatch(requestFailed(error.message));
+    dispatch(setError(error.message));
+  }
+};
 
 export function createCategory(payload) {
   return create(payload);

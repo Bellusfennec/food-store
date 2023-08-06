@@ -6,17 +6,18 @@ import { Loading } from "../../../common/components/loading";
 import ContainerWrapper, {
   SectionWrapper,
 } from "../../../common/components/wrapper";
-import { useProducts } from "../../../hooks/useProducts";
+import { getCategories } from "../../../store/category";
+import { getProducts, getProductsLoadingStatus } from "../../../store/product";
 import style from "./ListProducts.module.scss";
-import { getCategories } from "../../../store/categorySlicer";
 
 const ListProducts = () => {
-  const { products, isLoading: isLoadingProducts } = useProducts();
+  const products = useSelector(getProducts());
+  const isLoadingProducts = useSelector(getProductsLoadingStatus());
   const categories = useSelector(getCategories());
 
   const categoriesListProducts = (data) => {
     return [...data].map((category) => {
-      const filtredProducts = [...products].filter(
+      const filtredProducts = products.filter(
         (product) => product.category === category._id
       );
       const productsList = filtredProducts ? filtredProducts : [];
@@ -51,58 +52,6 @@ const ListProducts = () => {
                 </div>
               )
           )}
-        {/* {!isLoading && products && (
-          <List>
-            {products?.length > 0 &&
-              products.map(({ title, id }, i) => (
-                <ProductCard key={id} />
-                // <div key={uuid} className={style.item}>
-                //   <div className={style.image}>
-                //     <img
-                //       src={process.env.PUBLIC_URL + `/image/${i}.jpg`}
-                //       alt={title}
-                //     />
-                //   </div>
-                //   <div className={style.main}>
-                //     <Link
-                //       to={`/product/detail/${uuid}`}
-                //       className={style.label}
-                //     >
-                //       <h3>{title}</h3>
-                //     </Link>
-                //     <div className={style.info}>
-                //       <div className={style.action}>
-                //         <div className={style.rating}>
-                //           <MdStar /> <span>4.5/5</span>
-                //         </div>
-                //         <div className={style.favorite}>
-                //           {false ? <MdFavorite /> : <MdFavoriteBorder />}{" "}
-                //           <span>Избранное</span>
-                //         </div>
-                //       </div>
-                //       <div className={style.price}>
-                //         <div className={style.discount}>
-                //           <div>Скидка -30%</div>
-                //           <span>
-                //             129 <MdCurrencyRuble />
-                //           </span>
-                //         </div>
-                //         <div className={style.regular}>
-                //           {" "}
-                //           99 <MdCurrencyRuble />
-                //         </div>
-                //       </div>
-                //     </div>
-                //     <div className={style.button}>
-                //       <Button type="button">В корзину</Button>
-                //     </div>
-                //   </div>
-                // </div>
-              ))}
-            {products.length === 0 && <div>Не найдено</div>}
-            {!products && <div>Нет продуктов</div>}
-          </List>
-        )} */}
       </ContainerWrapper>
     </SectionWrapper>
   );

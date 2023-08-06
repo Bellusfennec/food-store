@@ -18,8 +18,8 @@ const SpecificationForm = (props) => {
   };
 
   const handlerRemoveField = (id) => {
-    const specification = value.filter((item) => item._id !== id);
-    setForm((form) => ({ ...form, specification }));
+    const specifications = value.filter((item) => item._id !== id);
+    setForm((form) => ({ ...form, specifications }));
   };
 
   const handlerChangeData = (data) => {
@@ -33,6 +33,14 @@ const SpecificationForm = (props) => {
 
   return (
     <>
+      {value.map((item) => (
+        <SpecificationField
+          key={item._id}
+          item={item}
+          setData={handlerChangeData}
+          onRemove={handlerRemoveField}
+        />
+      ))}
       <FormGroup>
         <FormItem grow={true}>
           <Button type="button" onClick={handlerCreateField} title="Добавить">
@@ -43,14 +51,6 @@ const SpecificationForm = (props) => {
           <SpecificationCreate />
         </FormItem>
       </FormGroup>
-      {value.map((item) => (
-        <SpecificationField
-          key={item._id}
-          item={item}
-          setData={handlerChangeData}
-          onRemove={handlerRemoveField}
-        />
-      ))}
     </>
   );
 };

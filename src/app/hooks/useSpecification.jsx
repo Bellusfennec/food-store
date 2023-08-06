@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   createSpecifications,
   setSpecifications,
-} from "../store/specificationSlicer";
+} from "../store/specification";
 import { useDispatch } from "react-redux";
 
 const useSpecification = () => {

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { setTokens } from "../services/localStorage.service";
 import { httpAuth } from "../services/http.service";
 import { useDispatch } from "react-redux";
-import { setSignIn } from "../store/authSlicer";
+import { setSignIn } from "../store/auth";
 
 const AuthContext = React.createContext();
 

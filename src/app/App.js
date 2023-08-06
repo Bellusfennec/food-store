@@ -1,33 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AppRoutes from "./AppRoutes";
 import { Loading } from "./common/components/loading";
 import ErrorLayout from "./pages/error/components/ErrorLayout";
-import { setAuth } from "./store/authSlicer";
-import AppRoutes from "./AppRoutes";
-import { setUser } from "./store/userSlicer";
-import { useUser } from "./hooks/useUsers";
+import { checkAuth } from "./store/auth";
+import { loadUser } from "./store/currentUser";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const { accessToken, userId } = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const { getUser } = useUser();
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(setAuth());
-    }
+    dispatch(checkAuth());
     setLoading(false);
-  }, [accessToken]);
+  }, []);
 
   useEffect(() => {
-    if (userId) {
-      // dispatch(loadUser(userId));
-      getUser(userId).then((user) => {
-        dispatch(setUser(user));
-      });
-    }
+    if (userId) dispatch(loadUser(userId));
   }, [userId]);
 
   if (loading) {
