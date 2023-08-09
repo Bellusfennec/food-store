@@ -3,11 +3,10 @@ import React from "react";
 import { MdLogout, MdSettings } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLogOut } from "../../../store/auth";
+import { getCurrentUser, setLogOut } from "../../../store/user";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton } from "../../../common/components/form";
 import style from "./Profile.module.scss";
-import { getCurrentUser } from "../../../store/currentUser";
 
 const Profile = () => {
   const user = useSelector(getCurrentUser());

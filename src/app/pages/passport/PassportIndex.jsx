@@ -5,8 +5,7 @@ import { Navigate, useParams } from "react-router-dom";
 import Logo from "../../common/components/header/Logo";
 import { ModalLayout } from "../../common/components/layouts";
 import { Loading } from "../../common/components/loading";
-import { getAuthStatus } from "../../store/auth";
-import { getCurrentUser } from "../../store/currentUser";
+import { getCurrentUser, getIsLoggedIn } from "../../store/user";
 import style from "./PassportIndex.module.scss";
 import EditUser from "./components/EditUser";
 import Login from "./components/Login";
@@ -15,7 +14,7 @@ import Registration from "./components/Registration";
 
 const PassportIndex = () => {
   const { page } = useParams();
-  const isAuth = useSelector(getAuthStatus());
+  const isAuth = useSelector(getIsLoggedIn());
   const user = useSelector(getCurrentUser());
 
   if (isAuth && page !== "profile" && page !== "edit") {
@@ -24,7 +23,7 @@ const PassportIndex = () => {
   if (!isAuth && page !== "registration" && page !== "login") {
     return <Navigate to="/passport/login" />;
   }
-  console.log(isAuth, user);
+
   return (
     <ModalLayout>
       <div className={style.container}>

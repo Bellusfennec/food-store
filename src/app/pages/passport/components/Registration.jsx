@@ -6,7 +6,7 @@ import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
-import { getAuthLoadingStatus, setSignUp } from "../../../store/auth";
+import { getUserIsLoading, userSignUp } from "../../../store/user";
 import style from "./Registration.module.scss";
 
 const Registration = () => {
@@ -33,14 +33,10 @@ const Registration = () => {
     FORM,
     CONFIG,
   });
-  const isLoading = useSelector(getAuthLoadingStatus());
+  const isLoading = useSelector(getUserIsLoading());
 
   function onSubmit(data) {
-    dispatch(setSignUp(data));
-    // dispatch(setSignUp(data));
-    // signUp(data)
-    //   .then(() => navigate(`/`))
-    //   .catch((error) => setError(error));
+    dispatch(userSignUp(data));
   }
 
   const toLogin = () => {

@@ -7,17 +7,18 @@ import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
+
+import style from "./EditUser.module.scss";
 import {
   getCurrentUser,
-  getCurrentUserLoadingStatus,
+  getUserIsLoading,
   updateUser,
-} from "../../../store/currentUser";
-import style from "./EditUser.module.scss";
+} from "../../../store/user";
 
 const EditUser = () => {
   const dispatch = useDispatch();
   const user = useSelector(getCurrentUser());
-  const isLoading = useSelector(getCurrentUserLoadingStatus());
+  const isLoading = useSelector(getUserIsLoading());
   const navigate = useNavigate();
   const CONFIG = {
     email: { isRequared: "" },

@@ -6,7 +6,12 @@ import Divider from "../../../common/components/divider/Divider";
 import { Button, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
-import { getAuthLoadingStatus, setSignIn } from "../../../store/auth";
+import {
+  getAuthLoadingStatus,
+  getUserIsLoading,
+  setSignIn,
+  userSignIn,
+} from "../../../store/user";
 import style from "./Login.module.scss";
 
 const Login = () => {
@@ -33,11 +38,11 @@ const Login = () => {
     FORM,
     CONFIG,
   });
-  const isLoading = useSelector(getAuthLoadingStatus());
+  const isLoading = useSelector(getUserIsLoading());
   // const { isLoading, signIn } = useAuth();
 
   function onSubmit(data) {
-    dispatch(setSignIn(data));
+    dispatch(userSignIn(data));
     // dispatch(setSignIn(data));
     // signIn(data)
     //   .then(() => navigate(`/`))

@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from "./auth";
-import currentUserReducer from "./currentUser";
+import userReducer from "./user";
 import { logger } from "./middleware/logger";
 import productReducer from "./product";
 import specificationReducer from "./specification";
@@ -9,8 +8,7 @@ import errorReducer from "./errors";
 
 const rootReducer = combineReducers({
   error: errorReducer,
-  auth: authReducer,
-  currentUser: currentUserReducer,
+  user: userReducer,
   product: productReducer,
   category: categoryReducer,
   specification: specificationReducer,

@@ -3,17 +3,16 @@ import localStorageService from "../services/localStorage.service";
 import jwt_decode from "jwt-decode";
 import userService from "../services/user.service";
 import { setError } from "./errors";
-import { httpAuth } from "../services/http.service";
+import authService from "../services/auth.service";
 
 const initialState = {
-  isAuth: false,
-  userId: null,
-  accessToken: false,
+  isLoggedIn: false,
+  entity: null,
   isLoading: false,
 };
 
-const authSlice = createSlice({
-  name: "auth",
+const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {
     check(state) {
@@ -22,33 +21,25 @@ const authSlice = createSlice({
       const decoded = state.accessToken ? jwt_decode(state.accessToken) : null;
       const userId = localStorageService.getUserId();
       state.userId = decoded?.user_id === userId ? userId : null;
-      state.isAuth = state.userId ? true : false;
+      state.isuser = state.userId ? true : false;
 
-      if (!state.isAuth) localStorageService.removeTokens();
+      if (!state.isuser) localStorageService.removeTokens();
     },
-    signUp(state, action) {
+    authRequested(state, action) {
       const data = action.payload;
       if (!data) return;
 
-      state.isAuth = true;
+      state.isuser = true;
       state.userId = data.localId;
       state.accessToken = data.idToken;
     },
-    signIn(state, action) {
-      const data = action.payload;
-      if (!data) return;
-
-      state.isAuth = true;
-      state.userId = data.localId;
-      state.accessToken = data.idToken;
-    },
-    logOut(state) {
+    authRequestSuccess(state) {
       state.accessToken = false;
-      state.isAuth = false;
+      state.isuser = false;
       state.userId = null;
       localStorageService.removeTokens();
     },
-    requested(state) {
+    authRequestFailed(state) {
       state.isLoading = true;
     },
     requestFailed(state) {
@@ -57,59 +48,65 @@ const authSlice = createSlice({
   },
 });
 
-const { actions, reducer: authReducer } = authSlice;
+const { actions, reducer: userReducer } = userSlice;
 const { logOut, signIn, signUp, check, requested, requestFailed } = actions;
 
-export const setSignUp = (payload) => async (dispatch) => {
+// function createUser(payload) {
+//   return async function (dispatch) {
+//     dispatch(userCreateRequested());
+//     try {
+//       const { content } = await userService.create(payload);
+//       dispatch(userCreated(content));
+//       history.push("/users");
+//     } catch (error) {
+//       dispatch(userCreateFailed(error.message));
+//     }
+//   };
+// }
+export const userSignUp = (payload) => async (dispatch) => {
   dispatch(requested());
   try {
     const { email, password, ...rest } = payload;
-    console.log("data1", email, password);
-    const { data } = await httpAuth.post(`accounts:signUp`, {
-      email,
-      password,
-      returnSecureToken: true,
-    });
-    console.log("data2", data);
-    localStorageService.setTokens(data);
+    const content = await authService.registration({ email, password });
+    localStorageService.setTokens(content);
     await userService.create({
-      _id: data.localId,
+      _id: content.localId,
       email,
       password,
       ...rest,
     });
-    dispatch(signUp(data));
-  } catch (error) {
-    dispatch(requestFailed(error.message));
-    dispatch(setError(error.message));
-  }
-};
-export const setSignIn = (payload) => async (dispatch) => {
-  dispatch(requested());
-  try {
-    const { email, password } = payload;
-    const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
-      email,
-      password,
-      returnSecureToken: true,
-    });
-    console.log(data);
-    localStorageService.setTokens(data);
-    dispatch(signIn(data));
+    dispatch(signUp(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
     dispatch(setError(error.message));
   }
 };
 
-export function checkAuth() {
+export const userSignIn = (payload) => async (dispatch) => {
+  dispatch(requested());
+  try {
+    const { email, password } = payload;
+    const content = await authService.login({ email, password });
+    console.log(content);
+    localStorageService.setTokens(content);
+    dispatch(signIn(content));
+  } catch (error) {
+    dispatch(requestFailed(error.message));
+    dispatch(setError(error.message));
+  }
+};
+
+export function checkuser() {
   return check();
 }
 export function setLogOut() {
   return logOut();
 }
+export function loadUser() {}
+export function updateUser() {}
 
-export const getAuthStatus = () => (state) => state.auth.isAuth;
-export const getAuthLoadingStatus = () => (state) => state.auth.isLoading;
+export const getCurrentUser = () => (state) => state.user.entity;
+export const getIsLoggedIn = () => (state) => state.user.isLoggedIn;
+export const getUserIsLoading = () => (state) => state.user.isLoading;
 
-export default authReducer;
+export default userReducer;
