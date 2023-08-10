@@ -13,14 +13,21 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    requested(state) {
+      state.isLoading = true;
+    },
     productRecived(state, action) {
       state.entities = action.payload;
       state.isLoading = false;
     },
-    create(state, action) {
-      state.entities = [...state.entities, action.payload];
+    requestFailed(state) {
+      state.isLoading = false;
     },
-    update(state, action) {
+    created(state, action) {
+      state.entities = [...state.entities, action.payload];
+      state.isLoading = false;
+    },
+    updated(state, action) {
       const elementIndex = state.entities.findIndex(
         (el) => el.id === action.payload.id
       );
@@ -34,16 +41,10 @@ const productSlice = createSlice({
         (el) => el.id !== action.payload.id
       );
     },
-    requested(state) {
-      state.isLoading = true;
-    },
-    requestFailed(state) {
-      state.isLoading = false;
-    },
   },
 });
 const { actions, reducer: productReducer } = productSlice;
-const { productRecived, requested, create, requestFailed, update, remove } =
+const { productRecived, requested, created, requestFailed, updated, removed } =
   actions;
 
 export const loadProducts = () => async (dispatch) => {
@@ -85,7 +86,7 @@ export const createdProduct = (payload) => async (dispatch) => {
       }
     }
     const { content } = await productService.create(payload);
-    dispatch(create(content));
+    dispatch(created(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
   }
@@ -95,7 +96,20 @@ export const updatedProduct = (payload) => async (dispatch, getState) => {
   const product = entities.find((p) => p._id === payload._id);
   dispatch(requested());
   try {
-    console.log(product, payload);
+    if (payload.specifications.length > 0) {
+      const newSpecification = payload.specifications;
+      const oldSpecification = product.specifications;
+      // const deleted =
+      console.log(product, payload);
+      for (let i = 0; i < newSpecification.length; i++) {
+        const n = newSpecification[i];
+        console.log("n", n);
+        for (let i = 0; i < oldSpecification.length; i++) {
+          const o = newSpecification[i];
+          console.log("o", o);
+        }
+      }
+    }
     // Если есть характеристики
     // if (payload.specifications.length > 0) {
     //   for (let i = 0; i < payload.specifications.length; i++) {
@@ -105,17 +119,17 @@ export const updatedProduct = (payload) => async (dispatch, getState) => {
     //   }
     // }
     // const { content } = await productService.create(payload);
-    // dispatch(create(content));
+    // dispatch(updated(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
   }
 };
 
 export function updateProduct1(payload) {
-  return update(payload);
+  return updated(payload);
 }
 export function removeProduct(id) {
-  return remove({ id });
+  return removed({ id });
 }
 
 export const getProductById = (id) => (state) => {

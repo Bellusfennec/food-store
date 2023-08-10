@@ -33,7 +33,7 @@ const SpecificationForm = (props) => {
 
   return (
     <>
-      {value.map((item) => (
+      {value?.map((item) => (
         <SpecificationField
           key={item._id}
           item={item}
