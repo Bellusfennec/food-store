@@ -3,7 +3,7 @@ import React from "react";
 import { MdLogout, MdSettings } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, setLogOut } from "../../../store/user";
+import { getCurrentUser, loggedOutUser } from "../../../store/user";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton } from "../../../common/components/form";
 import style from "./Profile.module.scss";
@@ -11,7 +11,6 @@ import style from "./Profile.module.scss";
 const Profile = () => {
   const user = useSelector(getCurrentUser());
   const { email } = user;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +24,7 @@ const Profile = () => {
       <Divider row="2" />
       <div>Email: {email}</div>
       <Divider row="2" />
-      <Button outline={true} onClick={() => dispatch(setLogOut())}>
+      <Button outline={true} onClick={() => navigate("/logout")}>
         <MdLogout />
         Выход
       </Button>

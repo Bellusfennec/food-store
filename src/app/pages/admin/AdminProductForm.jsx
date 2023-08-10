@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,9 +16,10 @@ import { Loading } from "../../../app/common/components/loading";
 import useForm from "../../hooks/useForm";
 import { getCategories } from "../../store/category";
 import {
-  createProduct,
+  createdProduct,
   getProductById,
   getProductsLoadingStatus,
+  updatedProduct,
 } from "../../store/product";
 import style from "./AdminProductForm.module.scss";
 import CategoryCreate from "./components/CategoryCreate";
@@ -65,11 +66,10 @@ const AdminProductForm = () => {
 
   function onSubmit(data) {
     if (product) {
-      console.log("upd", data);
+      dispatch(updatedProduct(data));
       navigate(`/admin/product`);
     } else {
-      console.log("создать", data);
-      dispatch(createProduct(data));
+      dispatch(createdProduct(data));
       navigate(`/admin/product`);
     }
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -6,11 +6,17 @@ import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
-import { getUserIsLoading, userSignUp } from "../../../store/user";
+import {
+  getAuthLoadingStatus,
+  getUserError,
+  registeredUser,
+} from "../../../store/user";
 import style from "./Registration.module.scss";
 
 const Registration = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(getAuthLoadingStatus());
+  const userError = useSelector(getUserError());
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const CONFIG = {
@@ -33,11 +39,16 @@ const Registration = () => {
     FORM,
     CONFIG,
   });
-  const isLoading = useSelector(getUserIsLoading());
 
   function onSubmit(data) {
-    dispatch(userSignUp(data));
+    dispatch(registeredUser(data));
   }
+
+  useEffect(() => {
+    if (userError) {
+      setError(userError);
+    }
+  }, [userError]);
 
   const toLogin = () => {
     form.email.length > 0
@@ -54,12 +65,6 @@ const Registration = () => {
       </div>
       <h3 className={style.label}>Регистрация</h3>
       <Divider row="2" />
-      {/* {info && (
-        <>
-          <p className={style.hint}>{info}</p>
-          <Divider row="2" />
-        </>
-      )} */}
       <TextInput
         autoComplete={name.email}
         name={name.email}

@@ -7,11 +7,11 @@ import {
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getIsLoggedIn } from "../../../store/user";
+import { getLoggedStatus } from "../../../store/user";
 import style from "./UserBar.module.scss";
 
 const UserBar = () => {
-  const isLoggedIn = useSelector(getIsLoggedIn());
+  const isLoggedIn = useSelector(getLoggedStatus());
 
   return (
     <div className={style.userMenu}>

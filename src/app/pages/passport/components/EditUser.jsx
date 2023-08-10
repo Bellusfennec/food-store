@@ -11,14 +11,14 @@ import useForm from "../../../hooks/useForm";
 import style from "./EditUser.module.scss";
 import {
   getCurrentUser,
-  getUserIsLoading,
-  updateUser,
+  getUserLoadingStatus,
+  updatedUser,
 } from "../../../store/user";
 
 const EditUser = () => {
   const dispatch = useDispatch();
   const user = useSelector(getCurrentUser());
-  const isLoading = useSelector(getUserIsLoading());
+  const isLoading = useSelector(getUserLoadingStatus());
   const navigate = useNavigate();
   const CONFIG = {
     email: { isRequared: "" },
@@ -38,14 +38,8 @@ const EditUser = () => {
   } = useForm({ FORM, CONFIG, onSubmit });
 
   function onSubmit(data) {
-    dispatch(updateUser(data));
-
-    // updateUser(data)
-    //   .then((user) => {
-    //     dispatch(setUser(user));
-    //     navigate(`/passport/profile`);
-    //   })
-    //   .catch((error) => setError(error));
+    dispatch(updatedUser(data));
+    navigate(`/passport/profile`);
   }
 
   return (

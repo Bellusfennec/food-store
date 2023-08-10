@@ -5,7 +5,7 @@ import { Navigate, useParams } from "react-router-dom";
 import Logo from "../../common/components/header/Logo";
 import { ModalLayout } from "../../common/components/layouts";
 import { Loading } from "../../common/components/loading";
-import { getCurrentUser, getIsLoggedIn } from "../../store/user";
+import { getCurrentUser, getLoggedStatus } from "../../store/user";
 import style from "./PassportIndex.module.scss";
 import EditUser from "./components/EditUser";
 import Login from "./components/Login";
@@ -14,13 +14,13 @@ import Registration from "./components/Registration";
 
 const PassportIndex = () => {
   const { page } = useParams();
-  const isAuth = useSelector(getIsLoggedIn());
+  const isLogged = useSelector(getLoggedStatus());
   const user = useSelector(getCurrentUser());
 
-  if (isAuth && page !== "profile" && page !== "edit") {
+  if (isLogged && page !== "profile" && page !== "edit") {
     return <Navigate to="/" />;
   }
-  if (!isAuth && page !== "registration" && page !== "login") {
+  if (!isLogged && page !== "registration" && page !== "login") {
     return <Navigate to="/passport/login" />;
   }
 
@@ -28,11 +28,11 @@ const PassportIndex = () => {
     <ModalLayout>
       <div className={style.container}>
         <Logo className={style.logo} />
-        {isAuth && !user && <Loading />}
-        {isAuth && user && page === "profile" && <Profile />}
-        {isAuth && user && page === "edit" && <EditUser />}
-        {!isAuth && page === "login" && <Login />}
-        {!isAuth && page === "registration" && <Registration />}
+        {isLogged && !user && <Loading />}
+        {isLogged && user && page === "profile" && <Profile />}
+        {isLogged && user && page === "edit" && <EditUser />}
+        {!isLogged && page === "login" && <Login />}
+        {!isLogged && page === "registration" && <Registration />}
       </div>
     </ModalLayout>
   );

@@ -11,15 +11,10 @@ const ProductCard = (props) => {
   return (
     <div className={style.item}>
       <div className={style.image}>
-        {/* <img src={process.env.PUBLIC_URL + `/image/${i}.jpg`} alt={title} /> */}
         <img src={process.env.REACT_APP_IMAGE_URL + image} alt={name} />
       </div>
       <div className={style.main}>
-        <Link
-          // to={`/product/detail/${uuid}`}
-          to={link}
-          className={style.label}
-        >
+        <Link to={link} className={style.label}>
           <h3>{name}</h3>
         </Link>
         <div className={style.sale}>Скидка -30%</div>

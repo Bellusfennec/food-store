@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  getProductById,
+  getProductsLoadingStatus,
+} from "../../../store/product";
+import style from "./DetailProduct.module.scss";
 import { Loading } from "../../../common/components/loading";
 
 const DetailProduct = () => {
   const { page, productId } = useParams();
-  const [productForm, setForm] = useState();
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const isLoading = useSelector(getProductsLoadingStatus());
+  const product = useSelector(getProductById(productId));
 
-  const getProduct = async () => {
-    setLoading(true);
-    try {
-      // const response = await getProductByIdHTTP(productId);
-      // if (response.ok) {
-      //   const newForm = response.data;
-      //   setForm(newForm);
-      // }
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
+  if (isLoading) return <Loading />;
 
-  useEffect(() => {
-    getProduct();
-  }, [productId]);
-
-  if (!productForm) {
-    return <Loading />;
-  }
-  return <div>Страница товара</div>;
+  const { name, image, category, price, priceSale } = product;
+  return (
+    <div className={style.container}>
+      <div className={style.left}>
+        <div className={style.image}>
+          <img src={process.env.REACT_APP_IMAGE_URL + image} alt={name} />
+        </div>
+      </div>
+      <div className={style.right}>
+        <h3>{name}</h3>
+        <p>{category}</p>
+        <p>{price}</p>
+        <p>{priceSale}</p>
+      </div>
+    </div>
+  );
 };
 
 export default DetailProduct;

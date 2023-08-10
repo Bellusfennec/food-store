@@ -3,7 +3,6 @@ import { setError } from "./errors";
 import productService from "../services/product.service";
 import { v4 as uuidv4 } from "uuid";
 import productSpecificationService from "../services/productSpecification.service";
-import { useSelector } from "react-redux";
 
 const initialState = {
   entities: [],
@@ -14,7 +13,7 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    set(state, action) {
+    productRecived(state, action) {
       state.entities = action.payload;
       state.isLoading = false;
     },
@@ -44,7 +43,8 @@ const productSlice = createSlice({
   },
 });
 const { actions, reducer: productReducer } = productSlice;
-const { set, requested, create, requestFailed, update, remove } = actions;
+const { productRecived, requested, create, requestFailed, update, remove } =
+  actions;
 
 export const loadProducts = () => async (dispatch) => {
   dispatch(requested());
@@ -65,15 +65,14 @@ export const loadProducts = () => async (dispatch) => {
         products.push(product);
       }
     }
-    dispatch(set(products));
+    dispatch(productRecived(products));
   } catch (error) {
     console.log(error);
     dispatch(requestFailed(error.message));
-    dispatch(setError(error.message));
   }
 };
 
-export const createProduct = (payload) => async (dispatch) => {
+export const createdProduct = (payload) => async (dispatch) => {
   dispatch(requested());
   try {
     payload = { ...payload, _id: uuidv4() };
@@ -89,25 +88,26 @@ export const createProduct = (payload) => async (dispatch) => {
     dispatch(create(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
-    dispatch(setError(error.message));
   }
 };
-export const updateProduct = (payload) => async (dispatch) => {
+export const updatedProduct = (payload) => async (dispatch, getState) => {
+  const { entities } = getState().product;
+  const product = entities.find((p) => p._id === payload._id);
   dispatch(requested());
   try {
+    console.log(product, payload);
     // Если есть характеристики
-    if (payload.specifications.length > 0) {
-      for (let i = 0; i < payload.specifications.length; i++) {
-        const item = { ...payload.specifications[i], _id: uuidv4() };
-        const { content } = await productSpecificationService.create(item);
-        payload.specifications[i] = content._id;
-      }
-    }
-    const { content } = await productService.create(payload);
-    dispatch(create(content));
+    // if (payload.specifications.length > 0) {
+    //   for (let i = 0; i < payload.specifications.length; i++) {
+    //     const item = { ...payload.specifications[i], _id: uuidv4() };
+    //     const { content } = await productSpecificationService.create(item);
+    //     payload.specifications[i] = content._id;
+    //   }
+    // }
+    // const { content } = await productService.create(payload);
+    // dispatch(create(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
-    dispatch(setError(error.message));
   }
 };
 
@@ -120,9 +120,7 @@ export function removeProduct(id) {
 
 export const getProductById = (id) => (state) => {
   if (state.product.entities) {
-    const products = [...state.product.entities];
-    const product = products.find((p) => p._id === id);
-    return product;
+    return state.product.entities.find((p) => p._id === id);
   }
 };
 export const getProducts = () => (state) => state.product.entities;

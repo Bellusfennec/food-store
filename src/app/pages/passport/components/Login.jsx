@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Divider from "../../../common/components/divider/Divider";
@@ -8,14 +8,15 @@ import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
 import {
   getAuthLoadingStatus,
-  getUserIsLoading,
-  setSignIn,
-  userSignIn,
+  getUserError,
+  loggedInUser,
 } from "../../../store/user";
 import style from "./Login.module.scss";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(getAuthLoadingStatus());
+  const userError = useSelector(getUserError());
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const CONFIG = {
@@ -38,16 +39,16 @@ const Login = () => {
     FORM,
     CONFIG,
   });
-  const isLoading = useSelector(getUserIsLoading());
-  // const { isLoading, signIn } = useAuth();
 
   function onSubmit(data) {
-    dispatch(userSignIn(data));
-    // dispatch(setSignIn(data));
-    // signIn(data)
-    //   .then(() => navigate(`/`))
-    //   .catch((error) => setError(error));
+    dispatch(loggedInUser(data));
   }
+
+  useEffect(() => {
+    if (userError) {
+      setError(userError);
+    }
+  }, [userError]);
 
   const toRegistration = () => {
     form.email.length > 0
@@ -59,12 +60,6 @@ const Login = () => {
     <form onSubmit={handlerSubmit}>
       <h3 className={style.label}>Вход</h3>
       <Divider row="2" />
-      {/* {info && (
-        <>
-          <p className={style.hint}>{info}</p>
-          <Divider row="2" />
-        </>
-      )} */}
       <TextInput
         autoComplete={name.email}
         name={name.email}

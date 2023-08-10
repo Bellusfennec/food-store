@@ -11,7 +11,7 @@ const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    set(state, action) {
+    productRecived(state, action) {
       state.entities = action.payload;
     },
     add(state, action) {
@@ -41,13 +41,13 @@ const categorySlice = createSlice({
 });
 
 const { actions, reducer: categoryReducer } = categorySlice;
-const { set, create, requestFailed, requested } = actions;
+const { productRecived, create, requestFailed, requested } = actions;
 
 export const loadCategories = () => async (dispatch) => {
   dispatch(requested());
   try {
     const { content } = await categoryService.getAll();
-    dispatch(set(content));
+    dispatch(productRecived(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
     dispatch(setError(error.message));
@@ -58,7 +58,7 @@ export function createCategory(payload) {
   return create(payload);
 }
 export function setCategories(payload) {
-  return set(payload);
+  return productRecived(payload);
 }
 
 export const getCategories = () => (state) => state.category.entities;

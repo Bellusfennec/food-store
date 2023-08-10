@@ -11,7 +11,7 @@ const ProductsTable = ({ products, onDeleteProduct, onSort, selectedSort }) => {
       path: "name",
       name: "Название",
       component: (product) => (
-        <Link to={`/product/${product._id}`}>{product.name}</Link>
+        <Link to={`/product/detail/${product._id}`}>{product.name}</Link>
       ),
     },
     category: { path: "category", name: "Категория" },
