@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { MdLogout, MdSettings } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, loggedOutUser } from "../../../store/user";
 import Divider from "../../../common/components/divider/Divider";
 import { Button, IconButton } from "../../../common/components/form";
+import { getCurrentUser } from "../../../store/user";
 import style from "./Profile.module.scss";
 
 const Profile = () => {

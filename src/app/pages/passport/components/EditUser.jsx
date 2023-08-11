@@ -30,7 +30,6 @@ const EditUser = () => {
     handlerChange,
     handlerSubmit,
     form,
-    setError,
     isValid,
     name,
     placeholder,

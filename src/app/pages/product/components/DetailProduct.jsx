@@ -9,7 +9,7 @@ import style from "./DetailProduct.module.scss";
 import { Loading } from "../../../common/components/loading";
 
 const DetailProduct = () => {
-  const { page, productId } = useParams();
+  const { productId } = useParams();
   const isLoading = useSelector(getProductsLoadingStatus());
   const product = useSelector(getProductById(productId));
 

@@ -7,13 +7,13 @@ const SpecificationForm = (props) => {
 
   const handlerCreateField = () => {
     const newSpecification = {
-      _id: value.length,
+      _id: value?.length || 0,
       value: "",
       specification: "",
     };
     setForm((form) => ({
       ...form,
-      specifications: [...form.specifications, newSpecification],
+      specifications: [...(form?.specifications || []), newSpecification],
     }));
   };
 

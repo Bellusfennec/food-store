@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setError } from "./errors";
 import productService from "../services/product.service";
 import { v4 as uuidv4 } from "uuid";
 import productSpecificationService from "../services/productSpecification.service";
@@ -35,6 +34,7 @@ const productSlice = createSlice({
         ...state.entities[elementIndex],
         ...action.payload,
       };
+      state.isLoading = false;
     },
     remove(state, action) {
       state.entities = state.entities.filter(
@@ -96,31 +96,48 @@ export const updatedProduct = (payload) => async (dispatch, getState) => {
   const product = entities.find((p) => p._id === payload._id);
   dispatch(requested());
   try {
+    console.log(payload, product);
     if (payload.specifications.length > 0) {
-      const newSpecification = payload.specifications;
-      const oldSpecification = product.specifications;
-      // const deleted =
-      console.log(product, payload);
-      for (let i = 0; i < newSpecification.length; i++) {
-        const n = newSpecification[i];
-        console.log("n", n);
-        for (let i = 0; i < oldSpecification.length; i++) {
-          const o = newSpecification[i];
-          console.log("o", o);
+      const newSpecifications = payload.specifications;
+      const oldSpecifications = product?.specifications || [];
+      const createdArray = [];
+      const updatedArray = [];
+      const deletedArray = [];
+      newSpecifications.forEach((newS) => {
+        const index = oldSpecifications.findIndex((oS) => oS._id === newS._id);
+        index !== -1 ? updatedArray.push(newS) : createdArray.push(newS);
+      });
+      oldSpecifications.forEach((oS) => {
+        const index = newSpecifications.findIndex(
+          (newS) => newS._id === oS._id
+        );
+        if (index === -1) deletedArray.push(oS);
+      });
+      console.log(createdArray, updatedArray, deletedArray);
+      if (updatedArray) {
+        for (let i = 0; i < createdArray.length; i++) {
+          const item = { ...createdArray[i], _id: uuidv4() };
+          await productSpecificationService.update(item);
+        }
+      }
+      if (createdArray) {
+        for (let i = 0; i < createdArray.length; i++) {
+          const item = { ...createdArray[i], _id: uuidv4() };
+          const { content } = await productSpecificationService.create(item);
+          payload.specifications[i] = content._id;
+        }
+      }
+      if (deletedArray) {
+        for (let i = 0; i < deletedArray.length; i++) {
+          const item = deletedArray[i]._id;
+          await productSpecificationService.delete(item);
         }
       }
     }
-    // Если есть характеристики
-    // if (payload.specifications.length > 0) {
-    //   for (let i = 0; i < payload.specifications.length; i++) {
-    //     const item = { ...payload.specifications[i], _id: uuidv4() };
-    //     const { content } = await productSpecificationService.create(item);
-    //     payload.specifications[i] = content._id;
-    //   }
-    // }
-    // const { content } = await productService.create(payload);
-    // dispatch(updated(content));
+    const { content } = await productService.update(payload);
+    dispatch(updated(content));
   } catch (error) {
+    console.log(error);
     dispatch(requestFailed(error.message));
   }
 };
