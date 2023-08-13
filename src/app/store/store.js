@@ -5,6 +5,7 @@ import productReducer from "./product";
 import specificationReducer from "./specification";
 import categoryReducer from "./category";
 import errorReducer from "./errors";
+import productSpecificationReducer from "./productSpecification";
 
 const rootReducer = combineReducers({
   error: errorReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   category: categoryReducer,
   specification: specificationReducer,
+  productSpecification: productSpecificationReducer,
 });
 
 const store = configureStore({

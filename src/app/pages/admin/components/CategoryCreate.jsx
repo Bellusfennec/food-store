@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useForm from "../../../hooks/useForm";
 import { Button, IconButton, TextInput } from "../../../common/components/form";
 import { FiPlus } from "react-icons/fi";
@@ -57,4 +57,4 @@ const CategoryCreate = () => {
   );
 };
 
-export default CategoryCreate;
+export default React.memo(CategoryCreate);

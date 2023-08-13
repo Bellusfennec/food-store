@@ -1,3 +1,4 @@
+import React from "react";
 import style from "./FormGroup.module.scss";
 
 const FormGroup = (props) => {
@@ -6,4 +7,4 @@ const FormGroup = (props) => {
   return <div className={style.formGroup}>{children}</div>;
 };
 
-export default FormGroup;
+export default React.memo(FormGroup);

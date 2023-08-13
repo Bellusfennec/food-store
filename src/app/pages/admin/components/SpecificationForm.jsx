@@ -1,9 +1,15 @@
+import React from "react";
 import { Button, FormGroup, FormItem } from "../../../common/components/form";
+import { Loading } from "../../../common/components/loading";
 import SpecificationCreate from "./SpecificationCreate";
 import SpecificationField from "./SpecificationField";
 
 const SpecificationForm = (props) => {
   const { setForm, value } = props;
+  const valueIsString = typeof value[0] !== "object";
+  const notEmpty = value?.length > 0;
+
+  // console.log(value);
 
   const handlerCreateField = () => {
     const newSpecification = {
@@ -31,6 +37,8 @@ const SpecificationForm = (props) => {
     setForm((form) => ({ ...form, specifications }));
   };
 
+  if (valueIsString) return <Loading />;
+
   return (
     <>
       {value?.map((item) => (
@@ -55,4 +63,4 @@ const SpecificationForm = (props) => {
   );
 };
 
-export default SpecificationForm;
+export default React.memo(SpecificationForm);

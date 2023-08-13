@@ -10,7 +10,7 @@ import {
 import Modal from "../../../common/components/modal/Modal";
 import { Loading } from "../../../common/components/loading";
 import useForm from "../../../hooks/useForm";
-import { useState } from "react";
+import React, { useState } from "react";
 import useSpecification from "../../../hooks/useSpecification";
 
 const SpecificationCreate = () => {
@@ -65,4 +65,4 @@ const SpecificationCreate = () => {
   );
 };
 
-export default SpecificationCreate;
+export default React.memo(SpecificationCreate);

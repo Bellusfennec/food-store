@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import productService from "../services/product.service";
 import { v4 as uuidv4 } from "uuid";
+import productService from "../services/product.service";
 import productSpecificationService from "../services/productSpecification.service";
+import {
+  createdProductSpecifications,
+  removedProductSpecifications,
+} from "./productSpecification";
 
 const initialState = {
   entities: [],
@@ -28,7 +32,7 @@ const productSlice = createSlice({
     },
     updated(state, action) {
       const elementIndex = state.entities.findIndex(
-        (el) => el.id === action.payload.id
+        (el) => el._id === action.payload._id
       );
       state.entities[elementIndex] = {
         ...state.entities[elementIndex],
@@ -36,10 +40,9 @@ const productSlice = createSlice({
       };
       state.isLoading = false;
     },
-    remove(state, action) {
-      state.entities = state.entities.filter(
-        (el) => el.id !== action.payload.id
-      );
+    removed(state, action) {
+      state.entities = state.entities.filter((el) => el._id !== action.payload);
+      state.isLoading = false;
     },
   },
 });
@@ -51,22 +54,7 @@ export const loadProducts = () => async (dispatch) => {
   dispatch(requested());
   try {
     const { content } = await productService.getAll();
-    const products = [];
-    for (let i = 0; i < content.length; i++) {
-      let product = content[i];
-      if (product.specifications?.length > 0) {
-        const specifications = [];
-        for (let i = 0; i < product.specifications.length; i++) {
-          const id = product.specifications[i];
-          const { content } = await productSpecificationService.get(id);
-          specifications.push(content);
-        }
-        products.push({ ...product, specifications });
-      } else {
-        products.push(product);
-      }
-    }
-    dispatch(productRecived(products));
+    dispatch(productRecived(content));
   } catch (error) {
     console.log(error);
     dispatch(requestFailed(error.message));
@@ -77,26 +65,36 @@ export const createdProduct = (payload) => async (dispatch) => {
   dispatch(requested());
   try {
     payload = { ...payload, _id: uuidv4() };
-    // Если есть характеристики
-    if (payload.specifications.length > 0) {
-      for (let i = 0; i < payload.specifications.length; i++) {
-        const item = { ...payload.specifications[i], _id: uuidv4() };
-        const { content } = await productSpecificationService.create(item);
-        payload.specifications[i] = content._id;
-      }
-    }
+    payload.specifications = await dispatch(
+      createdProductSpecifications(payload)
+    );
     const { content } = await productService.create(payload);
     dispatch(created(content));
   } catch (error) {
     dispatch(requestFailed(error.message));
   }
 };
+
+export const removedProduct = (id) => async (dispatch, getState) => {
+  const { entities } = getState().product;
+  dispatch(requested());
+  try {
+    const item = entities.find((p) => p._id === id);
+    await dispatch(removedProductSpecifications(item));
+    await productService.delete(id);
+    dispatch(removed(id));
+  } catch (error) {
+    dispatch(requestFailed(error.message));
+  }
+};
+
 export const updatedProduct = (payload) => async (dispatch, getState) => {
   const { entities } = getState().product;
   const product = entities.find((p) => p._id === payload._id);
   dispatch(requested());
   try {
-    console.log(payload, product);
+    console.log("payload", payload);
+    console.log("product", product);
     if (payload.specifications.length > 0) {
       const newSpecifications = payload.specifications;
       const oldSpecifications = product?.specifications || [];
@@ -114,23 +112,27 @@ export const updatedProduct = (payload) => async (dispatch, getState) => {
         if (index === -1) deletedArray.push(oS);
       });
       console.log(createdArray, updatedArray, deletedArray);
-      if (updatedArray) {
-        for (let i = 0; i < createdArray.length; i++) {
-          const item = { ...createdArray[i], _id: uuidv4() };
-          await productSpecificationService.update(item);
-        }
-      }
-      if (createdArray) {
-        for (let i = 0; i < createdArray.length; i++) {
-          const item = { ...createdArray[i], _id: uuidv4() };
-          const { content } = await productSpecificationService.create(item);
+      if (updatedArray.length > 0) {
+        for (let i = 0; i < updatedArray.length; i++) {
+          const item = { ...updatedArray[i], _id: uuidv4() };
+          const { content } = await productSpecificationService.update(item);
+          console.log("upd content", content);
           payload.specifications[i] = content._id;
         }
       }
-      if (deletedArray) {
+      if (createdArray.length > 0) {
+        for (let i = 0; i < createdArray.length; i++) {
+          const item = { ...createdArray[i], _id: uuidv4() };
+          const { content } = await productSpecificationService.create(item);
+          console.log("creat content", content);
+          payload.specifications[i] = content._id;
+        }
+      }
+      if (deletedArray.length > 0) {
+        // await dispatch(removedProductSpecifications({_id}));
         for (let i = 0; i < deletedArray.length; i++) {
-          const item = deletedArray[i]._id;
-          await productSpecificationService.delete(item);
+          const item = deletedArray[i];
+          await productSpecificationService.delete(item._id);
         }
       }
     }
@@ -141,10 +143,6 @@ export const updatedProduct = (payload) => async (dispatch, getState) => {
     dispatch(requestFailed(error.message));
   }
 };
-
-export function updateProduct1(payload) {
-  return updated(payload);
-}
 export function removeProduct(id) {
   return removed({ id });
 }

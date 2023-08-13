@@ -1,3 +1,4 @@
+import React from "react";
 import style from "./FormItem.module.scss";
 
 const FormItem = (props) => {
@@ -14,4 +15,4 @@ const FormItem = (props) => {
   );
 };
 
-export default FormItem;
+export default React.memo(FormItem);

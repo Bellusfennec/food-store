@@ -19,7 +19,7 @@ const AdminProduct = () => {
   /* Поиск */
   const searchRegExp = new RegExp(search);
   const searchResult = products?.filter((product) =>
-    searchRegExp.test(product.name.toLowerCase())
+    searchRegExp.test(product?.name?.toLowerCase())
   );
   /* Сортировка колонки */
   const sortedProducts = _.orderBy(searchResult, [sortBy.path], [sortBy.order]);

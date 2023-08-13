@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { IoChevronBackOutline } from "react-icons/io5";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { IoChevronBackOutline, IoTrashOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Divider from "../../../app/common/components/divider/Divider";
@@ -20,11 +20,16 @@ import {
   createdProduct,
   getProductById,
   getProductsLoadingStatus,
+  removedProduct,
   updatedProduct,
 } from "../../store/product";
 import style from "./AdminProductForm.module.scss";
 import CategoryCreate from "./components/CategoryCreate";
 import SpecificationForm from "./components/SpecificationForm";
+import {
+  getProductSpecificationsById,
+  loadedProductSpecifications,
+} from "../../store/productSpecification";
 
 const AdminProductForm = () => {
   const { id } = useParams();
@@ -32,6 +37,9 @@ const AdminProductForm = () => {
   const categories = useSelector(getCategories());
   const isLoading = useSelector(getProductsLoadingStatus());
   const product = useSelector(getProductById(id));
+  const specifications = useSelector(getProductSpecificationsById(id));
+  const [specificationStatus, setSpecificationStatus] = useState(true);
+  const render = useRef(null);
   const navigate = useNavigate();
   const CONFIG = {
     name: { isRequared: "" },
@@ -74,12 +82,32 @@ const AdminProductForm = () => {
       navigate(`/admin/product`);
     }
   }
+  function handlerRemoveProduct(id) {
+    dispatch(removedProduct(id));
+    navigate(`/admin/product`);
+  }
 
   useEffect(() => {
     if (product) {
+      // console.log("111111", product);
       setForm(product);
+      dispatch(loadedProductSpecifications(product.specifications));
     }
-  }, [product]);
+  }, []);
+
+  useEffect(() => {
+    // console.log("333", specifications);
+    if (specificationStatus) {
+      // console.log("22222", specifications);
+      setForm({ ...product, specifications });
+      setSpecificationStatus(false);
+    }
+  }, [specifications]);
+
+  useEffect(() => {
+    render.current++;
+    console.log("render", render.current);
+  });
 
   if (isLoading) return <Loading />;
 
@@ -88,6 +116,14 @@ const AdminProductForm = () => {
       <div className={style.back}>
         <IconButton type="button" onClick={() => navigate("/admin/product")}>
           <IoChevronBackOutline />
+        </IconButton>
+      </div>
+      <div className={style.remove}>
+        <IconButton
+          type="button"
+          onClick={() => handlerRemoveProduct(form._id)}
+        >
+          <IoTrashOutline />
         </IconButton>
       </div>
       <h3 className={style.label}>Новый товар</h3>
@@ -151,4 +187,4 @@ const AdminProductForm = () => {
   );
 };
 
-export default AdminProductForm;
+export default React.memo(AdminProductForm);

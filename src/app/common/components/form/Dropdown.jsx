@@ -125,4 +125,4 @@ const Dropdown = (props) => {
     </div>
   );
 };
-export default Dropdown;
+export default React.memo(Dropdown);

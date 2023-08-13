@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { FiX } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import Divider from "../../../common/components/divider/Divider";
@@ -58,4 +58,4 @@ const SpecificationField = (props) => {
   );
 };
 
-export default SpecificationField;
+export default React.memo(SpecificationField);

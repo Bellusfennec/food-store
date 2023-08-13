@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   createName,
   createPlaceholder,
@@ -18,13 +18,14 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
   const [focusСonfig, setFocusСonfig] = useState({});
   const [error, setError] = useState({});
   const [isValid, setValid] = useState(null);
+  console.log("render form");
 
   // обработчик изменений
-  const handlerChange = (e) => {
+  const handlerChange = useCallback((e) => {
     const { value, name } = e.target;
 
     setForm({ ...form, [name]: value });
-  };
+  }, []);
 
   // обработчик кнопки Submit
   const handlerSubmit = (event) => {
@@ -37,7 +38,7 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
   };
 
   // обработчик отпускания фокуса
-  const handlerBlur = (e) => {
+  const handlerBlur = useCallback((e) => {
     const { name } = e.target;
     const arrayСonfig = Object.entries(CONFIG);
     const newСonfig = arrayСonfig.map(([keyСonfig, valueСonfig]) => {
@@ -47,7 +48,7 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
     });
     const newOutFocus = Object.fromEntries(newСonfig.filter(Boolean));
     setFocusСonfig({ ...focusСonfig, ...newOutFocus });
-  };
+  }, []);
 
   // обновление ошибок
   useEffect(() => {
@@ -56,14 +57,6 @@ const useForm = ({ onSubmit, FORM, CONFIG }) => {
     const totalErrors = validator(form, CONFIG);
     setValid(!totalError(totalErrors));
   }, [form, focusСonfig]);
-
-  // обновление FORM
-  // useEffect(() => {
-  //   setForm(FORM);
-  //   setName(createName(FORM));
-  //   const initPlaceholder = createPlaceholder(FORM, CONFIG);
-  //   setPlaceholder(initPlaceholder);
-  // }, [FORM]);
 
   return {
     form,

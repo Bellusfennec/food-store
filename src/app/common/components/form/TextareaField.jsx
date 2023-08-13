@@ -24,4 +24,4 @@ const TextareaField = (props) => {
   );
 };
 
-export default TextareaField;
+export default React.memo(TextareaField);

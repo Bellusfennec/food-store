@@ -39,4 +39,4 @@ const Select = (props) => {
   );
 };
 
-export default Select;
+export default React.memo(Select);

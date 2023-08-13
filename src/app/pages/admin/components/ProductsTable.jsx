@@ -25,16 +25,6 @@ const ProductsTable = ({ products, onDeleteProduct, onSort, selectedSort }) => {
         </button>
       ),
     },
-    delete: {
-      component: (product) => (
-        <button
-          className="btn btn-danger"
-          onClick={() => onDeleteProduct(product._id)}
-        >
-          Удалить
-        </button>
-      ),
-    },
   };
 
   return (
